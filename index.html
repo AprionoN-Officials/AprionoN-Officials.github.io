@@ -39,17 +39,15 @@
         }
         .nav-btn:hover { background: rgba(255, 255, 255, 0.6); color: #0284c7; }
 
-        /* --- DROPDOWN DOWNLOAD (DIJAMIN TIDAK GLITCH) --- */
+        /* --- DROPDOWN DOWNLOAD --- */
         .dropdown { position: relative; display: inline-block; }
         .dropdown-content {
             display: none; position: absolute; top: 100%; left: 0;
             background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
             min-width: 180px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);
             border-radius: 12px; border: 1px solid var(--glass-border); overflow: hidden;
-            margin-top: 15px; /* Jarak ke bawah */
+            margin-top: 15px;
         }
-        
-        /* Jembatan gaib penutup gap hover */
         .dropdown::after { content: ""; position: absolute; top: 100%; left: 0; width: 100%; height: 25px; background: transparent; }
 
         .dropdown-content a { color: #0c4a6e; padding: 12px 16px; text-decoration: none; display: flex; align-items: center; gap: 10px; font-size: 0.85rem; transition: background 0.2s; }
@@ -63,6 +61,27 @@
         
         .section-title { font-size: 1.3rem; color: #0369a1; font-weight: 700; margin-bottom: 20px; margin-top: 40px; display: flex; align-items: center; gap: 8px; }
         .section-title span.bar { color: #0284c7; font-weight: 900; }
+
+        /* --- ANIMASI LOADING --- */
+        .loading-container {
+            text-align: center;
+            margin: 40px auto;
+            color: #0369a1;
+            font-weight: 600;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(2, 132, 199, 0.2);
+            border-top: 4px solid #0284c7;
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
         /* --- GRID GALERI --- */
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
@@ -93,10 +112,11 @@
         .close-btn:hover { color: #22d3ee; }
         #caption { color: white; margin-top: 15px; font-size: 1.2rem; font-weight: 600; }
 
+        /* --- FOOTER --- */
         footer { padding: 40px 5%; text-align: center; margin-top: 50px; }
         footer p { font-weight: 600; font-size: 0.9rem; color: #0f172a; }
-        .social-text { margin-top: 10px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .social-link { text-decoration: none; color: #0369a1; font-weight: 700; font-size: 0.9rem; transition: color 0.3s; display: flex; align-items: center; gap: 5px;}
+        .social-text { margin-top: 15px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .social-link { text-decoration: none; color: #0369a1; font-weight: 700; font-size: 0.9rem; transition: color 0.3s; display: flex; align-items: center; gap: 6px;}
         .social-link:hover { color: #0ea5e9; }
 
         @media (max-width: 768px) {
@@ -112,7 +132,7 @@
         <a class="logo" onclick="goHome()">Render 2.0 By Apriono.</a>
         <div class="nav-buttons">
             <a class="nav-btn" onclick="goHome()">Beranda</a>
-            <a href="#" class="nav-btn">Render</a>
+            <a href="https://www.deviantart.com/apriononurhakim" target="_blank" class="nav-btn">Render</a>
             
             <div class="dropdown">
                 <div class="nav-btn">Download <i class="fas fa-caret-down" style="font-size: 0.85rem; margin-left: 5px;"></i></div>
@@ -122,7 +142,7 @@
                 </div>
             </div>
             
-            <a href="#" class="nav-btn">Support</a>
+            <a href="https://ko-fi.com/apriononurhakim" target="_blank" class="nav-btn">Support</a>
         </div>
     </header>
 
@@ -131,7 +151,10 @@
             <h1>Selamat Datang Di Render 2.0</h1>
         </div>
 
-        <p id="loading-text" style="text-align: center; font-weight: 600; color: #0369a1;">Membaca data dari Drive (Mohon tunggu)...</p>
+        <div id="loading-container" class="loading-container">
+            <div class="spinner"></div>
+            <p>Sedang Memuat Render Terbaru...</p>
+        </div>
 
         <div id="home-view" style="display: none;">
             <h2 class="section-title"><span class="bar">|</span> <i class="far fa-image"></i> Render Terbaru</h2>
@@ -159,10 +182,10 @@
     <footer>
         <p>© 2026 Apriono Nurhakim. All Rights Reserved.</p>
         <div class="social-text">
-            <a href="#" class="social-link"><i class="fab fa-instagram"></i> Instagram</a>
-            <a href="#" class="social-link"><i class="fab fa-facebook"></i> Facebook</a>
-            <a href="#" class="social-link"><i class="fab fa-deviantart"></i> DeviantArt</a>
-            <a href="#" class="social-link"><i class="fab fa-github"></i> GitHub</a>
+            <a href="https://www.instagram.com/apriononurhakim_" target="_blank" class="social-link"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="https://www.facebook.com/ApriononurhakimOfficial" target="_blank" class="social-link"><i class="fab fa-facebook"></i> Facebook</a>
+            <a href="https://www.deviantart.com/apriononurhakim" target="_blank" class="social-link"><i class="fab fa-deviantart"></i> DeviantArt</a>
+            <a href="https://www.youtube.com/apriononurhakim" target="_blank" class="social-link"><i class="fab fa-youtube"></i> YouTube</a>
         </div>
     </footer>
 
@@ -170,35 +193,33 @@
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby96nQZPbFRbK7SZLvjU4ymWhdfXSEopyvafcnF---tZWq0x-tPC7kwQejyf50bGxsP/exec";
         
         let globalData = null; 
-        let historyStack = []; // Menyimpan riwayat navigasi (folder ID dan nama)
+        let historyStack = [];
 
         async function fetchData() {
             try {
                 const response = await fetch(SCRIPT_URL);
                 globalData = await response.json(); 
 
-                document.getElementById('loading-text').style.display = 'none';
-                goHome(); // Muat halaman utama pertama kali
+                // Sembunyikan animasi loading setelah data selesai ditarik
+                document.getElementById('loading-container').style.display = 'none';
+                goHome(); 
 
             } catch (error) {
                 console.error("Error:", error);
-                document.getElementById('loading-text').innerHTML = '<span style="color: red;">Gagal memuat data. Pastikan Script sudah di-Deploy versi baru.</span>';
+                document.getElementById('loading-container').innerHTML = '<span style="color: red;">Gagal memuat data. Pastikan Script sudah di-Deploy versi baru.</span>';
             }
         }
 
-        // --- NAVIGASI KE BERANDA ---
         function goHome() {
-            historyStack = []; // Kosongkan memori history
+            historyStack = []; 
             document.getElementById('folder-view').style.display = 'none';
             document.getElementById('home-view').style.display = 'block';
 
-            // 1. Gambar Terbaru (Diambil dari SEMUA gambar di Drive)
             const gallery = document.getElementById('recent-images');
             gallery.innerHTML = '';
             const top5Images = globalData.gallery.slice(0, 5); 
             top5Images.forEach(item => gallery.innerHTML += createCardHTML(item));
 
-            // 2. Folder Utama (Folder yang parentId-nya adalah rootId)
             const folderContainer = document.getElementById('recent-folders');
             folderContainer.innerHTML = ''; 
             const mainFolders = globalData.folders.filter(f => f.parentId === globalData.rootId);
@@ -215,34 +236,30 @@
             });
         }
 
-        // --- BUKA FOLDER (Memasukkan ke dalam memori) ---
         function openFolder(folderId, folderName) {
             historyStack.push({ id: folderId, name: folderName });
             renderCurrentFolderView();
         }
 
-        // --- TOMBOL KEMBALI ---
         function goBack() {
-            historyStack.pop(); // Buang folder saat ini dari memori
+            historyStack.pop(); 
             if (historyStack.length === 0) {
-                goHome(); // Jika habis, berarti kembali ke Beranda
+                goHome(); 
             } else {
-                renderCurrentFolderView(); // Jika masih ada sisa, render folder sebelumnya
+                renderCurrentFolderView(); 
             }
         }
 
-        // --- RENDER ISI FOLDER DINAMIS (Bisa Folder / Gambar) ---
         function renderCurrentFolderView() {
             document.getElementById('home-view').style.display = 'none';
             document.getElementById('folder-view').style.display = 'block';
 
-            const current = historyStack[historyStack.length - 1]; // Baca folder posisi terakhir
+            const current = historyStack[historyStack.length - 1]; 
             document.getElementById('folder-title').innerHTML = `<span class="bar">|</span> 📁 ${current.name}`;
 
             const contentArea = document.getElementById('folder-content-area');
             contentArea.innerHTML = '';
 
-            // Cari anak folder dan anak gambar yang ID Induknya = ID folder saat ini
             const childFolders = globalData.folders.filter(f => f.parentId === current.id);
             const childImages = globalData.gallery.filter(item => item.parentId === current.id);
 
@@ -251,7 +268,6 @@
                 return;
             }
 
-            // Jika ada Folder di dalamnya, tampilkan foldernya dulu
             if (childFolders.length > 0) {
                 let folderHtml = '<div class="folder-grid" style="margin-bottom: 30px;">';
                 childFolders.forEach(f => {
@@ -266,7 +282,6 @@
                 contentArea.innerHTML += folderHtml;
             }
 
-            // Jika ada Gambar di dalamnya, tampilkan gambarnya di bawah
             if (childImages.length > 0) {
                 let imageHtml = '<div class="gallery-grid">';
                 childImages.forEach(item => {
@@ -277,7 +292,6 @@
             }
         }
 
-        // Template HTML untuk Gambar
         function createCardHTML(item) {
             const fileId = item.img.replace("https://lh3.googleusercontent.com/d/", "");
             const thumbnailFast = `https://drive.google.com/thumbnail?id=${fileId}&sz=w400`;
