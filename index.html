@@ -9,7 +9,7 @@
     
     <style>
         :root {
-            --primary-blue: #a5f3fc; /* Biru Muda Terang */
+            --primary-blue: #a5f3fc;
             --accent-blue: #22d3ee;
             --glass-bg: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.2);
@@ -24,7 +24,6 @@
         }
 
         body {
-            /* Background dengan gradien biru muda yang lembut */
             background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
             background-attachment: fixed;
             min-height: 100vh;
@@ -62,6 +61,7 @@
         .nav-buttons {
             display: flex;
             gap: 15px;
+            align-items: center;
         }
 
         .nav-btn {
@@ -73,12 +73,52 @@
             border-radius: 12px;
             transition: all 0.3s ease;
             background: transparent;
+            cursor: pointer;
         }
 
         .nav-btn:hover {
             background: rgba(255, 255, 255, 0.4);
             transform: translateY(-2px);
             color: #0284c7;
+        }
+
+        /* --- DROPDOWN DOWNLOAD --- */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            min-width: 180px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            margin-top: 10px;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+        }
+
+        .dropdown-content a {
+            color: #0c4a6e;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(2, 132, 199, 0.1);
+            color: #0284c7;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
         }
 
         /* --- MAIN CONTENT --- */
@@ -101,11 +141,11 @@
             margin-bottom: 10px;
         }
 
-        /* --- GRID GALERI 10 GAMBAR --- */
+        /* --- GRID GALERI --- */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
         }
 
         .content-card {
@@ -115,19 +155,20 @@
             border-radius: 18px;
             overflow: hidden;
             transition: all 0.4s ease;
-            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         .content-card:hover {
-            transform: scale(1.05);
+            transform: translateY(-10px);
             background: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
         }
 
         .content-card img {
             width: 100%;
-            height: 200px;
+            height: 220px;
             object-fit: cover;
+            border-bottom: 1px solid var(--glass-border);
         }
 
         .card-info {
@@ -138,6 +179,12 @@
         .card-info h3 {
             font-size: 1rem;
             color: #075985;
+            margin-bottom: 5px;
+        }
+
+        .card-info p {
+            font-size: 0.75rem;
+            color: #64748b;
         }
 
         /* --- FOOTER --- */
@@ -164,10 +211,6 @@
             transition: color 0.3s;
         }
 
-        .social-link i {
-            margin-right: 8px;
-        }
-
         .social-link:hover {
             color: #0ea5e9;
         }
@@ -178,14 +221,11 @@
                 flex-direction: column;
                 gap: 15px;
                 top: 10px;
+                padding: 15px;
             }
-            .nav-buttons {
-                gap: 5px;
-            }
-            .nav-btn {
-                padding: 5px 10px;
-                font-size: 0.8rem;
-            }
+            .nav-buttons { gap: 5px; flex-wrap: wrap; justify-content: center; }
+            .nav-btn { padding: 5px 10px; font-size: 0.8rem; }
+            .dropdown-content { left: 50%; transform: translateX(-50%); }
         }
     </style>
 </head>
@@ -196,7 +236,12 @@
         <div class="nav-buttons">
             <a href="#" class="nav-btn">Beranda</a>
             <a href="#" class="nav-btn">Render</a>
-            <a href="#" class="nav-btn">Download</a>
+            <div class="dropdown">
+                <div class="nav-btn">Download <i class="fas fa-caret-down"></i></div>
+                <div class="dropdown-content" id="folder-list-menu">
+                    <a href="#">Memuat folder...</a>
+                </div>
+            </div>
             <a href="#" class="nav-btn">Support</a>
         </div>
     </header>
@@ -204,52 +249,74 @@
     <main>
         <div class="hero-text">
             <h1>Eksplorasi Konten Terbaru</h1>
-            <p>Koleksi visual dan proyek sistem dari berbagai platform.</p>
+            <p>Visual dari Google Drive yang diperbarui secara otomatis.</p>
         </div>
 
         <div class="gallery-grid" id="gallery">
-            </div>
+            <p style="text-align: center; grid-column: 1/-1;">Menghubungkan ke Drive...</p>
+        </div>
     </main>
 
     <footer>
         <p>© 2026 Apriono Nurhakim. All Rights Reserved.</p>
         <div class="social-text">
-            <a href="#" class="social-link"><i class="fab fa-instagram"></i>Instagram</a>
-            <a href="#" class="social-link"><i class="fab fa-facebook"></i>Facebook</a>
-            <a href="#" class="social-link"><i class="fab fa-deviantart"></i>DeviantArt</a>
-            <a href="#" class="social-link"><i class="fab fa-github"></i>GitHub</a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="#" class="social-link"><i class="fab fa-facebook"></i> Facebook</a>
+            <a href="#" class="social-link"><i class="fab fa-deviantart"></i> DeviantArt</a>
+            <a href="#" class="social-link"><i class="fab fa-github"></i> GitHub</a>
         </div>
     </footer>
 
     <script>
-        // Data Dummy untuk 10 Gambar (Anda bisa mengganti URL src dengan link pCloud/DeviantArt Anda)
-        const projects = [
-            { title: "Visual Render 01", img: "https://picsum.photos/id/10/400/300" },
-            { title: "System Database", img: "https://picsum.photos/id/20/400/300" },
-            { title: "Design Concept", img: "https://picsum.photos/id/30/400/300" },
-            { title: "UI Prototype", img: "https://picsum.photos/id/40/400/300" },
-            { title: "Network Security", img: "https://picsum.photos/id/50/400/300" },
-            { title: "Graphic Art 02", img: "https://picsum.photos/id/60/400/300" },
-            { title: "Web Interface", img: "https://picsum.photos/id/70/400/300" },
-            { title: "Cloud Architecture", img: "https://picsum.photos/id/80/400/300" },
-            { title: "Digital Illustration", img: "https://picsum.photos/id/90/400/300" },
-            { title: "Server Monitoring", img: "https://picsum.photos/id/100/400/300" },
-        ];
+        // GANTI INI dengan URL dari "Deploy as Web App" Google Apps Script Anda
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby96nQZPbFRbK7SZLvjU4ymWhdfXSEopyvafcnF---tZWq0x-tPC7kwQejyf50bGxsP/exec";
 
-        const gallery = document.getElementById('gallery');
+        async function fetchData() {
+            try {
+                const response = await fetch(SCRIPT_URL);
+                const data = await response.json();
 
-        // Loop untuk menampilkan 10 kartu
-        projects.forEach(item => {
-            const card = `
-                <div class="content-card">
-                    <img src="${item.img}" alt="${item.title}">
-                    <div class="card-info">
-                        <h3>${item.title}</h3>
-                    </div>
-                </div>
-            `;
-            gallery.innerHTML += card;
-        });
+                // 1. Render Menu Download (Urut Abjad)
+                const menuContainer = document.getElementById('folder-list-menu');
+                menuContainer.innerHTML = ''; 
+                data.menu.forEach(folder => {
+                    const a = document.createElement('a');
+                    a.href = folder.link;
+                    a.target = "_blank";
+                    a.textContent = folder.name;
+                    menuContainer.appendChild(a);
+                });
+
+                // 2. Render Galeri Gambar (Urut Terbaru)
+                const gallery = document.getElementById('gallery');
+                gallery.innerHTML = '';
+                
+                if (data.gallery.length === 0) {
+                    gallery.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">Tidak ada gambar ditemukan.</p>';
+                    return;
+                }
+
+                data.gallery.forEach(item => {
+                    const card = `
+                        <div class="content-card">
+                            <img src="${item.img}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/400x300?text=Error+Loading+Image'">
+                            <div class="card-info">
+                                <h3>${item.title}</h3>
+                                <p><i class="far fa-calendar-alt"></i> ${new Date(item.date).toLocaleDateString('id-ID')}</p>
+                            </div>
+                        </div>
+                    `;
+                    gallery.innerHTML += card;
+                });
+
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById('gallery').innerHTML = '<p style="text-align: center; grid-column: 1/-1; color: red;">Gagal memuat data. Pastikan URL Script benar dan izin akses sudah dibuka.</p>';
+            }
+        }
+
+        // Jalankan saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', fetchData);
     </script>
 </body>
 </html>
