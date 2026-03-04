@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apriono Nurhakim | Portfolio</title>
+    <style>
+        /* Gaya Dasar */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        /* Bagian Header */
+        header {
+            background-color: #2c3e50;
+            color: #ffffff;
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+        }
+        header p {
+            margin: 10px 0 0;
+            font-size: 1.2rem;
+            color: #bdc3c7;
+        }
+
+        /* Kontainer Utama */
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        h2 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        /* Grid Galeri */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 2rem;
+        }
+        .gallery-item {
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+            text-align: center;
+            padding-bottom: 15px;
+        }
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: #ecf0f1; /* Warna latar jika gambar belum dimuat */
+        }
+        .gallery-item h3 {
+            margin: 15px 0 5px;
+            font-size: 1.2rem;
+            color: #2c3e50;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 1.5rem 0;
+            background-color: #2c3e50;
+            color: #bdc3c7;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Apriono Nurhakim</h1>
+        <p>Mahasiswa IT | Web & Software Development</p>
+    </header>
+
+    <div class="container">
+        <section id="about">
+            <h2>Tentang</h2>
+            <p>Selamat datang di halaman portofolio saya. Di sini Anda dapat melihat berbagai galeri proyek dan eksplorasi teknis yang sedang saya kerjakan.</p>
+        </section>
+
+        <section id="portfolio">
+            <h2>Galeri Proyek</h2>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/400x300.png?text=Proyek+Web" alt="Screenshot Proyek 1">
+                    <h3>Pengembangan Web</h3>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/400x300.png?text=Keamanan+Jaringan" alt="Screenshot Proyek 2">
+                    <h3>Infrastruktur Jaringan</h3>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/400x300.png?text=Database" alt="Screenshot Proyek 3">
+                    <h3>Sistem Database</h3>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Apriono Nurhakim. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
