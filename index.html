@@ -51,181 +51,102 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
 
-        .logo {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: #0369a1;
-            text-decoration: none;
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
+        .logo { font-weight: 700; font-size: 1.2rem; color: #0369a1; text-decoration: none; }
+        .nav-buttons { display: flex; gap: 15px; align-items: center; }
         .nav-btn {
-            text-decoration: none;
-            color: #0c4a6e;
-            font-weight: 600;
-            font-size: 0.9rem;
-            padding: 8px 16px;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            background: transparent;
-            cursor: pointer;
+            text-decoration: none; color: #0c4a6e; font-weight: 600; font-size: 0.9rem;
+            padding: 8px 16px; border-radius: 12px; transition: all 0.3s ease; cursor: pointer;
         }
-
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.4);
-            transform: translateY(-2px);
-            color: #0284c7;
-        }
+        .nav-btn:hover { background: rgba(255, 255, 255, 0.4); transform: translateY(-2px); color: #0284c7; }
 
         /* --- DROPDOWN DOWNLOAD --- */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
+        .dropdown { position: relative; display: inline-block; }
         .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            min-width: 180px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            border-radius: 12px;
-            margin-top: 10px;
-            border: 1px solid var(--glass-border);
-            overflow: hidden;
+            display: none; position: absolute; top: 100%; left: 0;
+            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px);
+            min-width: 180px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-radius: 12px; margin-top: 10px; border: 1px solid var(--glass-border); overflow: hidden;
         }
-
-        .dropdown-content a {
-            color: #0c4a6e;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            font-size: 0.85rem;
-            transition: background 0.2s;
-        }
-
-        .dropdown-content a:hover {
-            background: rgba(2, 132, 199, 0.1);
-            color: #0284c7;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
+        .dropdown-content a { color: #0c4a6e; padding: 12px 16px; text-decoration: none; display: block; font-size: 0.85rem; transition: background 0.2s; }
+        .dropdown-content a:hover { background: rgba(2, 132, 199, 0.1); color: #0284c7; }
+        .dropdown:hover .dropdown-content { display: block; }
 
         /* --- MAIN CONTENT --- */
-        main {
-            padding-top: 140px;
-            padding-bottom: 100px;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 90%;
-        }
-
-        .hero-text {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .hero-text h1 {
-            font-size: 2.5rem;
-            color: #0c4a6e;
-            margin-bottom: 10px;
-        }
+        main { padding-top: 140px; padding-bottom: 100px; max-width: 1200px; margin: 0 auto; width: 90%; }
+        .hero-text { text-align: center; margin-bottom: 50px; }
+        .hero-text h1 { font-size: 2.5rem; color: #0c4a6e; margin-bottom: 10px; }
 
         /* --- GRID GALERI --- */
         .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;
         }
 
         .content-card {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 18px;
-            overflow: hidden;
-            transition: all 0.4s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border); border-radius: 18px;
+            overflow: hidden; transition: all 0.4s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            cursor: pointer; /* Memberikan efek kursor bisa diklik */
         }
 
         .content-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transform: translateY(-10px); background: rgba(255, 255, 255, 0.4); box-shadow: 0 15px 35px rgba(0,0,0,0.1);
         }
 
         .content-card img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            border-bottom: 1px solid var(--glass-border);
+            width: 100%; height: 220px; object-fit: cover; border-bottom: 1px solid var(--glass-border);
+            transition: transform 0.3s ease;
         }
 
-        .card-info {
-            padding: 15px;
-            text-align: center;
+        .content-card:hover img {
+            transform: scale(1.05); /* Efek zoom sedikit saat diarahkan */
         }
 
-        .card-info h3 {
-            font-size: 1rem;
-            color: #075985;
-            margin-bottom: 5px;
+        .card-info { padding: 15px; text-align: center; }
+        .card-info h3 { font-size: 1rem; color: #075985; margin-bottom: 5px; }
+        .card-info p { font-size: 0.75rem; color: #64748b; }
+
+        /* --- POPUP / LIGHTBOX --- */
+        .modal {
+            display: none; /* Disembunyikan secara default */
+            position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
+            text-align: center; padding-top: 50px;
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        
+        .modal.show {
+            display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 1;
         }
 
-        .card-info p {
-            font-size: 0.75rem;
-            color: #64748b;
+        .modal-content {
+            max-width: 90%; max-height: 80vh; border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+            border: 2px solid rgba(255,255,255,0.2);
         }
+
+        .close-btn {
+            position: absolute; top: 20px; right: 35px; color: white;
+            font-size: 40px; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+
+        .close-btn:hover { color: #22d3ee; }
+
+        #caption { color: white; margin-top: 15px; font-size: 1.2rem; font-weight: 600; }
 
         /* --- FOOTER --- */
         footer {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            padding: 40px 5%;
-            text-align: center;
-            border-top: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);
+            padding: 40px 5%; text-align: center; border-top: 1px solid var(--glass-border);
         }
-
-        .social-text {
-            margin-top: 10px;
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            flex-wrap: wrap;
-        }
-
-        .social-link {
-            text-decoration: none;
-            color: #0369a1;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        .social-link:hover {
-            color: #0ea5e9;
-        }
+        .social-text { margin-top: 10px; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
+        .social-link { text-decoration: none; color: #0369a1; font-weight: 600; transition: color 0.3s; }
+        .social-link:hover { color: #0ea5e9; }
 
         /* Responsif Mobile */
         @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 15px;
-                top: 10px;
-                padding: 15px;
-            }
+            header { flex-direction: column; gap: 15px; top: 10px; padding: 15px; }
             .nav-buttons { gap: 5px; flex-wrap: wrap; justify-content: center; }
-            .nav-btn { padding: 5px 10px; font-size: 0.8rem; }
             .dropdown-content { left: 50%; transform: translateX(-50%); }
+            .modal-content { max-width: 95%; max-height: 70vh; }
         }
     </style>
 </head>
@@ -253,9 +174,15 @@
         </div>
 
         <div class="gallery-grid" id="gallery">
-            <p style="text-align: center; grid-column: 1/-1;">Menghubungkan ke Drive...</p>
+            <p style="text-align: center; grid-column: 1/-1;">Menghubungkan ke Drive dan menyusun data (Mohon tunggu beberapa detik)...</p>
         </div>
     </main>
+
+    <div id="imageModal" class="modal">
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        <img class="modal-content" id="fullImage" src="" alt="Full Screen Image">
+        <div id="caption"></div>
+    </div>
 
     <footer>
         <p>© 2026 Apriono Nurhakim. All Rights Reserved.</p>
@@ -268,7 +195,7 @@
     </footer>
 
     <script>
-        // GANTI INI dengan URL dari "Deploy as Web App" Google Apps Script Anda
+        // PASTIKAN URL SCRIPT ANDA DITEMPEL DI SINI
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby96nQZPbFRbK7SZLvjU4ymWhdfXSEopyvafcnF---tZWq0x-tPC7kwQejyf50bGxsP/exec";
 
         async function fetchData() {
@@ -276,7 +203,7 @@
                 const response = await fetch(SCRIPT_URL);
                 const data = await response.json();
 
-                // 1. Render Menu Download (Urut Abjad)
+                // 1. Render Menu Download
                 const menuContainer = document.getElementById('folder-list-menu');
                 menuContainer.innerHTML = ''; 
                 data.menu.forEach(folder => {
@@ -287,7 +214,7 @@
                     menuContainer.appendChild(a);
                 });
 
-                // 2. Render Galeri Gambar (Urut Terbaru)
+                // 2. Render Galeri dengan Optimasi Gambar
                 const gallery = document.getElementById('gallery');
                 gallery.innerHTML = '';
                 
@@ -297,9 +224,18 @@
                 }
 
                 data.gallery.forEach(item => {
+                    // Ekstrak ID File Drive dari link mentah Apps Script
+                    const fileId = item.img.replace("https://lh3.googleusercontent.com/d/", "");
+                    
+                    // URL UNTUK GALERI: Thumbnail kecil (Lebar 400px) agar loading sangat ngebut!
+                    const thumbnailFast = `https://drive.google.com/thumbnail?id=${fileId}&sz=w400`;
+                    
+                    // URL UNTUK POPUP: Resolusi asli / besar
+                    const fullResolution = `https://drive.google.com/uc?id=${fileId}`;
+
                     const card = `
-                        <div class="content-card">
-                            <img src="${item.img}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/400x300?text=Error+Loading+Image'">
+                        <div class="content-card" onclick="openPopup('${fullResolution}', '${item.title}')">
+                            <img src="${thumbnailFast}" alt="${item.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=Gagal+Muat'">
                             <div class="card-info">
                                 <h3>${item.title}</h3>
                                 <p><i class="far fa-calendar-alt"></i> ${new Date(item.date).toLocaleDateString('id-ID')}</p>
@@ -311,9 +247,38 @@
 
             } catch (error) {
                 console.error("Error:", error);
-                document.getElementById('gallery').innerHTML = '<p style="text-align: center; grid-column: 1/-1; color: red;">Gagal memuat data. Pastikan URL Script benar dan izin akses sudah dibuka.</p>';
+                document.getElementById('gallery').innerHTML = '<p style="text-align: center; grid-column: 1/-1; color: red;">Gagal memuat data. Periksa koneksi atau URL Script.</p>';
             }
         }
+
+        // Fungsi Membuka Popup (Lightbox)
+        function openPopup(imageSrc, imageTitle) {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("fullImage");
+            const captionText = document.getElementById("caption");
+            
+            modal.classList.add("show");
+            modalImg.src = imageSrc;
+            captionText.innerHTML = imageTitle;
+        }
+
+        // Fungsi Menutup Popup
+        function closePopup() {
+            const modal = document.getElementById("imageModal");
+            modal.classList.remove("show");
+            
+            // Hapus src sesaat setelah animasi selesai agar tidak glitch
+            setTimeout(() => {
+                document.getElementById("fullImage").src = ""; 
+            }, 300);
+        }
+
+        // Tutup popup jika user klik di area luar gambar
+        document.getElementById("imageModal").addEventListener('click', function(e) {
+            if(e.target === this) {
+                closePopup();
+            }
+        });
 
         // Jalankan saat halaman dimuat
         window.addEventListener('DOMContentLoaded', fetchData);
