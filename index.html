@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apriono Nurhakim | Creative Hub</title>
+    <title>Render 2.0 By Apriono</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
             --primary-blue: #a5f3fc;
-            --accent-blue: #22d3ee;
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
+            --accent-blue: #0284c7;
+            --glass-bg: rgba(255, 255, 255, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.6);
             --text-dark: #0f172a;
         }
 
@@ -24,13 +24,14 @@
         }
 
         body {
-            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            /* Warna background persis seperti desain Anda */
+            background: linear-gradient(135deg, #e1f4fe 0%, #c4e9fd 100%);
             background-attachment: fixed;
             min-height: 100vh;
             color: var(--text-dark);
         }
 
-        /* --- HEADER GLASSMORPHISM --- */
+        /* --- HEADER --- */
         header {
             position: fixed;
             top: 20px;
@@ -38,9 +39,8 @@
             transform: translateX(-50%);
             width: 90%;
             max-width: 1000px;
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 15px 30px;
@@ -48,70 +48,98 @@
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
-        .logo { font-weight: 700; font-size: 1.2rem; color: #0369a1; text-decoration: none; }
+        .logo { font-weight: 700; font-size: 1.1rem; color: #0369a1; text-decoration: none; }
         .nav-buttons { display: flex; gap: 15px; align-items: center; }
         .nav-btn {
-            text-decoration: none; color: #0c4a6e; font-weight: 600; font-size: 0.9rem;
+            text-decoration: none; color: #0c4a6e; font-weight: 600; font-size: 0.85rem;
             padding: 8px 16px; border-radius: 12px; transition: all 0.3s ease; cursor: pointer;
         }
-        .nav-btn:hover { background: rgba(255, 255, 255, 0.4); transform: translateY(-2px); color: #0284c7; }
+        .nav-btn:hover { background: rgba(255, 255, 255, 0.6); color: #0284c7; }
+
+        /* --- DROPDOWN DOWNLOAD (2 OPSI) --- */
+        .dropdown { position: relative; display: inline-block; }
+        .dropdown-content {
+            display: none; position: absolute; top: 100%; left: 0;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
+            min-width: 180px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-radius: 12px; margin-top: 10px; border: 1px solid var(--glass-border); overflow: hidden;
+        }
+        .dropdown-content a { color: #0c4a6e; padding: 12px 16px; text-decoration: none; display: flex; align-items: center; gap: 10px; font-size: 0.85rem; transition: background 0.2s; }
+        .dropdown-content a:hover { background: rgba(2, 132, 199, 0.1); color: #0284c7; }
+        .dropdown:hover .dropdown-content { display: block; }
 
         /* --- MAIN CONTENT --- */
-        main { padding-top: 140px; padding-bottom: 100px; max-width: 1200px; margin: 0 auto; width: 90%; }
+        main { padding-top: 130px; padding-bottom: 100px; max-width: 1100px; margin: 0 auto; width: 90%; }
         .hero-text { text-align: center; margin-bottom: 50px; }
-        .hero-text h1 { font-size: 2.5rem; color: #0c4a6e; margin-bottom: 10px; }
+        .hero-text h1 { font-size: 2.2rem; color: #075985; font-weight: 700; }
         
-        /* Judul Segmen */
+        /* Gaya Judul Segmen Sesuai Desain */
         .section-title {
-            font-size: 1.5rem;
-            color: #0c4a6e;
+            font-size: 1.3rem;
+            color: #0369a1;
+            font-weight: 700;
             margin-bottom: 20px;
             margin-top: 40px;
-            border-left: 4px solid #0284c7;
-            padding-left: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
+        .section-title span.bar { color: #0284c7; font-weight: 900; }
 
         /* --- GRID GALERI GAMBAR --- */
         .gallery-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;
         }
 
         .content-card {
-            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border); border-radius: 18px;
-            overflow: hidden; transition: all 0.4s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            background: #ffffff; /* Kartu putih seperti di desain */
+            border-radius: 16px;
+            overflow: hidden; transition: all 0.3s ease; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
             cursor: pointer;
+            padding-bottom: 15px;
         }
-        .content-card:hover {
-            transform: translateY(-10px); background: rgba(255, 255, 255, 0.4); box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-        }
+        .content-card:hover { transform: translateY(-8px); box-shadow: 0 12px 25px rgba(0,0,0,0.08); }
         .content-card img {
-            width: 100%; height: 200px; object-fit: cover; border-bottom: 1px solid var(--glass-border);
+            width: 100%; height: 200px; object-fit: cover;
+            border-radius: 16px 16px 0 0;
             transition: transform 0.3s ease;
         }
+        .img-container { overflow: hidden; }
         .content-card:hover img { transform: scale(1.05); }
-        .card-info { padding: 15px; text-align: center; }
-        .card-info h3 { font-size: 1rem; color: #075985; margin-bottom: 5px; }
-        .card-info p { font-size: 0.75rem; color: #64748b; }
+        .card-info { padding: 15px 15px 0 15px; text-align: center; }
+        .card-info h3 { font-size: 0.95rem; color: #0369a1; font-weight: 700; margin-bottom: 5px; }
+        .card-info p { font-size: 0.75rem; color: #64748b; font-weight: 600; }
 
         /* --- GRID FOLDER --- */
         .folder-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;
         }
         .folder-card {
-            background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border); border-radius: 15px;
-            padding: 20px; display: flex; align-items: center; gap: 15px;
-            text-decoration: none; color: #075985; font-weight: 600;
-            transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            background: rgba(255, 255, 255, 0.5); /* Warna biru muda transparan */
+            border: 1px solid rgba(255,255,255,0.8); 
+            border-radius: 12px;
+            padding: 15px 20px; display: flex; align-items: center; gap: 12px;
+            cursor: pointer; color: #0369a1; font-weight: 700; font-size: 0.9rem;
+            transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.02);
         }
-        .folder-card i { font-size: 1.8rem; color: #0284c7; }
+        .folder-card i { font-size: 1.4rem; color: #0284c7; }
         .folder-card:hover {
-            background: rgba(255, 255, 255, 0.5); transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.8); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.05);
         }
+
+        /* --- TOMBOL KEMBALI --- */
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #ffffff; color: #0369a1; font-weight: 700; font-size: 0.9rem;
+            padding: 10px 20px; border-radius: 10px; cursor: pointer;
+            border: none; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        .back-btn:hover { background: #e0f2fe; transform: translateX(-5px); }
 
         /* --- POPUP / LIGHTBOX --- */
         .modal {
@@ -120,24 +148,23 @@
             text-align: center; padding-top: 50px; opacity: 0; transition: opacity 0.3s ease;
         }
         .modal.show { display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 1; }
-        .modal-content { max-width: 90%; max-height: 80vh; border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.2); object-fit: contain; }
+        .modal-content { max-width: 90%; max-height: 80vh; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.2); object-fit: contain; }
         .close-btn { position: absolute; top: 20px; right: 35px; color: white; font-size: 40px; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .close-btn:hover { color: #22d3ee; }
         #caption { color: white; margin-top: 15px; font-size: 1.2rem; font-weight: 600; }
 
         /* --- FOOTER --- */
         footer {
-            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);
-            padding: 40px 5%; text-align: center; border-top: 1px solid var(--glass-border);
+            padding: 40px 5%; text-align: center; margin-top: 50px;
         }
-        .social-text { margin-top: 10px; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
-        .social-link { text-decoration: none; color: #0369a1; font-weight: 600; transition: color 0.3s; }
+        footer p { font-weight: 600; font-size: 0.9rem; color: #0f172a; }
+        .social-text { margin-top: 10px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .social-link { text-decoration: none; color: #0369a1; font-weight: 700; font-size: 0.9rem; transition: color 0.3s; display: flex; align-items: center; gap: 5px;}
         .social-link:hover { color: #0ea5e9; }
 
-        /* Responsif Mobile */
         @media (max-width: 768px) {
-            header { flex-direction: column; gap: 15px; top: 10px; padding: 15px; }
-            .nav-buttons { gap: 5px; flex-wrap: wrap; justify-content: center; }
+            header { flex-direction: column; gap: 10px; top: 10px; padding: 15px; }
+            .nav-buttons { flex-wrap: wrap; justify-content: center; }
             .modal-content { max-width: 95%; max-height: 70vh; }
         }
     </style>
@@ -145,32 +172,44 @@
 <body>
 
     <header>
-        <a href="#" class="logo">APRIONO<span>.</span></a>
+        <a href="#" class="logo" onclick="showHomeView()">Render 2.0 By Apriono.</a>
         <div class="nav-buttons">
-            <a href="#" class="nav-btn">Beranda</a>
+            <a href="#" class="nav-btn" onclick="showHomeView()">Beranda</a>
             <a href="#" class="nav-btn">Render</a>
-            <a href="LINK_FOLDER_GOOGLE_DRIVE_ANDA" target="_blank" class="nav-btn">Download <i class="fas fa-external-link-alt" style="font-size: 0.8rem; margin-left: 5px;"></i></a>
+            
+            <div class="dropdown">
+                <div class="nav-btn">Download <i class="fas fa-external-link-alt" style="font-size: 0.75rem; margin-left: 5px;"></i></div>
+                <div class="dropdown-content">
+                    <a href="LINK_GOOGLE_DRIVE_ANDA" target="_blank"><i class="fab fa-google-drive"></i> Via Google Drive</a>
+                    <a href="LINK_PCLOUD_ANDA" target="_blank"><i class="fas fa-cloud"></i> Via pCloud</a>
+                </div>
+            </div>
+            
             <a href="#" class="nav-btn">Support</a>
         </div>
     </header>
 
     <main>
         <div class="hero-text">
-            <h1>Eksplorasi Konten Terbaru</h1>
-            <p>Koleksi visual terbaru yang disinkronisasi langsung dari Google Drive.</p>
+            <h1>Selamat Datang Di Render 2.0</h1>
         </div>
 
-        <p id="loading-text" style="text-align: center;">Menghubungkan ke Drive dan menyusun data (Mohon tunggu beberapa detik)...</p>
+        <p id="loading-text" style="text-align: center; font-weight: 600; color: #0369a1;">Membaca data dari Drive (Mohon tunggu)...</p>
 
-        <div id="content-container" style="display: none;">
-            <h2 class="section-title"><i class="far fa-images"></i> 5 Visual Terbaru</h2>
-            <div class="gallery-grid" id="recent-images">
-                </div>
+        <div id="home-view" style="display: none;">
+            <h2 class="section-title"><span class="bar">|</span> <i class="far fa-image"></i> Render Terbaru</h2>
+            <div class="gallery-grid" id="recent-images"></div>
 
-            <h2 class="section-title"><i class="far fa-folder-open"></i> 5 Folder Koleksi</h2>
-            <div class="folder-grid" id="recent-folders">
-                </div>
+            <h2 class="section-title"><span class="bar">|</span> <i class="far fa-folder-open"></i> Folder Terbaru</h2>
+            <div class="folder-grid" id="recent-folders"></div>
         </div>
+
+        <div id="folder-view" style="display: none;">
+            <button class="back-btn" onclick="showHomeView()"><i class="fas fa-arrow-left"></i> Kembali</button>
+            <h2 class="section-title" id="folder-title"><span class="bar">|</span> Isi Folder</h2>
+            <div class="gallery-grid" id="folder-images"></div>
+        </div>
+
     </main>
 
     <div id="imageModal" class="modal">
@@ -190,94 +229,114 @@
     </footer>
 
     <script>
-        // URL SCRIPT ANDA
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby96nQZPbFRbK7SZLvjU4ymWhdfXSEopyvafcnF---tZWq0x-tPC7kwQejyf50bGxsP/exec";
+        
+        // Variabel global untuk menyimpan data sementara tanpa perlu loading ulang
+        let globalData = null; 
 
         async function fetchData() {
             try {
                 const response = await fetch(SCRIPT_URL);
-                const data = await response.json();
+                globalData = await response.json(); // Simpan ke variabel global
 
-                // Sembunyikan teks loading, tampilkan kontainer utama
                 document.getElementById('loading-text').style.display = 'none';
-                document.getElementById('content-container').style.display = 'block';
-
-                // --- 1. SEGMEN GAMBAR (Ambil 5 teratas) ---
-                const gallery = document.getElementById('recent-images');
-                gallery.innerHTML = '';
-                
-                // Mengambil hanya 5 data pertama (karena sudah diurutkan dari script Drive)
-                const top5Images = data.gallery.slice(0, 5); 
-
-                if (top5Images.length === 0) {
-                    gallery.innerHTML = '<p>Tidak ada gambar ditemukan.</p>';
-                } else {
-                    top5Images.forEach(item => {
-                        const fileId = item.img.replace("https://lh3.googleusercontent.com/d/", "");
-                        const thumbnailFast = `https://drive.google.com/thumbnail?id=${fileId}&sz=w400`;
-                        const fullResolution = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1920`;
-
-                        const card = `
-                            <div class="content-card" onclick="openPopup('${fullResolution}', '${item.title}')">
-                                <img src="${thumbnailFast}" alt="${item.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=Gagal+Muat'">
-                                <div class="card-info">
-                                    <h3>${item.title}</h3>
-                                    <p><i class="far fa-calendar-alt"></i> ${new Date(item.date).toLocaleDateString('id-ID')}</p>
-                                </div>
-                            </div>
-                        `;
-                        gallery.innerHTML += card;
-                    });
-                }
-
-                // --- 2. SEGMEN FOLDER (Ambil 5 teratas) ---
-                const folderContainer = document.getElementById('recent-folders');
-                folderContainer.innerHTML = ''; 
-                
-                // Mengambil 5 folder pertama
-                const top5Folders = data.menu.slice(0, 5);
-
-                if (top5Folders.length === 0) {
-                    folderContainer.innerHTML = '<p>Tidak ada folder ditemukan.</p>';
-                } else {
-                    top5Folders.forEach(folder => {
-                        const folderCard = `
-                            <a href="${folder.link}" target="_blank" class="folder-card">
-                                <i class="fas fa-folder"></i>
-                                <span>${folder.name}</span>
-                            </a>
-                        `;
-                        folderContainer.innerHTML += folderCard;
-                    });
-                }
+                showHomeView(); // Panggil fungsi untuk merender halaman utama
 
             } catch (error) {
                 console.error("Error:", error);
-                document.getElementById('loading-text').innerHTML = '<span style="color: red;">Gagal memuat data. Periksa koneksi internet Anda atau pastikan URL Script sudah benar.</span>';
+                document.getElementById('loading-text').innerHTML = '<span style="color: red;">Gagal memuat data. Periksa Apps Script Anda.</span>';
             }
         }
 
-        // Fungsi Membuka Popup
+        // --- FUNGSI TAMPILKAN HALAMAN UTAMA ---
+        function showHomeView() {
+            document.getElementById('folder-view').style.display = 'none';
+            document.getElementById('home-view').style.display = 'block';
+
+            // Render 5 Gambar Terbaru
+            const gallery = document.getElementById('recent-images');
+            gallery.innerHTML = '';
+            const top5Images = globalData.gallery.slice(0, 5); 
+
+            top5Images.forEach(item => {
+                gallery.innerHTML += createCardHTML(item);
+            });
+
+            // Render 5 Folder Terbaru
+            const folderContainer = document.getElementById('recent-folders');
+            folderContainer.innerHTML = ''; 
+            const top5Folders = globalData.menu.slice(0, 5);
+
+            top5Folders.forEach(folder => {
+                // Perhatikan: onclick="openFolder('Nama Folder')"
+                const folderCard = `
+                    <div class="folder-card" onclick="openFolder('${folder.name}')">
+                        <i class="fas fa-folder"></i>
+                        <span>${folder.name}</span>
+                    </div>
+                `;
+                folderContainer.innerHTML += folderCard;
+            });
+        }
+
+        // --- FUNGSI MEMBUKA ISI FOLDER ---
+        function openFolder(folderName) {
+            // Sembunyikan Home, Tampilkan Folder View
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('folder-view').style.display = 'block';
+            
+            // Ubah Judul
+            document.getElementById('folder-title').innerHTML = `<span class="bar">|</span> 📁 ${folderName}`;
+
+            const folderGallery = document.getElementById('folder-images');
+            folderGallery.innerHTML = '';
+
+            // Filter gambar yang hanya berada di dalam folder yang diklik
+            const filteredImages = globalData.gallery.filter(item => item.folder === folderName);
+
+            if (filteredImages.length === 0) {
+                folderGallery.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #64748b;">Folder ini kosong atau belum memiliki gambar.</p>';
+            } else {
+                filteredImages.forEach(item => {
+                    folderGallery.innerHTML += createCardHTML(item);
+                });
+            }
+        }
+
+        // Template HTML untuk Kartu Gambar (agar kode tidak berulang)
+        function createCardHTML(item) {
+            const fileId = item.img.replace("https://lh3.googleusercontent.com/d/", "");
+            const thumbnailFast = `https://drive.google.com/thumbnail?id=${fileId}&sz=w400`;
+            const fullResolution = `https://drive.google.com/thumbnail?id=${fileId}&sz=w1920`;
+
+            return `
+                <div class="content-card" onclick="openPopup('${fullResolution}', '${item.title}')">
+                    <div class="img-container">
+                        <img src="${thumbnailFast}" alt="${item.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=Gagal+Muat'">
+                    </div>
+                    <div class="card-info">
+                        <h3>${item.title.split('.')[0]}</h3> <p><i class="far fa-calendar-alt"></i> ${new Date(item.date).toLocaleDateString('id-ID')}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- FUNGSI POPUP ---
         function openPopup(imageSrc, imageTitle) {
             const modal = document.getElementById("imageModal");
             const modalImg = document.getElementById("fullImage");
-            const captionText = document.getElementById("caption");
-            
             modal.classList.add("show");
             modalImg.src = "https://via.placeholder.com/800x600?text=Memuat+Gambar+HD..."; 
-            
             setTimeout(() => { modalImg.src = imageSrc; }, 100);
-            captionText.innerHTML = imageTitle;
+            document.getElementById("caption").innerHTML = imageTitle.split('.')[0];
         }
 
-        // Fungsi Menutup Popup
         function closePopup() {
             const modal = document.getElementById("imageModal");
             modal.classList.remove("show");
             setTimeout(() => { document.getElementById("fullImage").src = ""; }, 300);
         }
 
-        // Tutup popup saat klik luar
         document.getElementById("imageModal").addEventListener('click', function(e) {
             if(e.target === this) closePopup();
         });
