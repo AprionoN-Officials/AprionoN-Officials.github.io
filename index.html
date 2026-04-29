@@ -15,6 +15,26 @@
             --glass-border: rgba(255, 255, 255, 0.6);
             --text-dark: #0f172a;
         }
+        .top-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 0.9rem;
+            font-weight: 700;
+            z-index: 2000; /* Memastikan banner selalu di paling atas */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            letter-spacing: 0.5px;
+        }
+
+        .top-banner i {
+            color: #fde047; /* Warna kuning emas untuk ikon bintang */
+            margin: 0 5px;
+        }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
@@ -147,9 +167,12 @@
     </header>
 
     <main>
+        <div class="top-banner">
+        <i class="fas fa-star"></i> Thank You For 1K Followers on DeviantART! <i class="fas fa-star"></i>
+    </div>
+        
         <div class="hero-text">
             <h1>Selamat Datang Di Render 2.0</h1>
-            <h1>Thank you For 1K Followers On DeviantART!!</h1>
         </div>
 
         <div id="loading-container" class="loading-container">
