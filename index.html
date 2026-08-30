@@ -358,8 +358,10 @@ function openCurrent(path) {
 }
 
 function showGallery(g, i) {
+  if (!Array.isArray(g) || !g.length) return;
   state.gallery = g;
-  state.gi = i;
+  state.gi = Number.isInteger(i) ? i : 0;
+  state.gi = ((state.gi % g.length) + g.length) % g.length;
   updateGallery();
   document.getElementById("modal").classList.add("show");
   document.body.style.overflow = "hidden";
@@ -370,8 +372,7 @@ function updateGallery() {
   if (!x) return;
   document.getElementById("fullImage").src = x.image;
   document.getElementById("caption").textContent = `${x.name} • ${state.gi + 1} / ${state.gallery.length}`;
-  
-  // Aktifkan / Nonaktifkan tombol navigasi jika hanya ada 1 gambar
+
   const isSingle = state.gallery.length <= 1;
   document.getElementById("prev").disabled = isSingle;
   document.getElementById("next").disabled = isSingle;
