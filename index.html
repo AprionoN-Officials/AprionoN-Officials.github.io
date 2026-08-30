@@ -127,20 +127,34 @@ function findFolderByNameOrPath(target) {
 // ----------------------------------------------------
 // LOGIKA KOVER OTOMATIS (SINKRONISASI NAMA FOLDER & FILE KOVER)
 // ----------------------------------------------------
+function normalizeName(name) {
+  return String(name || "")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "");
+}
+
 function getCover(folder) {
   const explicit = state.data.covers || {};
-  
+  const folderName = folder?.name || "";
+  const target = normalizeName(folderName);
+
   // 1. Pencarian Persis
-  if (explicit[folder.name]) return explicit[folder.name];
+  if (explicit[folderName]) return explicit[folderName];
 
-  // 2. Normalisasi Pencarian Otomatis (mengabaikan spasi, tanda baca, kapital)
-  const norm = s => s.toLowerCase().replace(/[^a-z0-9]/g, "");
-  const target = norm(folder.name);
-
-  const match = Object.entries(explicit).find(([k]) => norm(k) === target);
+  // 2. Pencarian berdasarkan nama yang dinormalisasi
+  const match = Object.entries(explicit).find(([key]) => normalizeName(key) === target);
   if (match) return match[1];
 
-  // 3. Auto-fallback: Ambil gambar pertama di dalam folder jika tidak ada kover khusus
+  // 3. Pencarian lanjut: cocokkan key yang mengandung nama folder walau ada perbedaan ejaan/format
+  const lenientMatch = Object.entries(explicit).find(([key]) => {
+    const keyNorm = normalizeName(key);
+    return keyNorm.includes(target) || target.includes(keyNorm);
+  });
+  if (lenientMatch) return lenientMatch[1];
+
+  // 4. Auto-fallback: Ambil gambar pertama di dalam folder jika tidak ada kover khusus
   return coverPath(folder);
 }
 
