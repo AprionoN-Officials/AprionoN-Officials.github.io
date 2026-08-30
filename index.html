@@ -111,13 +111,28 @@ function find(path, node = state.root) {
 }
 
 function findFolderByNameOrPath(target) {
-  let result = find(target);
-  if (result) return result;
+  const rawTarget = String(target || "").trim();
+  const decodedTarget = (() => {
+    try { return decodeURIComponent(rawTarget); }
+    catch { return rawTarget; }
+  })();
 
-  const cleanTarget = target.replace(/^Render 2.0\//, "").toLowerCase().replace(/[^a-z0-9]/g, "");
+  const candidates = [...new Set(
+    [rawTarget, decodedTarget]
+      .filter(Boolean)
+      .flatMap(v => v.startsWith("Render 2.0/") || v === "Render 2.0" ? [v] : [v, "Render 2.0/" + v])
+      .map(v => v.replace(/\/+$/, ""))
+  )];
+
+  for (const x of candidates) {
+    const result = find(x);
+    if (result?.type === "folder") return result;
+  }
+
+  const cleanTarget = normalizeName((candidates[0] || decodedTarget).replace(/^Render 2.0\//, ""));
   for (const c of state.root.children || []) {
     if (c.type === "folder") {
-      const cleanName = c.name.toLowerCase().replace(/[^a-z0-9]/g, "");
+      const cleanName = normalizeName(c.name);
       if (cleanName === cleanTarget) return c;
     }
   }
@@ -158,6 +173,12 @@ function getCover(folder) {
   return coverPath(folder);
 }
 
+function onCoverError(img) {
+  const box = img?.closest?.(".folder-cover");
+  if (!box) return;
+  box.innerHTML = '<i class="fas fa-folder" style="font-size:2rem;color:#0284c7"></i>';
+}
+
 // ----------------------------------------------------
 // RENDER BERANDA
 // ----------------------------------------------------
@@ -177,14 +198,14 @@ function renderRecent() {
 
   const fs = state.data.recentFolders.slice(0, 5);
   document.getElementById("recent-folders").innerHTML = fs.map(x => {
-    const f = findFolderByNameOrPath("Render 2.0/" + x.name);
+    const f = findFolderByNameOrPath(x.name);
     if (!f) return "";
     const cp = getCover(f);
     const safePath = esc(f.path);
     return `
       <article class="folder-card" onclick="openFolderByPath(&quot;${safePath}&quot;)">
         <div class="folder-cover">
-          ${cp ? `<img src="${thumb(cp, 420, 72)}" loading="lazy" decoding="async" alt="${esc(f.name)}">` : '<i class="fas fa-folder" style="font-size:2rem;color:#0284c7"></i>'}
+          ${cp ? `<img src="${thumb(cp, 420, 72)}" loading="lazy" decoding="async" alt="${esc(f.name)}" onerror="onCoverError(this)">` : '<i class="fas fa-folder" style="font-size:2rem;color:#0284c7"></i>'}
         </div>
         <div class="folder-body">
           <div class="folder-row">
@@ -229,7 +250,7 @@ function renderItems(items, title) {
     out += `
       <article class="folder-card" onclick="openFolderByPath(&quot;${safePath}&quot;)">
         <div class="folder-cover">
-          ${f.cover ? `<img src="${thumb(f.cover, 420, 72)}" loading="lazy" decoding="async" alt="${esc(f.name)}">` : '<i class="fas fa-folder" style="font-size:2rem;color:#0284c7"></i>'}
+          ${f.cover ? `<img src="${thumb(f.cover, 420, 72)}" loading="lazy" decoding="async" alt="${esc(f.name)}" onerror="onCoverError(this)">` : '<i class="fas fa-folder" style="font-size:2rem;color:#0284c7"></i>'}
         </div>
         <div class="folder-body">
           <div class="folder-row">
