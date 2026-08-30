@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Render 2.0 By Apriono - Maintenance</title>
+    <title>Render 2.0 By Apriono.</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
+            --primary-blue: #a5f3fc;
             --accent-blue: #0284c7;
             --dark-blue: #075985;
+            --glass-border: rgba(255, 255, 255, 0.65);
             --text-dark: #0f172a;
-            --glass-border: rgba(255, 255, 255, 0.7);
+            --muted: #64748b;
         }
 
         * {
@@ -27,14 +29,12 @@
             color: var(--text-dark);
             background: linear-gradient(135deg, #e1f4fe 0%, #c4e9fd 100%);
             background-attachment: fixed;
-            display: flex;
-            flex-direction: column;
         }
 
         .top-banner {
             width: 100%;
             background: linear-gradient(90deg, #0284c7 0%, #0369a1 100%);
-            color: #ffffff;
+            color: #fff;
             text-align: center;
             padding: 9px 15px;
             font-size: 0.88rem;
@@ -52,23 +52,23 @@
             width: 90%;
             max-width: 1000px;
             margin: 22px auto 0;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             background: rgba(255, 255, 255, 0.52);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
         .logo {
             color: #0369a1;
-            text-decoration: none;
             font-weight: 700;
             font-size: 1.1rem;
+            text-decoration: none;
         }
 
         .nav-buttons {
@@ -85,6 +85,9 @@
             padding: 8px 14px;
             border-radius: 12px;
             transition: 0.25s ease;
+            cursor: pointer;
+            border: 0;
+            background: transparent;
         }
 
         .nav-btn:hover {
@@ -96,23 +99,42 @@
             position: relative;
         }
 
-        .dropdown-content {
-            display: none;
+        .dropdown::after {
+            content: "";
             position: absolute;
-            top: calc(100% + 8px);
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 14px;
+        }
+
+        .dropdown-content {
+            display: block;
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(-4px);
+            pointer-events: none;
+            position: absolute;
+            top: calc(100% + 10px);
             left: 0;
             min-width: 190px;
-            background: rgba(255, 255, 255, 0.96);
+            background: rgba(255, 255, 255, 0.97);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
+            z-index: 20;
+            transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s ease;
         }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
+        .dropdown:hover .dropdown-content,
+        .dropdown:focus-within .dropdown-content {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
         }
 
         .dropdown-content a {
@@ -131,104 +153,462 @@
         }
 
         main {
-            flex: 1;
             width: 90%;
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 42px 0 80px;
+        }
+
+        .hero-text {
             text-align: center;
-            padding: 65px 0 55px;
+            margin-bottom: 38px;
         }
 
-        .maintenance-card {
-            width: 100%;
-            max-width: 760px;
-            background: rgba(255, 255, 255, 0.42);
-            border: 1px solid rgba(255, 255, 255, 0.75);
-            border-radius: 28px;
-            padding: 45px 40px;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+        .hero-text h1 {
+            color: var(--dark-blue);
+            font-size: clamp(1.9rem, 4vw, 2.35rem);
         }
 
-        .maintenance-icon {
-            width: 92px;
-            height: 92px;
-            margin: 0 auto 22px;
-            border-radius: 50%;
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #0369a1;
+            font-size: 1.3rem;
+            margin: 34px 0 18px;
+        }
+
+        .section-title .bar {
+            color: var(--accent-blue);
+            font-weight: 900;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 18px;
+        }
+
+        .content-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            padding-bottom: 14px;
+        }
+
+        .content-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .img-container {
+            height: 230px;
+            overflow: hidden;
+            background: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.78);
-            color: var(--accent-blue);
-            font-size: 2.5rem;
-            box-shadow: 0 8px 22px rgba(2, 132, 199, 0.10);
+            padding: 10px;
         }
 
-        h1 {
-            color: var(--dark-blue);
-            font-size: clamp(2rem, 5vw, 3rem);
-            line-height: 1.15;
-            margin-bottom: 14px;
+        .content-card img {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+            background: transparent;
+            transition: transform 0.3s ease;
         }
 
-        .subtitle {
+        .content-card:hover img {
+            transform: scale(1.03);
+        }
+
+        .card-info {
+            padding: 14px 14px 0;
+            text-align: center;
+        }
+
+        .card-info h3 {
             color: #0369a1;
-            font-size: clamp(0.95rem, 2vw, 1.08rem);
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+
+        .card-info p {
+            color: var(--muted);
+            font-size: 0.75rem;
             font-weight: 600;
-            line-height: 1.7;
-            margin-bottom: 28px;
         }
 
-        .notice {
-            background: rgba(255, 255, 255, 0.76);
-            border-radius: 18px;
-            padding: 23px 25px;
-            color: #0c4a6e;
-            font-weight: 600;
-            line-height: 1.7;
-            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.04);
+        .folder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 14px;
         }
 
-        .notice i {
-            color: var(--accent-blue);
-            margin-right: 7px;
-        }
-
-        .divider {
-            width: 100%;
-            max-width: 440px;
-            height: 1px;
-            margin: 22px auto 17px;
-            background: rgba(3, 105, 161, 0.14);
-        }
-
-        .thanks {
+        .folder-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 18px;
+            background: rgba(255, 255, 255, 0.52);
+            border: 1px solid rgba(255, 255, 255, 0.82);
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
             color: #0369a1;
             font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            justify-content: flex-start;
+        }
+
+        .folder-card:hover {
+            background: rgba(255, 255, 255, 0.82);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .folder-card .folder-name {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .folder-card i {
+            font-size: 1.35rem;
+            color: var(--accent-blue);
+        }
+
+        .folder-badge {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 54px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-size: .67rem;
+            line-height: 1;
+            font-weight: 800;
+            letter-spacing: .35px;
+            text-transform: uppercase;
+            background: rgba(255,255,255,.78);
+            border: 1px solid rgba(255,255,255,.88);
+            color: #0369a1;
+        }
+
+        .folder-badge.new {
+            color: #b45309;
+            background: rgba(254,243,199,.92);
+            border-color: rgba(245,158,11,.25);
+        }
+
+        .folder-badge.update {
+            color: #047857;
+            background: rgba(209,250,229,.92);
+            border-color: rgba(16,185,129,.22);
+        }
+
+        .folder-view {
+            display: none;
+        }
+
+        .folder-view.active {
+            display: block;
+        }
+
+        .home-view.hidden {
+            display: none;
+        }
+
+        .browse-all-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 18px 0 6px;
+        }
+
+        .browse-all-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-width: 230px;
+            padding: 12px 18px;
+            border: 1px solid rgba(255,255,255,.82);
+            border-radius: 12px;
+            background: rgba(255,255,255,.58);
+            color: #0369a1;
+            font-size: .9rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,.03);
+            transition: all .25s ease;
+        }
+
+        .browse-all-btn:hover {
+            background: rgba(255,255,255,.86);
+            color: #0284c7;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(0,0,0,.06);
+        }
+
+        .browse-all-btn .browse-arrow {
+            font-size: .8rem;
+            transition: transform .25s ease;
+        }
+
+        .browse-all-btn:hover .browse-arrow {
+            transform: translateX(3px);
+        }
+
+        .folder-cover {
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+            background: rgba(255,255,255,.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .folder-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .folder-card-info {
+            padding: 13px 14px 14px;
+            background: rgba(255,255,255,.38);
+        }
+
+        .folder-title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .folder-title-row .folder-name {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .folder-count {
+            display: block;
+            margin-top: 7px;
+            color: #64748b;
+            font-size: .73rem;
             font-weight: 600;
+        }
+
+        .folder-count i {
+            color: #0284c7;
+            margin-right: 4px;
+        }
+
+        .folder-browser-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 18px;
+        }
+
+        .folder-view-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 6px;
+        }
+
+        .browser-tools {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .browser-search-box {
+            width: min(320px, 100%);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 12px;
+            background: rgba(255,255,255,.58);
+            border: 1px solid rgba(255,255,255,.82);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,.02);
+        }
+
+        .browser-search-box i {
+            color: #0284c7;
+            flex: 0 0 auto;
+        }
+
+        .browser-search-box input {
+            min-width: 0;
+            width: 100%;
+            border: 0;
+            outline: 0;
+            background: transparent;
+            color: #0f172a;
+            font-size: .82rem;
+            font-weight: 600;
+        }
+
+        .browser-search-box input::placeholder {
+            color: #64748b;
+        }
+
+        .sort-control {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #0c4a6e;
+            font-size: .8rem;
+            font-weight: 700;
+        }
+
+        .sort-control select {
+            border: 1px solid rgba(255,255,255,.85);
+            border-radius: 10px;
+            padding: 9px 12px;
+            background: rgba(255,255,255,.70);
+            color: #0c4a6e;
+            font-weight: 700;
+            outline: none;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 0;
+            background: #fff;
+            color: #0369a1;
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 10px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.25s ease;
+        }
+
+        .back-btn:hover {
+            background: #e0f2fe;
+            transform: translateX(-4px);
+        }
+
+        .folder-empty {
+            grid-column: 1 / -1;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.5);
+            color: var(--muted);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.86);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 30px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 92%;
+            max-height: 78vh;
+            object-fit: contain;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 30px;
+            font-size: 40px;
+            color: #fff;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .gallery-nav {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,.15);
+            color: #fff;
+            cursor: pointer;
+            z-index: 1002;
+            font-size: 1rem;
+            transition: background .2s ease, opacity .2s ease;
+        }
+
+        .gallery-nav:hover:not(:disabled) {
+            background: rgba(255,255,255,.28);
+        }
+
+        .gallery-nav:disabled {
+            opacity: .25;
+            cursor: default;
+        }
+
+        .gallery-nav.prev {
+            left: 22px;
+        }
+
+        .gallery-nav.next {
+            right: 22px;
+        }
+
+        #caption {
+            color: #fff;
+            margin-top: 14px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
         }
 
         footer {
-            padding: 0 5% 28px;
+            padding: 10px 5% 30px;
             text-align: center;
         }
 
         footer p {
-            color: #0f172a;
             font-size: 0.9rem;
             font-weight: 600;
+            color: #0f172a;
         }
 
         .social-text {
-            margin-top: 14px;
             display: flex;
             justify-content: center;
             gap: 20px;
             flex-wrap: wrap;
+            margin-top: 14px;
         }
 
         .social-link {
@@ -239,11 +619,23 @@
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 700;
-            transition: color 0.25s ease;
         }
 
         .social-link:hover {
             color: #0ea5e9;
+        }
+
+        @media (hover: none) {
+            .dropdown::after {
+                height: 18px;
+            }
+
+            .dropdown.touch-open .dropdown-content {
+                visibility: visible;
+                opacity: 1;
+                transform: translateY(0);
+                pointer-events: auto;
+            }
         }
 
         @media (max-width: 768px) {
@@ -259,12 +651,65 @@
             }
 
             main {
-                padding: 40px 0 35px;
+                padding-top: 32px;
             }
 
-            .maintenance-card {
-                padding: 36px 22px;
-                border-radius: 22px;
+            .gallery-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .img-container {
+                height: 200px;
+            }
+
+            .folder-view-toolbar {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .browser-tools {
+                width: 100%;
+                justify-content: stretch;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .browser-search-box {
+                width: 100%;
+            }
+
+            .sort-control {
+                justify-content: space-between;
+            }
+
+            .sort-control select {
+                flex: 1;
+                max-width: 200px;
+            }
+
+            .gallery-nav {
+                width: 42px;
+                height: 42px;
+            }
+
+            .gallery-nav.prev {
+                left: 10px;
+            }
+
+            .gallery-nav.next {
+                right: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid,
+            .folder-grid,
+            .folder-browser-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .browse-all-btn {
+                width: 100%;
             }
         }
     </style>
@@ -273,19 +718,21 @@
 
     <div class="top-banner">
         <i class="fas fa-star"></i>
-        Sedang Maintenance / Sedang Dalam Update
+        Prototype Lokal — Data Folder Dummy
         <i class="fas fa-star"></i>
     </div>
 
     <header>
-        <a class="logo" href="/">Render 2.0 By Apriono.</a>
+        <a class="logo" href="#">Render 2.0 By Apriono.</a>
 
         <div class="nav-buttons">
-            <a class="nav-btn" href="/">Beranda</a>
+            <button class="nav-btn" type="button" onclick="showHome()">Beranda</button>
             <a href="https://www.deviantart.com/apriononurhakim" target="_blank" rel="noopener noreferrer" class="nav-btn">Render</a>
 
             <div class="dropdown">
-                <div class="nav-btn">Download <i class="fas fa-caret-down" style="font-size: 0.8rem; margin-left: 4px;"></i></div>
+                <button class="nav-btn" type="button" aria-haspopup="true">
+                    Download <i class="fas fa-caret-down" style="font-size: 0.8rem; margin-left: 4px;"></i>
+                </button>
                 <div class="dropdown-content">
                     <a href="https://drive.google.com/drive/folders/17-8gXFzkiU0lEEDD1NJTURTjbz58oiP1?usp=drive_link" target="_blank" rel="noopener noreferrer"><i class="fab fa-google-drive"></i> Via Google Drive</a>
                     <a href="http://u.pc.cd/XsnctalK" target="_blank" rel="noopener noreferrer"><i class="fas fa-cloud"></i> Via pCloud</a>
@@ -297,22 +744,77 @@
     </header>
 
     <main>
-        <section class="maintenance-card" aria-labelledby="maintenance-title">
-            <div class="maintenance-icon">
-                <i class="fas fa-screwdriver-wrench"></i>
-            </div>
+        <div class="hero-text">
+            <h1>Selamat Datang Di Render 2.0</h1>
+        </div>
 
-            <h1 id="maintenance-title">Sedang Maintenance</h1>
-            <p class="subtitle">Website sedang dalam update untuk pengalaman yang lebih baik.</p>
+        <section id="home-view" class="home-view">
+            <h2 class="section-title">
+                <span class="bar">|</span>
+                <i class="far fa-image"></i>
+                Render Terbaru
+            </h2>
 
-            <div class="notice">
-                <div><i class="far fa-clock"></i>Kami sedang melakukan pembaruan sistem dan konten.</div>
-                <div>Silakan kembali beberapa saat lagi.</div>
-                <div class="divider"></div>
-                <div class="thanks"><i class="fas fa-heart"></i>Terima kasih atas pengertian dan dukungannya!</div>
+            <div id="recent-images" class="gallery-grid"></div>
+
+            <h2 class="section-title">
+                <span class="bar">|</span>
+                <i class="far fa-folder-open"></i>
+                5 Folder Terbaru
+            </h2>
+
+            <div id="recent-folders" class="folder-grid"></div>
+
+            <div class="browse-all-wrapper">
+                <button class="browse-all-btn" type="button" onclick="browseAllFolders()">
+                    <i class="fas fa-folder-tree"></i>
+                    <span>Browse Semua Folder</span>
+                    <i class="fas fa-arrow-right browse-arrow"></i>
+                </button>
             </div>
         </section>
+
+        <section id="folder-view" class="folder-view">
+            <div class="folder-view-toolbar">
+                <button class="back-btn" type="button" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                    Kembali
+                </button>
+
+                <div class="browser-tools">
+                    <div class="browser-search-box">
+                        <i class="fas fa-search"></i>
+                        <input id="browser-search" type="search" placeholder="Cari folder atau render...">
+                    </div>
+
+                    <label class="sort-control">
+                        <span>Urutkan</span>
+                        <select id="browser-sort" onchange="applyBrowserControls()">
+                            <option value="newest">Terbaru</option>
+                            <option value="oldest">Terlama</option>
+                            <option value="az">Nama A–Z</option>
+                            <option value="za">Nama Z–A</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <h2 id="folder-title" class="section-title"></h2>
+            <div id="folder-content" class="folder-browser-grid"></div>
+        </section>
     </main>
+
+    <div id="imageModal" class="modal" onclick="closeModal(event)">
+        <span class="close-btn" onclick="closeModal()">×</span>
+        <button id="prevImage" class="gallery-nav prev" type="button" onclick="event.stopPropagation(); previousImage()" aria-label="Gambar sebelumnya">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <img id="fullImage" class="modal-content" src="" alt="Preview">
+        <button id="nextImage" class="gallery-nav next" type="button" onclick="event.stopPropagation(); nextImage()" aria-label="Gambar berikutnya">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        <div id="caption"></div>
+    </div>
 
     <footer>
         <p>© 2026 Apriono Nurhakim. All Rights Reserved.</p>
@@ -324,5 +826,579 @@
         </div>
     </footer>
 
+    <script>
+        /*
+         * PROTOTYPE LOKAL — TANPA GITHUB API
+         * ------------------------------------------------------------
+         * Semua struktur folder di bawah adalah dummy lokal.
+         * 5 render terbaru memakai asset asli GitHub Raw.
+         * Nanti data folder dapat dipindahkan ke index.json.
+         */
+
+        const recentImages = [
+            {
+                name: "Yvone",
+                game: "Arknights EndField",
+                image: "https://raw.githubusercontent.com/AprionoN-Officials/AprionoN-Officials.github.io/root/Render%202.0/Arknights%20EndField/Yvone/Yvone.png"
+            },
+            {
+                name: "Fluorite",
+                game: "Arknights EndField",
+                image: "https://raw.githubusercontent.com/AprionoN-Officials/AprionoN-Officials.github.io/root/Render%202.0/Arknights%20EndField/Fluorite/1.png"
+            },
+            {
+                name: "Lupa",
+                game: "Wuthering Waves",
+                image: "https://raw.githubusercontent.com/AprionoN-Officials/AprionoN-Officials.github.io/root/Render%202.0/Wuthering%20Waves/Lupa/1.png"
+            },
+            {
+                name: "Ellen Joe",
+                game: "Zenless Zone Zero",
+                image: "https://raw.githubusercontent.com/AprionoN-Officials/AprionoN-Officials.github.io/root/Render%202.0/Zenless%20Zone%20Zero/Ellen%20Joe/3.png"
+            },
+            {
+                name: "Jane Doe",
+                game: "Zenless Zone Zero",
+                image: "https://raw.githubusercontent.com/AprionoN-Officials/AprionoN-Officials.github.io/root/Render%202.0/Zenless%20Zone%20Zero/Jane%20Doe/2.png"
+            }
+        ];
+
+        const folders = [
+            {
+                name: "Arknights EndField",
+                badge: "new",
+                cover: recentImages[0].image,
+                updatedAt: "28/08/2026",
+                items: [
+                    {
+                        name: "Yvone",
+                        type: "folder",
+                        badge: "new",
+                        cover: recentImages[0].image,
+                        items: [
+                            { name: "Yvone.png", type: "image", image: recentImages[0].image },
+                            { name: "2.png", type: "image", image: recentImages[0].image },
+                            { name: "3.png", type: "image", image: recentImages[0].image }
+                        ]
+                    },
+                    {
+                        name: "Fluorite",
+                        type: "folder",
+                        badge: "update",
+                        cover: recentImages[1].image,
+                        items: [
+                            { name: "1.png", type: "image", image: recentImages[1].image },
+                            { name: "2.png", type: "image", image: recentImages[1].image }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "Wuthering Waves",
+                badge: "update",
+                cover: recentImages[2].image,
+                updatedAt: "25/08/2026",
+                items: [
+                    {
+                        name: "Lupa",
+                        type: "folder",
+                        badge: "update",
+                        cover: recentImages[2].image,
+                        items: [
+                            { name: "1.png", type: "image", image: recentImages[2].image },
+                            { name: "2.png", type: "image", image: recentImages[2].image }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "Zenless Zone Zero",
+                badge: "update",
+                cover: recentImages[3].image,
+                updatedAt: "23/08/2026",
+                items: [
+                    {
+                        name: "Ellen Joe",
+                        type: "folder",
+                        cover: recentImages[3].image,
+                        items: [
+                            { name: "1.png", type: "image", image: recentImages[3].image },
+                            { name: "2.png", type: "image", image: recentImages[3].image },
+                            { name: "3.png", type: "image", image: recentImages[3].image }
+                        ]
+                    },
+                    {
+                        name: "Jane Doe",
+                        type: "folder",
+                        cover: recentImages[4].image,
+                        items: [
+                            { name: "1.png", type: "image", image: recentImages[4].image },
+                            { name: "2.png", type: "image", image: recentImages[4].image }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "Genshin Impact",
+                badge: "update",
+                cover: createPlaceholder("GENSHIN", "#0ea5e9", "#bae6fd"),
+                updatedAt: "18/08/2026",
+                items: [
+                    {
+                        name: "Demo Character",
+                        type: "folder",
+                        badge: "update",
+                        cover: createPlaceholder("GENSHIN", "#0ea5e9", "#bae6fd"),
+                        items: [
+                            { name: "demo-01.png", type: "image", image: createPlaceholder("GENSHIN 01", "#0284c7", "#dbeafe") },
+                            { name: "demo-02.png", type: "image", image: createPlaceholder("GENSHIN 02", "#0369a1", "#bfdbfe") }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "Blue Archive",
+                badge: "",
+                cover: createPlaceholder("BLUE ARCHIVE", "#0284c7", "#dbeafe"),
+                updatedAt: "14/08/2026",
+                items: [
+                    {
+                        name: "Demo Character",
+                        type: "folder",
+                        badge: "",
+                        cover: createPlaceholder("BLUE ARCHIVE", "#0284c7", "#dbeafe"),
+                        items: [
+                            { name: "demo.png", type: "image", image: createPlaceholder("BLUE ARCHIVE", "#0284c7", "#dbeafe") }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "Attack On Titan",
+                badge: "",
+                cover: createPlaceholder("AOT", "#334155", "#cbd5e1"),
+                updatedAt: "10/08/2026",
+                items: [
+                    {
+                        name: "Demo Character",
+                        type: "folder",
+                        badge: "",
+                        cover: createPlaceholder("AOT", "#334155", "#cbd5e1"),
+                        items: [
+                            { name: "demo.png", type: "image", image: createPlaceholder("AOT", "#334155", "#cbd5e1") }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "Bocchi The Rock!",
+                badge: "",
+                cover: createPlaceholder("BOCCHI", "#db2777", "#fbcfe8"),
+                updatedAt: "04/08/2026",
+                items: [
+                    {
+                        name: "Demo Character",
+                        type: "folder",
+                        badge: "",
+                        cover: createPlaceholder("BOCCHI", "#db2777", "#fbcfe8"),
+                        items: [
+                            { name: "demo.png", type: "image", image: createPlaceholder("BOCCHI", "#db2777", "#fbcfe8") }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "Boku No Hero Academia",
+                badge: "",
+                cover: createPlaceholder("MY HERO", "#16a34a", "#bbf7d0"),
+                updatedAt: "01/08/2026",
+                items: [
+                    {
+                        name: "Demo Character",
+                        type: "folder",
+                        badge: "",
+                        cover: createPlaceholder("MY HERO", "#16a34a", "#bbf7d0"),
+                        items: [
+                            { name: "demo.png", type: "image", image: createPlaceholder("MY HERO", "#16a34a", "#bbf7d0") }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "Chainsaw Man",
+                badge: "",
+                cover: createPlaceholder("CHAINSAW MAN", "#991b1b", "#fecaca"),
+                updatedAt: "28/07/2026",
+                items: [
+                    {
+                        name: "Demo Character",
+                        type: "folder",
+                        badge: "",
+                        cover: createPlaceholder("CHAINSAW MAN", "#991b1b", "#fecaca"),
+                        items: [
+                            { name: "demo.png", type: "image", image: createPlaceholder("CHAINSAW", "#991b1b", "#fecaca") }
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        let currentItems = folders;
+        let currentTitle = "Render 2.0";
+        const navigationStack = [];
+        let currentGalleryImages = [];
+        let currentGalleryIndex = 0;
+
+        function createPlaceholder(title, startColor, endColor) {
+            const svg = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+                    <defs>
+                        <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="${startColor}"/>
+                            <stop offset="100%" stop-color="${endColor}"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="800" height="600" fill="url(#g)"/>
+                    <circle cx="150" cy="120" r="110" fill="rgba(255,255,255,.18)"/>
+                    <circle cx="680" cy="510" r="160" fill="rgba(255,255,255,.12)"/>
+                    <text x="50%" y="50%" dominant-baseline="middle"
+                          text-anchor="middle" font-family="Arial, sans-serif"
+                          font-size="48" font-weight="700" fill="white">${escapeSvg(title)}</text>
+                </svg>`;
+            return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+        }
+
+        function escapeSvg(value) {
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&apos;");
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function badgeHtml(item) {
+            if (item.badge === "new") return '<span class="folder-badge new">NEW</span>';
+            if (item.badge === "update") return '<span class="folder-badge update">Update</span>';
+            return "";
+        }
+
+        function totalImages(item) {
+            if (!item.items) return 0;
+            return item.items.reduce((total, child) => {
+                if (child.type === "image") return total + 1;
+                return total + totalImages(child);
+            }, 0);
+        }
+
+        function parseDate(value) {
+            if (!value) return 0;
+            const [day, month, year] = value.split("/").map(Number);
+            return new Date(year, month - 1, day).getTime();
+        }
+
+        function renderRecentImages() {
+            document.getElementById("recent-images").innerHTML = recentImages.map((item, index) => `
+                <article class="content-card" onclick="openRecentImage(${index})">
+                    <div class="img-container">
+                        <img src="${item.image}" alt="${escapeHtml(item.name)}" loading="lazy">
+                    </div>
+                    <div class="card-info">
+                        <h3>${escapeHtml(item.name)}</h3>
+                        <p><i class="fas fa-gamepad"></i> ${escapeHtml(item.game)}</p>
+                    </div>
+                </article>
+            `).join("");
+        }
+
+        function renderRecentFolders() {
+            document.getElementById("recent-folders").innerHTML = folders.slice(0, 5).map((folder, index) => `
+                <article class="folder-card folder-preview-card" onclick="openFolder(folders[${index}])">
+                    <div class="folder-cover">
+                        <img src="${folder.cover}" alt="${escapeHtml(folder.name)}" loading="lazy">
+                    </div>
+                    <div class="folder-card-info">
+                        <div class="folder-title-row">
+                            <span class="folder-name">${escapeHtml(folder.name)}</span>
+                            ${badgeHtml(folder)}
+                        </div>
+                        <span class="folder-count">
+                            <i class="far fa-images"></i>
+                            ${totalImages(folder)} Render
+                        </span>
+                    </div>
+                </article>
+            `).join("");
+        }
+
+        function renderFolderContents(items, title) {
+            currentTitle = title;
+
+            document.getElementById("folder-title").innerHTML = `
+                <span class="bar">|</span>
+                <i class="far fa-folder-open"></i>
+                ${escapeHtml(title)}
+            `;
+
+            const content = document.getElementById("folder-content");
+
+            if (!items.length) {
+                content.innerHTML = '<div class="folder-empty">Folder ini kosong.</div>';
+                return;
+            }
+
+            const folderCards = items.filter(item => item.type === "folder").map(folder => `
+                <article class="folder-card folder-browser-card"
+                         onclick="openFolderByItemName(${JSON.stringify(folder.name)})">
+                    <div class="folder-cover">
+                        <img src="${folder.cover}" alt="${escapeHtml(folder.name)}" loading="lazy">
+                    </div>
+                    <div class="folder-card-info">
+                        <div class="folder-title-row">
+                            <span class="folder-name">${escapeHtml(folder.name)}</span>
+                            ${badgeHtml(folder)}
+                        </div>
+                        <span class="folder-count">
+                            <i class="far fa-images"></i>
+                            ${totalImages(folder)} Render
+                        </span>
+                    </div>
+                </article>
+            `).join("");
+
+            const imageCards = items.filter(item => item.type === "image").map(image => `
+                <article class="content-card"
+                         onclick="openCurrentImage(${JSON.stringify(image.name)}, ${JSON.stringify(image.image)})">
+                    <div class="img-container">
+                        <img src="${image.image}" alt="${escapeHtml(image.name)}" loading="lazy">
+                    </div>
+                    <div class="card-info">
+                        <h3>${escapeHtml(image.name)}</h3>
+                        <p><i class="far fa-image"></i> Image</p>
+                    </div>
+                </article>
+            `).join("");
+
+            content.innerHTML = folderCards + imageCards;
+        }
+
+        function openFolderByItemName(name) {
+            const folder = currentItems.find(item => item.type === "folder" && item.name === name);
+            if (folder) openFolder(folder);
+        }
+
+        function openFolder(folder) {
+            if (!folder) return;
+
+            navigationStack.push({
+                items: [...currentItems],
+                title: currentTitle
+            });
+
+            currentItems = Array.isArray(folder.items) ? folder.items : [];
+            currentTitle = folder.name;
+
+            document.getElementById("home-view").classList.add("hidden");
+            document.getElementById("folder-view").classList.add("active");
+
+            const search = document.getElementById("browser-search");
+            if (search) search.value = "";
+
+            const sort = document.getElementById("browser-sort");
+            if (sort) sort.value = "newest";
+
+            renderFolderContents(currentItems, currentTitle);
+        }
+
+        function browseAllFolders() {
+            navigationStack.length = 0;
+            currentItems = folders;
+            currentTitle = "Render 2.0";
+
+            document.getElementById("home-view").classList.add("hidden");
+            document.getElementById("folder-view").classList.add("active");
+
+            const search = document.getElementById("browser-search");
+            const sort = document.getElementById("browser-sort");
+
+            if (search) search.value = "";
+            if (sort) sort.value = "newest";
+
+            renderFolderContents(currentItems, currentTitle);
+        }
+
+        function goBack() {
+            if (!navigationStack.length) {
+                showHome();
+                return;
+            }
+
+            const previous = navigationStack.pop();
+            currentItems = previous.items;
+            currentTitle = previous.title;
+
+            const search = document.getElementById("browser-search");
+            if (search) search.value = "";
+
+            renderFolderContents(currentItems, currentTitle);
+        }
+
+        function showHome() {
+            document.getElementById("folder-view").classList.remove("active");
+            document.getElementById("home-view").classList.remove("hidden");
+            navigationStack.length = 0;
+            currentItems = folders;
+            currentTitle = "Render 2.0";
+
+            const search = document.getElementById("browser-search");
+            if (search) search.value = "";
+        }
+
+        function sortItems(items, mode) {
+            const sorted = [...items];
+
+            if (mode === "az") {
+                sorted.sort((a, b) => a.name.localeCompare(b.name, "id", { sensitivity: "base", numeric: true }));
+            } else if (mode === "za") {
+                sorted.sort((a, b) => b.name.localeCompare(a.name, "id", { sensitivity: "base", numeric: true }));
+            } else if (mode === "oldest") {
+                sorted.sort((a, b) => parseDate(a.updatedAt) - parseDate(b.updatedAt));
+            } else {
+                sorted.sort((a, b) => parseDate(b.updatedAt) - parseDate(a.updatedAt));
+            }
+
+            return sorted;
+        }
+
+        function applyBrowserControls() {
+            const query = document.getElementById("browser-search")?.value.trim().toLowerCase() || "";
+            const mode = document.getElementById("browser-sort")?.value || "newest";
+
+            let visible = [...currentItems];
+
+            if (query) {
+                visible = visible.filter(item => {
+                    const ownNameMatch = item.name.toLowerCase().includes(query);
+                    const childMatch = (item.items || []).some(child => child.name.toLowerCase().includes(query));
+                    return ownNameMatch || childMatch;
+                });
+            }
+
+            visible = sortItems(visible, mode);
+            renderFolderContents(visible, currentTitle);
+        }
+
+        function openRecentImage(index) {
+            const imageItems = recentImages.map(item => ({ name: item.name, image: item.image }));
+            showGallery(imageItems, index);
+        }
+
+        function openCurrentImage(name, image) {
+            const imageItems = currentItems
+                .filter(item => item.type === "image")
+                .map(item => ({ name: item.name, image: item.image }));
+
+            const index = imageItems.findIndex(item => item.name === name && item.image === image);
+            if (index >= 0) showGallery(imageItems, index);
+        }
+
+        function showGallery(images, index) {
+            if (!images.length) return;
+
+            currentGalleryImages = images;
+            currentGalleryIndex = index;
+            updateGallery();
+            document.getElementById("imageModal").classList.add("show");
+            document.body.style.overflow = "hidden";
+        }
+
+        function updateGallery() {
+            const item = currentGalleryImages[currentGalleryIndex];
+            document.getElementById("fullImage").src = item.image;
+            document.getElementById("caption").textContent =
+                `${item.name}  •  ${currentGalleryIndex + 1} / ${currentGalleryImages.length}`;
+
+            document.getElementById("prevImage").disabled = currentGalleryImages.length <= 1;
+            document.getElementById("nextImage").disabled = currentGalleryImages.length <= 1;
+        }
+
+        function nextImage() {
+            if (!currentGalleryImages.length) return;
+            currentGalleryIndex = (currentGalleryIndex + 1) % currentGalleryImages.length;
+            updateGallery();
+        }
+
+        function previousImage() {
+            if (!currentGalleryImages.length) return;
+            currentGalleryIndex = (currentGalleryIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+            updateGallery();
+        }
+
+        function closeModal(event) {
+            if (
+                event &&
+                event.target &&
+                event.target.id !== "imageModal" &&
+                !event.target.classList.contains("close-btn")
+            ) {
+                return;
+            }
+
+            document.getElementById("imageModal").classList.remove("show");
+            document.getElementById("fullImage").src = "";
+            currentGalleryImages = [];
+            document.body.style.overflow = "";
+        }
+
+        document.getElementById("browser-search")?.addEventListener("input", applyBrowserControls);
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape") closeModal();
+            if (event.key === "ArrowRight" && document.getElementById("imageModal").classList.contains("show")) nextImage();
+            if (event.key === "ArrowLeft" && document.getElementById("imageModal").classList.contains("show")) previousImage();
+
+            if (event.key === "Backspace") {
+                const tag = document.activeElement?.tagName?.toLowerCase();
+                if (
+                    tag !== "input" &&
+                    tag !== "textarea" &&
+                    tag !== "button" &&
+                    document.getElementById("folder-view").classList.contains("active")
+                ) {
+                    event.preventDefault();
+                    goBack();
+                }
+            }
+        });
+
+        // Download dropdown on touch devices.
+        const downloadDropdown = document.querySelector(".dropdown");
+        const downloadButton = downloadDropdown?.querySelector("button");
+
+        downloadButton?.addEventListener("click", event => {
+            if (window.matchMedia("(hover: none)").matches) {
+                event.stopPropagation();
+                downloadDropdown.classList.toggle("touch-open");
+            }
+        });
+
+        document.addEventListener("click", event => {
+            if (downloadDropdown && !downloadDropdown.contains(event.target)) {
+                downloadDropdown.classList.remove("touch-open");
+            }
+        });
+
+        renderRecentImages();
+        renderRecentFolders();
+    </script>
 </body>
 </html>
