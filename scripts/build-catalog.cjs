@@ -32,10 +32,31 @@ if (require.main === module) {
     return { path: file, size: Number(header.trim().split(/\s+/).at(-1)) };
   });
   const data = JSON.parse(fs.readFileSync('index.json', 'utf8'));
+
+  // Batch extract commit timestamps for fast execution with fallback to individual git log queries.
+  const timestamps = new Map();
+  try {
+    const out = execFileSync('git', ['-c', 'core.quotePath=false', 'log', '--format=COMMIT:%cI', '--name-only', '--', 'Render 2.0'], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 });
+    let currentDate = null;
+    for (const line of out.split(/\r?\n/)) {
+      if (!line) continue;
+      if (line.startsWith('COMMIT:')) {
+        currentDate = line.slice(7).trim();
+      } else if (currentDate && !timestamps.has(line)) {
+        timestamps.set(line, new Date(currentDate).toISOString());
+      }
+    }
+  } catch {
+    // If batch query fails or is unsupported, individual fallback will resolve timestamps.
+  }
+
   buildCatalog(data, entries, file => {
-    const date = execFileSync('git', ['log', '-1', '--format=%cI', '--', file], { encoding: 'utf8' }).trim();
+    if (timestamps.has(file)) return timestamps.get(file);
+    const date = execFileSync('git', ['-c', 'core.quotePath=false', 'log', '-1', '--format=%cI', '--', file], { encoding: 'utf8' }).trim();
     if (!date) throw Error('No commit date for ' + file);
-    return new Date(date).toISOString();
+    const iso = new Date(date).toISOString();
+    timestamps.set(file, iso);
+    return iso;
   });
   fs.writeFileSync('index.json', JSON.stringify(data, null, 2) + '\n');
   console.log('Catalog generated: ' + data.files.length + ' renders');
