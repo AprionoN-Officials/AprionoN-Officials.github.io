@@ -1457,3 +1457,323 @@ test('phase 3.3: traversal timeout cleans up only its own ticket and never inter
   assert.equal(b.run('state._pendingBack'), 0);
   assert.equal(b.run('state.currentPath'), 'Render 2.0/Sousou No Frieren/Frieren');
 });
+
+// ---------------------------------------------------------------------------
+// Phase 4: Search Drill-Down Continuity
+// ---------------------------------------------------------------------------
+function phase4SyntheticCatalog() {
+  const files = [
+    'Render 2.0/Zenless Zone Zero/Faction/Sunbringer/1.png',
+    'Render 2.0/Zenless Zone Zero/Faction/Sunglow/1.png',
+    'Render 2.0/Zenless Zone Zero/Anby Demara/1.png',
+    'Render 2.0/Alpha/Alpha Sub/1.png',
+    'Render 2.0/Alpha/Beta Sub/1.png',
+    'Render 2.0/Unicode Series/Üñîçødé Hero/1.png',
+    'Render 2.0/Unicode Series/Other Hero/1.png',
+    'Render 2.0/Image Match Series/CharY/special_boss_render.png',
+    'Render 2.0/Image Match Series/CharY/normal.png',
+    'Render 2.0/Image Match Series/CharZ/other.png',
+    'Render 2.0/Unrelated/CharU/1.png'
+  ];
+  const metadata = {};
+  files.forEach((f, idx) => {
+    metadata[f] = { size: 1000 + idx, updatedAt: `2026-0${(idx % 9) + 1}-01T00:00:00.000Z` };
+  });
+  return {
+    files,
+    metadata,
+    covers: {},
+    recentFolders: [],
+    recentRenders: [],
+    repository: { rawBase: 'https://example.com/' }
+  };
+}
+
+function phase4Browser(options = {}) {
+  const catalog = options.catalog || phase4SyntheticCatalog();
+  const b = browser({ ...options, catalog: undefined });
+  b.run('state.data = ' + JSON.stringify(catalog));
+  b.run('state.root = buildTree(state.data.files)');
+  return b;
+}
+
+test('phase 4 (1): descendant-only folder match preserves search', () => {
+  const b = phase4Browser();
+  b.run('browseAllFolders()');
+  b.element('browser-search').value = 'sunbringer';
+  b.run('applyControls({ syncHistory: true })');
+  assert.equal(b.run('state.visibleItems.map(x => x.name).join(",")'), 'Zenless Zone Zero');
+
+  b.run('openFolderByPath("Render 2.0/Zenless Zone Zero")');
+  assert.equal(b.run('state.currentPath'), 'Render 2.0/Zenless Zone Zero');
+  assert.equal(b.run('state.searchQuery'), 'sunbringer');
+  assert.equal(b.element('browser-search').value, 'sunbringer');
+  assert.equal(b.run('state.visibleItems.map(x => x.name).join(",")'), 'Faction');
+});
+
+test('phase 4 (2): direct folder name match clears search', () => {
+  const b = loadedBrowser();
+  b.run('browseAllFolders()');
+  b.element('browser-search').value = 'frieren';
+  b.run('applyControls({ syncHistory: true })');
+
+  b.run('openFolderByPath("Render 2.0/Sousou No Frieren")');
+  assert.equal(b.run('state.searchQuery'), '');
+  assert.equal(b.element('browser-search').value, '');
+  assert.ok(b.run('state.visibleItems.length') >= 1);
+});
+
+test('phase 4 (3): both direct and descendant matches clear search', () => {
+  const b = phase4Browser();
+  b.run('browseAllFolders()');
+  b.element('browser-search').value = 'alpha';
+  b.run('applyControls({ syncHistory: true })');
+
+  b.run('openFolderByPath("Render 2.0/Alpha")');
+  assert.equal(b.run('state.searchQuery'), '');
+  assert.equal(b.element('browser-search').value, '');
+  assert.equal(b.run('state.visibleItems.map(x => x.name).sort().join(",")'), 'Alpha Sub,Beta Sub');
+});
+
+test('phase 4 (4): multiple matching descendants remain visible', () => {
+  const b = phase4Browser();
+  b.run('browseAllFolders()');
+  b.element('browser-search').value = 'sun';
+  b.run('applyControls({ syncHistory: true })');
+
+  b.run('openFolderByPath("Render 2.0/Zenless Zone Zero")');
+  assert.equal(b.run('state.searchQuery'), 'sun');
+  b.run('openFolderByPath("Render 2.0/Zenless Zone Zero/Faction")');
+  assert.equal(b.run('state.searchQuery'), 'sun');
+  assert.equal(b.run('state.visibleItems.map(x => x.name).sort().join(",")'), 'Sunbringer,Sunglow');
+});
+
+test('phase 4 (5): multi-level nested search drill-down preserves until matching leaf folder', () => {
+  const b = phase4Browser();
+  b.run('browseAllFolders()');
+  b.element('browser-search').value = 'sunbringer';
+  b.run('applyControls({ syncHistory: true })');
+
+  b.run('openFolderByPath("Render 2.0/Zenless Zone Zero")');
+  assert.equal(b.run('state.searchQuery'), 'sunbringer');
+
+  b.run('openFolderByPath("Render 2.0/Zenless Zone Zero/Faction")');
+  assert.equal(b.run('state.searchQuery'), 'sunbringer');
+  assert.equal(b.run('state.visibleItems.map(x => x.name).join(",")'), 'Sunbringer');
+
+  // Opening the matching folder itself clears the search
+  b.run('openFolderByPath("Render 2.0/Zenless Zone Zero/Faction/Sunbringer")');
+  assert.equal(b.run('state.searchQuery'), '');
+  assert.equal(b.element('browser-search').value, '');
+  assert.equal(b.run('state.visibleItems.map(x => x.name).join(",")'), '1.png');
+});
+
+test('phase 4 (6 & 7): case-insensitive matching, Unicode, surrounding spaces, and raw query preservation', () => {
+  const b = phase4Browser();
+  b.run('browseAllFolders()');
+  b.element('browser-search').value = '  ÜÑÎÇØDÉ  ';
+  b.run('applyControls({ syncHistory: true })');
+  assert.equal(b.run('state.visibleItems.map(x => x.name).join(",")'), 'Unicode Series');
+
+  b.run('openFolderByPath("Render 2.0/Unicode Series")');
+  assert.equal(b.run('state.searchQuery'), '  ÜÑÎÇØDÉ  ');
+  assert.equal(b.element('browser-search').value, '  ÜÑÎÇØDÉ  ');
+  assert.equal(b.run('state.visibleItems.map(x => x.name).join(",")'), 'Üñîçødé Hero');
+
+  // Clicking matching Unicode folder clears raw query
+  b.run('openFolderByPath("Render 2.0/Unicode Series/Üñîçødé Hero")');
+  assert.equal(b.run('state.searchQuery'), '');
+  assert.equal(b.element('browser-search').value, '');
+});
+
+test('phase 4 (8): image filename descendant matches preserve search through folders', () => {
+  const b = phase4Browser();
+  b.run('browseAllFolders()');
+  b.element('browser-search').value = 'special_boss_render';
+  b.run('applyControls({ syncHistory: true })');
+
+  b.run('openFolderByPath("Render 2.0/Image Match Series")');
+  assert.equal(b.run('state.searchQuery'), 'special_boss_render');
+  assert.equal(b.run('state.visibleItems.map(x => x.name).join(",")'), 'CharY');
+
+  b.run('openFolderByPath("Render 2.0/Image Match Series/CharY")');
+  assert.equal(b.run('state.searchQuery'), 'special_boss_render');
+  assert.equal(b.run('state.visibleItems.map(x => x.name).join(",")'), 'special_boss_render.png');
+});
+
+test('phase 4 (9): unrelated programmatic folder navigation clears search', () => {
+  const b = phase4Browser();
+  b.run('browseAllFolders()');
+  b.element('browser-search').value = 'sunbringer';
+  b.run('applyControls({ syncHistory: true })');
+
+  b.run('openFolderByPath("Render 2.0/Unrelated")');
+  assert.equal(b.run('state.searchQuery'), '');
+  assert.equal(b.element('browser-search').value, '');
+  assert.equal(b.run('state.visibleItems.map(x => x.name).join(",")'), 'CharU');
+});
+
+test('phase 4 (10): Home navigation does not inherit stale search', () => {
+  const b = phase4Browser();
+  b.run('state.searchQuery = "sunbringer"');
+  b.element('browser-search').value = 'sunbringer';
+  assert.equal(b.run('state.view'), 'home');
+
+  b.run('openFolderByPath("Render 2.0/Zenless Zone Zero")');
+  assert.equal(b.run('state.searchQuery'), '');
+  assert.equal(b.element('browser-search').value, '');
+});
+
+test('phase 4 (11): zero-result search and manual search clearing in child folder', () => {
+  const b = phase4Browser();
+  b.run('browseAllFolders()');
+  b.element('browser-search').value = 'sun';
+  b.run('applyControls({ syncHistory: true })');
+  b.run('openFolderByPath("Render 2.0/Zenless Zone Zero")');
+  assert.equal(b.run('state.searchQuery'), 'sun');
+
+  b.element('browser-search').value = 'no_such_match';
+  b.run('applyControls({ syncHistory: true })');
+  assert.equal(b.run('state.visibleItems.length'), 0);
+
+  b.element('browser-search').value = '';
+  b.run('applyControls({ syncHistory: true })');
+  assert.equal(b.run('state.visibleItems.map(x => x.name).sort().join(",")'), 'Anby Demara,Faction');
+  assert.equal(b.history.state.search, '');
+
+  // Parent still has "sun"
+  b.history.back();
+  assert.equal(b.run('state.searchQuery'), 'sun');
+});
+
+test('phase 4 (12, 13 & 14): in-app Back, browser Back/Forward, and independent per-entry search/sort restoration', () => {
+  const b = phase4Browser();
+  b.run('browseAllFolders()');
+  b.element('browser-search').value = 'sunbringer';
+  b.element('browser-sort').value = 'az';
+  b.run('applyControls({ syncHistory: true })');
+
+  b.run('openFolderByPath("Render 2.0/Zenless Zone Zero")');
+  assert.equal(b.run('state.searchQuery'), 'sunbringer');
+  assert.equal(b.run('state.sortBy'), 'newest');
+
+  b.element('browser-sort').value = 'za';
+  b.run('applyControls({ syncHistory: true })');
+
+  b.run('openFolderByPath("Render 2.0/Zenless Zone Zero/Faction")');
+  assert.equal(b.run('state.searchQuery'), 'sunbringer');
+  assert.equal(b.run('state.sortBy'), 'newest');
+
+  // In-app Back -> Zenless Zone Zero (sunbringer + za)
+  b.run('goBack()');
+  assert.equal(b.run('state.currentPath'), 'Render 2.0/Zenless Zone Zero');
+  assert.equal(b.run('state.searchQuery'), 'sunbringer');
+  assert.equal(b.run('state.sortBy'), 'za');
+
+  // Browser Back -> Browse All (sunbringer + az)
+  b.history.back();
+  assert.equal(b.run('state.currentPath'), 'Render 2.0');
+  assert.equal(b.run('state.searchQuery'), 'sunbringer');
+  assert.equal(b.run('state.sortBy'), 'az');
+
+  // Browser Forward -> Zenless Zone Zero (sunbringer + za)
+  b.history.forward();
+  assert.equal(b.run('state.currentPath'), 'Render 2.0/Zenless Zone Zero');
+  assert.equal(b.run('state.searchQuery'), 'sunbringer');
+  assert.equal(b.run('state.sortBy'), 'za');
+
+  // Browser Forward -> Faction (sunbringer + newest)
+  b.history.forward();
+  assert.equal(b.run('state.currentPath'), 'Render 2.0/Zenless Zone Zero/Faction');
+  assert.equal(b.run('state.searchQuery'), 'sunbringer');
+  assert.equal(b.run('state.sortBy'), 'newest');
+});
+
+test('phase 4 (15): reload restoration preserves carried search query and sort', async () => {
+  const catalog = phase4SyntheticCatalog();
+  const first = phase4Browser({ catalog });
+  first.run('browseAllFolders()');
+  first.element('browser-search').value = 'sunbringer';
+  first.element('browser-sort').value = 'az';
+  first.run('applyControls({ syncHistory: true })');
+  first.run('openFolderByPath("Render 2.0/Zenless Zone Zero")');
+  const persisted = JSON.parse(JSON.stringify(first.history.state));
+
+  const second = browser({ initialState: persisted, catalog });
+  await new Promise(r => setImmediate(r));
+  await new Promise(r => setImmediate(r));
+
+  assert.equal(second.run('state.currentPath'), 'Render 2.0/Zenless Zone Zero');
+  assert.equal(second.run('state.searchQuery'), 'sunbringer');
+  assert.equal(second.element('browser-search').value, 'sunbringer');
+  assert.equal(second.run('state.visibleItems.map(x => x.name).join(",")'), 'Faction');
+});
+
+test('phase 4 (16): modal opening and restoration using genuinely filtered image results', () => {
+  const b = phase4Browser();
+  b.run('browseAllFolders()');
+  b.element('browser-search').value = 'special_boss_render';
+  b.run('applyControls({ syncHistory: true })');
+
+  b.run('openFolderByPath("Render 2.0/Image Match Series")');
+  b.run('openFolderByPath("Render 2.0/Image Match Series/CharY")');
+  assert.equal(b.run('state.visibleItems.length'), 1);
+
+  b.run('openCurrent("Render 2.0/Image Match Series/CharY/special_boss_render.png")');
+  assert.equal(modalShown(b), true);
+  assert.equal(b.run('state.gallery.length'), 1);
+  assert.equal(b.run('state.gallery[0].name'), 'special_boss_render.png');
+
+  b.history.back();
+  assert.equal(modalShown(b), false);
+  assert.equal(b.run('state.searchQuery'), 'special_boss_render');
+
+  b.history.forward();
+  assert.equal(modalShown(b), true);
+  assert.equal(b.run('state.gallery.length'), 1);
+  assert.equal(b.run('state.gallery[0].name'), 'special_boss_render.png');
+});
+
+test('phase 4 (17): deferred navigation during pending history traversal computes search continuity after settling', () => {
+  const b = phase4Browser({ asyncHistory: true });
+  b.run('browseAllFolders()');
+  b.element('browser-search').value = 'sunbringer';
+  b.run('applyControls({ syncHistory: true })');
+  b.run('openFolderByPath("Render 2.0/Unrelated")');
+  assert.equal(b.run('state.searchQuery'), '');
+
+  // Go back to Browse All (which has "sunbringer"), and while traversal is pending, drill into Zenless Zone Zero
+  b.run('goBack()');
+  b.run('openFolderByPath("Render 2.0/Zenless Zone Zero")');
+  assert.equal(b.run('state._deferred.length'), 1);
+
+  b.flushHistory();
+  assert.equal(b.run('state._pendingBack'), 0);
+  assert.equal(b.run('state._deferred.length'), 0);
+  assert.equal(b.run('state.currentPath'), 'Render 2.0/Zenless Zone Zero');
+  assert.equal(b.run('state.searchQuery'), 'sunbringer');
+  assert.equal(b.run('state.visibleItems.map(x => x.name).join(",")'), 'Faction');
+});
+
+test('phase 4 (18): no regression to Phase 3.3 timeout fallback with search continuity', () => {
+  const b = phase4Browser();
+  b.run('browseAllFolders()');
+  b.element('browser-search').value = 'sunbringer';
+  b.run('applyControls({ syncHistory: true })');
+  b.run('openFolderByPath("Render 2.0/Unrelated")');
+  assert.equal(b.run('state.searchQuery'), '');
+
+  // Drop popstate on goBack() to trigger Phase 3.3 timeout fallback, queue deferred drill-down
+  b.dropNextBack(1);
+  b.run('goBack()');
+  b.run('openFolderByPath("Render 2.0/Zenless Zone Zero")');
+  assert.equal(b.run('state._pendingBack'), 1);
+  assert.equal(b.run('state._deferred.length'), 1);
+
+  b.flushTimers();
+  assert.equal(b.run('state._pendingBack'), 0);
+  assert.equal(b.run('state._deferred.length'), 0);
+  assert.equal(b.run('state.currentPath'), 'Render 2.0/Zenless Zone Zero');
+  assert.equal(b.run('state.searchQuery'), 'sunbringer');
+  assert.equal(b.run('state.visibleItems.map(x => x.name).join(",")'), 'Faction');
+});
