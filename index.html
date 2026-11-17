@@ -596,13 +596,11 @@ function openFolderByPath(path, options = {}) {
   state.view = "folder";
   state.currentPath = targetPath;
   state.current = targetTitle;
-  state.searchQuery = "";
   state.searchQuery = nextSearch;
   state.sortBy = "newest";
 
   document.getElementById("home-view").classList.add("hidden");
   document.getElementById("folder-view").classList.add("active");
-  document.getElementById("browser-search").value = "";
   document.getElementById("browser-search").value = nextSearch;
   document.getElementById("browser-sort").value = "newest";
 
