@@ -549,6 +549,19 @@ function flushDeferred() {
   queued.forEach(fn => { try { fn(); } catch (err) {} });
 }
 
+/**
+ * Preserve the raw active search query when drilling from an active folder view
+ * into a folder whose own name does not match, provided a descendant matches.
+ */
+function resolveCarriedSearch(folder) {
+  if (state.view !== "folder" || !state.currentPath || !folder) return "";
+  const rawQuery = state.searchQuery || "";
+  const q = rawQuery.trim().toLowerCase();
+  if (!q || folder.name.toLowerCase().includes(q)) return "";
+  const hasDescendantMatch = (folder.children || []).some(child => matchesSearch(child, q));
+  return hasDescendantMatch ? rawQuery : "";
+}
+
 function openFolderByPath(path, options = {}) {
   if (!options.fromHistory && deferUntilSettled(() => openFolderByPath(path, options))) return;
   const f = findFolderByNameOrPath(path);
@@ -559,6 +572,8 @@ function openFolderByPath(path, options = {}) {
 
   // Duplicate navigation guard: avoid pushing duplicate frame if already in this folder
   if (state.view === "folder" && state.currentPath === targetPath) return;
+
+  const nextSearch = !options.fromHistory ? resolveCarriedSearch(f) : "";
 
   // Snapshot active folder view if navigating deeper from a valid folder view
   if (!options.fromHistory && state.view === "folder" && state.currentPath) {
@@ -581,12 +596,12 @@ function openFolderByPath(path, options = {}) {
   state.view = "folder";
   state.currentPath = targetPath;
   state.current = targetTitle;
-  state.searchQuery = "";
+  state.searchQuery = nextSearch;
   state.sortBy = "newest";
 
   document.getElementById("home-view").classList.add("hidden");
   document.getElementById("folder-view").classList.add("active");
-  document.getElementById("browser-search").value = "";
+  document.getElementById("browser-search").value = nextSearch;
   document.getElementById("browser-sort").value = "newest";
 
   state.items = childItems(f);
