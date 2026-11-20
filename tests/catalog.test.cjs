@@ -171,8 +171,8 @@ test('clearing and changing search restores all source items after zero matches'
 test('gallery uses filtered order and a resized preview with original link', () => {
   const b = browser();
   b.run(`state.data = { recentFolders: [], metadata: {'b.png':{size:2500000}}, repository:{rawBase:'https://example.com/'} }; state.visibleItems = [{name:'Beta',type:'image',path:'b.png'}]; openCurrent('b.png');`);
-  assert.match(b.element('fullImage').src, /wsrv.nl/);
-  assert.match(b.element('fullImage').src, /w=1600/);
+  assert.match(b.element('fullImage').src, /wsrv\.nl/);
+  assert.match(b.element('fullImage').src, /w=800/);
   assert.equal(b.element('download-original').href, 'https://example.com/b.png');
   assert.match(b.element('download-original').textContent, /2.5 MB/);
 });
@@ -1776,4 +1776,702 @@ test('phase 4 (18): no regression to Phase 3.3 timeout fallback with search cont
   assert.equal(b.run('state.currentPath'), 'Render 2.0/Zenless Zone Zero');
   assert.equal(b.run('state.searchQuery'), 'sunbringer');
   assert.equal(b.run('state.visibleItems.map(x => x.name).join(",")'), 'Faction');
+});
+
+// ---------------------------------------------------------------------------
+// Phase 5A: Shared Card Rendering, DOM Delegation & Card Image Fallbacks
+// ---------------------------------------------------------------------------
+test('phase 5A: shared renderFolderCard() and renderImageCard() emit data-* attributes without inline onclick/onerror', () => {
+  const b = loadedBrowser();
+  b.run('renderRecent()');
+  const recentImgsHtml = b.element('recent-images').innerHTML;
+  const recentFoldersHtml = b.element('recent-folders').innerHTML;
+
+  assert.doesNotMatch(recentImgsHtml, /\bonclick=/i);
+  assert.doesNotMatch(recentImgsHtml, /\bonerror=/i);
+  assert.doesNotMatch(recentFoldersHtml, /\bonclick=/i);
+  assert.doesNotMatch(recentFoldersHtml, /\bonerror=/i);
+  assert.match(recentImgsHtml, /data-action="open-recent"/);
+  assert.match(recentFoldersHtml, /data-action="open-folder"/);
+
+  b.run('openFolderByPath("Render 2.0/Sousou No Frieren")');
+  const folderHtml = b.element('folder-content').innerHTML;
+  assert.doesNotMatch(folderHtml, /\bonclick=/i);
+  assert.doesNotMatch(folderHtml, /\bonerror=/i);
+  assert.match(folderHtml, /data-action="open-folder"/);
+
+  b.run('openFolderByPath("Render 2.0/Sousou No Frieren/Frieren")');
+  const leafHtml = b.element('folder-content').innerHTML;
+  assert.doesNotMatch(leafHtml, /\bonclick=/i);
+  assert.match(leafHtml, /data-action="open-image"/);
+});
+
+test('phase 5A: special-character paths are escaped safely in data-path attributes', () => {
+  const b = browser();
+  b.run(`state.data = { repository: { rawBase: 'https://example.com/' } };`);
+  const specialFolder = {
+    name: 'A & B "Quoted" \'Single\' Üñî',
+    path: 'Render 2.0/A & B "Quoted" \'Single\' Üñî',
+    cover: 'Render 2.0/A & B "Quoted" \'Single\' Üñî/1.png',
+    imageCount: 3
+  };
+  const folderCard = b.run(`renderFolderCard({
+    name: ${JSON.stringify(specialFolder.name)},
+    path: ${JSON.stringify(specialFolder.path)},
+    cover: ${JSON.stringify(specialFolder.cover)},
+    imageCount: 3,
+    badgeHtml: ""
+  })`);
+  assert.match(folderCard, /data-path="Render 2\.0\/A &amp; B &quot;Quoted&quot; &#039;Single&#039; Üñî"/);
+
+  const imageCard = b.run(`renderImageCard({
+    name: 'Img "1" & <2>',
+    path: 'Render 2.0/Series/Img "1" & <2>.png',
+    subtitleHtml: 'Image',
+    action: 'open-image'
+  })`);
+  assert.match(imageCard, /data-path="Render 2\.0\/Series\/Img &quot;1&quot; &amp; &lt;2&gt;\.png"/);
+});
+
+test('phase 5A: handleCardClick() dispatches open-folder, open-recent, and open-image without duplicate history', () => {
+  const b = loadedBrowser();
+  const initialLen = b.history.length;
+
+  // 1. Delegated open-folder
+  b.run(`handleCardClick({
+    target: {
+      closest: () => ({ dataset: { action: 'open-folder', path: 'Render 2.0/Sousou No Frieren' } })
+    }
+  })`);
+  assert.equal(b.run('state.currentPath'), 'Render 2.0/Sousou No Frieren');
+  assert.equal(b.history.length, initialLen + 1);
+
+  // 2. Delegated open-image
+  b.run('openFolderByPath("Render 2.0/Sousou No Frieren/Frieren")');
+  const firstImgPath = b.run('state.visibleItems.find(x => x.type === "image").path');
+  b.run(`handleCardClick({
+    target: {
+      closest: () => ({ dataset: { action: 'open-image', path: ${JSON.stringify(firstImgPath)} } })
+    }
+  })`);
+  assert.equal(modalShown(b), true);
+  assert.equal(b.run('state.gallery[state.gi].path'), firstImgPath);
+  b.run('closeModal()');
+  assert.equal(modalShown(b), false);
+
+  // 3. Delegated open-recent
+  b.run('showHome()');
+  b.run(`handleCardClick({
+    target: {
+      closest: () => ({ dataset: { action: 'open-recent', index: '0' } })
+    }
+  })`);
+  assert.equal(modalShown(b), true);
+  assert.equal(b.run('state.gallerySource'), 'recent');
+  assert.equal(b.run('state.gi'), 0);
+});
+
+test('phase 5A: handleCardImageError() falls back to icons for folder covers and image cards without affecting modal #fullImage', () => {
+  const b = loadedBrowser();
+
+  // Folder cover error
+  const coverBox = { innerHTML: '<img>' };
+  b.run(`(() => {
+    const box = { innerHTML: '<img>' };
+    handleCardImageError({
+      target: {
+        tagName: 'IMG',
+        id: '',
+        closest: sel => sel === '.folder-cover' ? box : null
+      }
+    });
+    state._testCoverHtml = box.innerHTML;
+  })()`);
+  assert.match(b.run('state._testCoverHtml'), /fa-folder/);
+
+  // Image card error
+  b.run(`(() => {
+    const box = { innerHTML: '<img>' };
+    handleCardImageError({
+      target: {
+        tagName: 'IMG',
+        id: '',
+        closest: sel => sel === '.img-box' ? box : null
+      }
+    });
+    state._testImgHtml = box.innerHTML;
+  })()`);
+  assert.match(b.run('state._testImgHtml'), /fa-image/);
+
+  // Unrelated / modal image error is ignored by handleCardImageError
+  b.run(`(() => {
+    const modalBox = { innerHTML: 'keep' };
+    handleCardImageError({
+      target: {
+        tagName: 'IMG',
+        id: 'fullImage',
+        closest: () => null
+      }
+    });
+    state._testModalUntouched = modalBox.innerHTML;
+  })()`);
+  assert.equal(b.run('state._testModalUntouched'), 'keep');
+});
+
+// ---------------------------------------------------------------------------
+// Phase 5B: Modal Accessibility, Background Inertness & Focus Safety
+// ---------------------------------------------------------------------------
+function phase5bModalBrowser() {
+  const docListeners = new Map();
+  const makeEl = (id, opts = {}) => {
+    const classSet = new Set(opts.classes || []);
+    const attrs = new Map(Object.entries(opts.attrs || {}));
+    const el = {
+      id,
+      tagName: opts.tagName || 'DIV',
+      value: '',
+      innerHTML: '',
+      src: '',
+      href: opts.href || '',
+      textContent: '',
+      alt: '',
+      inert: Boolean(opts.inert),
+      disabled: Boolean(opts.disabled),
+      hidden: Boolean(opts.hidden),
+      isConnected: opts.isConnected !== false,
+      parentElement: null,
+      children: [],
+      style: { display: opts.display || 'block', visibility: opts.visibility || 'visible' },
+      classList: {
+        add(cls) { classSet.add(cls); },
+        remove(cls) { classSet.delete(cls); },
+        contains(cls) { return classSet.has(cls); }
+      },
+      getAttribute(k) { return attrs.has(k) ? attrs.get(k) : null; },
+      hasAttribute(k) { return attrs.has(k) || (k === 'disabled' && el.disabled); },
+      closest(sel) {
+        for (let cur = el; cur; cur = cur.parentElement) {
+          if (sel === '[inert]' && cur.inert) return cur;
+          if (sel === '[hidden]' && cur.hidden) return cur;
+        }
+        return null;
+      },
+      contains(target) {
+        if (!target) return false;
+        for (let cur = target; cur; cur = cur.parentElement) {
+          if (cur === el) return true;
+        }
+        return false;
+      },
+      getClientRects() {
+        if (el.hidden || el.style.display === 'none') return [];
+        for (let cur = el.parentElement; cur; cur = cur.parentElement) {
+          if (cur.hidden || cur.style.display === 'none') return [];
+        }
+        return [{ width: 10, height: 10 }];
+      },
+      querySelectorAll(sel) {
+        if (el === modal && sel.includes('a[href]')) return [closeBtn, prevBtn, nextBtn, downloadLink];
+        return [];
+      },
+      addEventListener() {},
+      focus() {
+        if (opts.onFocus) opts.onFocus(el);
+        for (let cur = el; cur; cur = cur.parentElement) {
+          if (cur.inert) return;
+        }
+        if (el.disabled || el.hidden || el.isConnected === false) return;
+        doc.activeElement = el;
+      }
+    };
+    return el;
+  };
+
+  const banner = makeEl('banner');
+  const header = makeEl('header');
+  const main = makeEl('main');
+  const homeView = makeEl('home-view', { tagName: 'SECTION', attrs: { tabindex: '-1' } });
+  const browseBtn = makeEl('browse-btn', { tagName: 'BUTTON' });
+  homeView.children = [browseBtn];
+  browseBtn.parentElement = homeView;
+
+  const folderView = makeEl('folder-view', { tagName: 'SECTION', attrs: { tabindex: '-1' }, display: 'none' });
+  const backBtn = makeEl('back-btn', { tagName: 'BUTTON' });
+  const triggerCard = makeEl('trigger-card', { tagName: 'ARTICLE', attrs: { role: 'button', tabindex: '0' } });
+  folderView.children = [backBtn, triggerCard];
+  backBtn.parentElement = folderView;
+  triggerCard.parentElement = folderView;
+
+  homeView.parentElement = main;
+  folderView.parentElement = main;
+  main.children = [homeView, folderView];
+
+  const modal = makeEl('modal', { attrs: { tabindex: '-1' } });
+  const closeBtn = makeEl('close-btn', { tagName: 'BUTTON' });
+  const prevBtn = makeEl('prev', { tagName: 'BUTTON' });
+  const nextBtn = makeEl('next', { tagName: 'BUTTON' });
+  const downloadLink = makeEl('download-original', { tagName: 'A', href: 'https://example.com/1.png' });
+  const fullImage = makeEl('fullImage', { tagName: 'IMG' });
+  const caption = makeEl('caption');
+  const previewStatus = makeEl('preview-status');
+  for (const child of [closeBtn, prevBtn, nextBtn, downloadLink, fullImage, caption, previewStatus]) {
+    child.parentElement = modal;
+  }
+  modal.children = [closeBtn, prevBtn, nextBtn, downloadLink, fullImage, caption, previewStatus];
+
+  const footer = makeEl('footer', { inert: true }); // pre-existing inert state
+  const scriptEl = makeEl('app-script', { tagName: 'SCRIPT' });
+  const body = { style: {}, children: [banner, header, main, modal, footer, scriptEl] };
+  for (const child of body.children) child.parentElement = body;
+
+  const byId = new Map([
+    ['home-view', homeView], ['folder-view', folderView], ['modal', modal],
+    ['prev', prevBtn], ['next', nextBtn], ['download-original', downloadLink],
+    ['fullImage', fullImage], ['caption', caption], ['preview-status', previewStatus],
+    ['browser-search', makeEl('browser-search')], ['browser-sort', makeEl('browser-sort')],
+    ['folder-title', makeEl('folder-title')], ['folder-content', makeEl('folder-content')],
+    ['recent-images', makeEl('recent-images')], ['recent-folders', makeEl('recent-folders')]
+  ]);
+
+  const doc = {
+    body,
+    activeElement: triggerCard,
+    getElementById: id => byId.get(id) || makeEl(id),
+    querySelector: sel => {
+      if (sel === '.close') return closeBtn;
+      if (sel === '#folder-view .back-btn') return backBtn;
+      if (sel === '#home-view .browse-btn') return browseBtn;
+      if (sel === '#folder-view.active') return folderView.classList.contains('active') ? folderView : null;
+      return null;
+    },
+    querySelectorAll: () => [],
+    addEventListener(evt, fn) {
+      if (!docListeners.has(evt)) docListeners.set(evt, []);
+      docListeners.get(evt).push(fn);
+    },
+    contains: el => Boolean(el && el.isConnected !== false)
+  };
+
+  const win = {
+    history: {
+      state: null,
+      replaceState(s) { win.history.state = s; },
+      pushState(s) { win.history.state = s; },
+      back() {}
+    },
+    scrollTo() {},
+    scrollY: 0,
+    location: { href: 'http://localhost/' },
+    setTimeout,
+    clearTimeout,
+    getComputedStyle: el => el.style,
+    addEventListener() {}
+  };
+
+  const context = vm.createContext({ document: doc, window: win, fetch: () => new Promise(() => {}) });
+  const html = fs.readFileSync('index.html', 'utf8');
+  vm.runInContext(html.match(/<script>([\s\S]*?)<\/script>/)[1], context);
+  vm.runInContext(`state.data = { repository: { rawBase: 'https://example.com/' }, metadata: {} };`, context);
+
+  return {
+    doc,
+    els: { banner, header, main, homeView, browseBtn, folderView, backBtn, triggerCard, modal, closeBtn, prevBtn, nextBtn, downloadLink, footer, scriptEl },
+    run: code => vm.runInContext(code, context),
+    dispatchKeydown(key, shiftKey = false) {
+      let prevented = false;
+      const evt = { key, shiftKey, target: doc.activeElement, preventDefault() { prevented = true; } };
+      for (const fn of (docListeners.get('keydown') || [])) fn(evt);
+      return prevented;
+    }
+  };
+}
+
+test('phase 5B: background inertness snapshots prior inert state and restores it before focus restoration', () => {
+  const h = phase5bModalBrowser();
+  const { banner, header, main, folderView, triggerCard, modal, footer, scriptEl } = h.els;
+  folderView.classList.add('active');
+  folderView.style.display = 'block';
+
+  let mainInertDuringFocus = null;
+  const origFocus = triggerCard.focus;
+  triggerCard.focus = function () {
+    mainInertDuringFocus = main.inert;
+    origFocus.call(this);
+  };
+  h.doc.activeElement = triggerCard;
+
+  h.run('showGallery([{name:"1.png",path:"1.png",image:"1.png"},{name:"2.png",path:"2.png",image:"2.png"}], 0)');
+  assert.equal(banner.inert, true);
+  assert.equal(header.inert, true);
+  assert.equal(main.inert, true);
+  assert.equal(footer.inert, true);
+  assert.equal(modal.inert, false);
+  assert.equal(scriptEl.inert, false);
+
+  // Switching image while modal is open must not overwrite the snapshot
+  h.run('nextImage()');
+  h.run('closeModalUI()');
+
+  assert.equal(banner.inert, false);
+  assert.equal(header.inert, false);
+  assert.equal(main.inert, false);
+  assert.equal(footer.inert, true, 'pre-existing inert=true on sibling must be preserved');
+  assert.equal(mainInertDuringFocus, false, 'inert must be restored BEFORE focus restoration');
+  assert.equal(h.doc.activeElement, triggerCard);
+  assert.equal(h.run('state.previousFocus'), null);
+});
+
+test('phase 5B: Tab / Shift+Tab focus trap filters enabled/visible controls and handles root/outside focus', () => {
+  const h = phase5bModalBrowser();
+  const { modal, closeBtn, prevBtn, nextBtn, downloadLink, banner } = h.els;
+
+  // Single-image gallery disables prev and next
+  h.run('showGallery([{name:"1.png",path:"1.png",image:"1.png"}], 0)');
+  assert.equal(prevBtn.disabled, true);
+  assert.equal(nextBtn.disabled, true);
+  assert.equal(h.doc.activeElement, closeBtn);
+
+  // Tab on last enabled control (downloadLink) wraps to first (closeBtn)
+  h.doc.activeElement = downloadLink;
+  assert.equal(h.dispatchKeydown('Tab', false), true);
+  assert.equal(h.doc.activeElement, closeBtn);
+
+  // Shift+Tab on first enabled control (closeBtn) wraps to last (downloadLink), skipping disabled prev/next
+  assert.equal(h.dispatchKeydown('Tab', true), true);
+  assert.equal(h.doc.activeElement, downloadLink);
+
+  // Focus landing on #modal root: Tab -> first, Shift+Tab -> last
+  h.doc.activeElement = modal;
+  assert.equal(h.dispatchKeydown('Tab', false), true);
+  assert.equal(h.doc.activeElement, closeBtn);
+  h.doc.activeElement = modal;
+  assert.equal(h.dispatchKeydown('Tab', true), true);
+  assert.equal(h.doc.activeElement, downloadLink);
+
+  // Focus escaping outside #modal: Tab -> first, Shift+Tab -> last
+  h.doc.activeElement = banner;
+  assert.equal(h.dispatchKeydown('Tab', false), true);
+  assert.equal(h.doc.activeElement, closeBtn);
+  h.doc.activeElement = banner;
+  assert.equal(h.dispatchKeydown('Tab', true), true);
+  assert.equal(h.doc.activeElement, downloadLink);
+});
+
+test('phase 5B: closeModalUI falls back to visible focusable control or view container when previousFocus is hidden/removed', () => {
+  const h = phase5bModalBrowser();
+  const { folderView, backBtn, homeView, browseBtn, triggerCard } = h.els;
+  folderView.classList.add('active');
+  folderView.style.display = 'block';
+
+  // 1. Removed trigger card in folder view falls back to .back-btn
+  h.doc.activeElement = triggerCard;
+  h.run('showGallery([{name:"1.png",path:"1.png",image:"1.png"}], 0)');
+  triggerCard.isConnected = false;
+  h.run('closeModalUI()');
+  assert.equal(h.doc.activeElement, backBtn);
+  assert.equal(h.run('state.previousFocus'), null);
+
+  // 2. If backBtn is hidden/disabled, falls back to #folder-view (tabindex="-1")
+  triggerCard.isConnected = true;
+  h.doc.activeElement = triggerCard;
+  h.run('showGallery([{name:"1.png",path:"1.png",image:"1.png"}], 0)');
+  triggerCard.hidden = true;
+  backBtn.disabled = true;
+  h.run('closeModalUI()');
+  assert.equal(h.doc.activeElement, folderView);
+  assert.equal(h.run('state.previousFocus'), null);
+
+  // 3. In home view with hidden trigger, falls back to .browse-btn (or #home-view)
+  folderView.classList.remove('active');
+  folderView.style.display = 'none';
+  const homeCard = { ...triggerCard, parentElement: homeView, hidden: false, isConnected: true, focus() { h.doc.activeElement = this; } };
+  h.doc.activeElement = homeCard;
+  h.run('showGallery([{name:"1.png",path:"1.png",image:"1.png"}], 0)');
+  homeCard.hidden = true;
+  h.run('closeModalUI()');
+  assert.equal(h.doc.activeElement, browseBtn);
+  assert.equal(h.run('state.previousFocus'), null);
+});
+
+// ---------------------------------------------------------------------------
+// Phase 5C: Modal Lifecycle, Request-Bound Image Loading & Race Safety
+// ---------------------------------------------------------------------------
+function phase5cModalBrowser() {
+  const loaders = [];
+  let nextTimerId = 1;
+  const timers = new Map();
+  const elements = new Map();
+  const getEl = id => {
+    if (!elements.has(id)) {
+      const classSet = new Set();
+      elements.set(id, {
+        id,
+        value: '',
+        innerHTML: '',
+        textContent: '',
+        src: '',
+        href: '',
+        alt: '',
+        disabled: false,
+        style: {},
+        focus() {},
+        classList: {
+          add(cls) { classSet.add(cls); },
+          remove(cls) { classSet.delete(cls); },
+          contains(cls) { return classSet.has(cls); }
+        },
+        addEventListener() {}
+      });
+    }
+    return elements.get(id);
+  };
+
+  class MockImage {
+    constructor() {
+      this.onload = null;
+      this.onerror = null;
+      this._src = '';
+      this.savedOnload = null;
+      this.savedOnerror = null;
+      loaders.push(this);
+    }
+    set src(val) {
+      this._src = val;
+      if (val) {
+        this.savedOnload = this.onload;
+        this.savedOnerror = this.onerror;
+      }
+    }
+    get src() { return this._src; }
+  }
+
+  const win = {
+    history: { state: null, replaceState(s) { win.history.state = s; }, pushState(s) { win.history.state = s; }, back() {} },
+    scrollTo() {},
+    scrollY: 0,
+    location: { href: 'http://localhost/' },
+    setTimeout(fn, delay) {
+      const id = nextTimerId++;
+      timers.set(id, { id, fn, delay });
+      return id;
+    },
+    clearTimeout(id) { timers.delete(id); },
+    addEventListener() {}
+  };
+
+  const context = vm.createContext({
+    Image: MockImage,
+    document: {
+      getElementById: getEl,
+      querySelector: getEl,
+      querySelectorAll: () => [],
+      addEventListener() {},
+      body: { style: {} },
+      activeElement: null,
+      contains: () => true
+    },
+    window: win,
+    fetch: () => new Promise(() => {})
+  });
+  const html = fs.readFileSync('index.html', 'utf8');
+  vm.runInContext(html.match(/<script>([\s\S]*?)<\/script>/)[1], context);
+  vm.runInContext(`state.data = { repository: { rawBase: 'https://example.com/' }, metadata: {} };`, context);
+
+  return {
+    loaders,
+    timers,
+    el: getEl,
+    run: code => vm.runInContext(code, context),
+    fireSlowTimers() {
+      for (const t of [...timers.values()]) {
+        if (t.delay >= 6000) {
+          timers.delete(t.id);
+          t.fn();
+        }
+      }
+    }
+  };
+}
+
+test('phase 5C: out-of-order onload/onerror and rapid next/prev switching ignore stale callbacks', () => {
+  const b = phase5cModalBrowser();
+  const gallery = [
+    { name: '1.png', path: 'a/1.png', image: 'https://img.test/1.png' },
+    { name: '2.png', path: 'a/2.png', image: 'https://img.test/2.png' },
+    { name: '3.png', path: 'a/3.png', image: 'https://img.test/3.png' }
+  ];
+  b.run(`showGallery(${JSON.stringify(gallery)}, 0)`);
+  assert.equal(b.loaders.length, 1);
+  const loader1 = b.loaders[0];
+  const seq1 = b.run('state._galleryLoadSeq');
+
+  // Rapidly switch to image 2, then image 3 before image 1 finishes
+  b.run('nextImage()');
+  assert.equal(loader1.onload, null, 'previous loader onload must be detached');
+  assert.equal(loader1.onerror, null, 'previous loader onerror must be detached');
+  const loader2 = b.loaders[1];
+
+  b.run('nextImage()');
+  assert.equal(loader2.onload, null, 'second loader onload must be detached');
+  assert.equal(loader2.onerror, null, 'second loader onerror must be detached');
+  const loader3 = b.loaders[2];
+  assert.ok(b.run('state._galleryLoadSeq') > seq1);
+
+  // Simulate stale out-of-order callbacks arriving from loader1 (onload) and loader2 (onerror)
+  loader1.savedOnload();
+  loader2.savedOnerror();
+  assert.equal(b.el('fullImage').src, '', 'stale onload must not overwrite #fullImage');
+  assert.equal(b.el('preview-status').textContent, 'Memuat preview…', 'stale onerror must not overwrite status');
+
+  // Active loader3 completes
+  loader3.savedOnload();
+  assert.equal(b.el('fullImage').src, 'https://img.test/3.png');
+  assert.equal(b.el('preview-status').textContent, '');
+  assert.equal(b.timers.size, 0, 'slow-load timer must be cleared after active load completes');
+});
+
+test('phase 5C: close-then-reopen invalidates prior in-flight load and detaches handlers before clearing src', () => {
+  const b = phase5cModalBrowser();
+  const gallery = [
+    { name: '1.png', path: 'a/1.png', image: 'https://img.test/1.png' },
+    { name: '2.png', path: 'a/2.png', image: 'https://img.test/2.png' }
+  ];
+  b.run(`showGallery(${JSON.stringify(gallery)}, 0)`);
+  const loader1 = b.loaders[0];
+  assert.equal(b.timers.size, 1);
+
+  // Close while loader1 is still in-flight
+  b.run('closeModalUI()');
+  assert.equal(loader1.onload, null);
+  assert.equal(loader1.onerror, null);
+  assert.equal(b.timers.size, 0, 'timer must be cleared on close');
+  assert.equal(b.el('preview-status').textContent, '');
+
+  // Reopen on image 2
+  b.run(`showGallery(${JSON.stringify(gallery)}, 1)`);
+  const loader2 = b.loaders[1];
+
+  // Stale error from pre-close loader1 must not affect reopened modal
+  loader1.savedOnerror();
+  assert.equal(b.el('preview-status').textContent, 'Memuat preview…');
+
+  // Slow-load timer fires for active loader2
+  b.fireSlowTimers();
+  assert.match(b.el('preview-status').textContent, /lambat/);
+
+  // Loader2 finishes
+  loader2.savedOnload();
+  assert.equal(b.el('fullImage').src, 'https://img.test/2.png');
+  assert.equal(b.el('preview-status').textContent, '');
+});
+
+test('phase 5C: duplicate updateGallery calls for the same active target do not spawn duplicate requests', () => {
+  const b = phase5cModalBrowser();
+  const gallery = [{ name: '1.png', path: 'a/1.png', image: 'https://img.test/1.png' }];
+  b.run(`showGallery(${JSON.stringify(gallery)}, 0)`);
+  assert.equal(b.loaders.length, 1);
+
+  // Calling updateGallery() again while in-flight
+  b.run('updateGallery()');
+  assert.equal(b.loaders.length, 1, 'must not spawn duplicate request while in-flight');
+
+  // Complete load, then call updateGallery() again for same loaded target
+  b.loaders[0].savedOnload();
+  b.run('updateGallery()');
+  assert.equal(b.loaders.length, 1, 'must not re-request already loaded active target');
+});
+
+// ---------------------------------------------------------------------------
+// Phase 5D: Multi-Resolution Delivery, HD Toggle, Placeholder & Bounded Retry
+// ---------------------------------------------------------------------------
+test('phase 5D: IMAGE_TIERS and thumb() generate 256px, 420px, 800px, and 1600px WebP URLs', () => {
+  const b = phase5cModalBrowser();
+  const urls = b.run(`({
+    logo: thumb('Render 2.0/logo.png', IMAGE_TIERS.logo.width, IMAGE_TIERS.logo.q),
+    card: thumb('Render 2.0/a.png', IMAGE_TIERS.card.width, IMAGE_TIERS.card.q),
+    modal: thumb('Render 2.0/a.png', IMAGE_TIERS.modal.width, IMAGE_TIERS.modal.q),
+    hd: thumb('Render 2.0/a.png', IMAGE_TIERS.hd.width, IMAGE_TIERS.hd.q)
+  })`);
+  assert.match(urls.logo, /w=256&q=72&output=webp/);
+  assert.match(urls.card, /w=420&q=72&output=webp/);
+  assert.match(urls.modal, /w=800&q=78&output=webp/);
+  assert.match(urls.hd, /w=1600&q=85&output=webp/);
+});
+
+test('phase 5D: modal defaults to 800px, upgrades to 1600px only on toggleModalHD, and resets on next/prev/reopen', () => {
+  const b = phase5cModalBrowser();
+  b.run(`state.visibleItems = [
+    { name: '1.png', type: 'image', path: 'Render 2.0/a/1.png' },
+    { name: '2.png', type: 'image', path: 'Render 2.0/a/2.png' }
+  ];`);
+  b.run(`openCurrent('Render 2.0/a/1.png')`);
+  assert.equal(b.loaders.length, 1);
+  assert.match(b.loaders[0].src, /w=800&q=78&output=webp/);
+  assert.doesNotMatch(b.loaders[0].src, /w=1600/);
+  assert.equal(b.run('state.modalHd'), false);
+
+  b.loaders[0].savedOnload();
+  assert.match(b.el('fullImage').src, /w=800&q=78&output=webp/);
+
+  // User clicks HD toggle
+  b.run('toggleModalHD()');
+  assert.equal(b.run('state.modalHd'), true);
+  assert.equal(b.loaders.length, 2);
+  assert.match(b.loaders[1].src, /w=1600&q=85&output=webp/);
+  // Standard 800px image remains visible while 1600px loads
+  assert.match(b.el('fullImage').src, /w=800&q=78&output=webp/);
+  b.loaders[1].savedOnload();
+  assert.match(b.el('fullImage').src, /w=1600&q=85&output=webp/);
+
+  // Switching image resets HD back to 800px
+  b.run('nextImage()');
+  assert.equal(b.run('state.modalHd'), false);
+  assert.equal(b.loaders.length, 3);
+  assert.match(b.loaders[2].src, /w=800&q=78&output=webp/);
+
+  // Toggle HD then previousImage() also resets back to 800px
+  b.loaders[2].savedOnload();
+  b.run('toggleModalHD()');
+  assert.equal(b.run('state.modalHd'), true);
+  b.run('previousImage()');
+  assert.equal(b.run('state.modalHd'), false);
+  assert.match(b.loaders.at(-1).src, /w=800&q=78&output=webp/);
+
+  // Toggle HD then close & reopen resets to 800px
+  b.run('toggleModalHD()');
+  b.run('closeModalUI()');
+  assert.equal(b.run('state.modalHd'), false);
+  b.run(`openCurrent('Render 2.0/a/1.png')`);
+  assert.equal(b.run('state.modalHd'), false);
+  assert.match(b.loaders.at(-1).src, /w=800&q=78&output=webp/);
+});
+
+test('phase 5D: bounded retry runs at most once and respects Phase 5C sequence cancellation', () => {
+  const b = phase5cModalBrowser();
+  b.run(`state.visibleItems = [
+    { name: '1.png', type: 'image', path: 'Render 2.0/a/1.png' },
+    { name: '2.png', type: 'image', path: 'Render 2.0/a/2.png' }
+  ];`);
+  b.run(`openCurrent('Render 2.0/a/1.png')`);
+  assert.equal(b.loaders.length, 1);
+
+  // First attempt fails -> bounded retry spawns 1 new loader
+  b.loaders[0].savedOnerror();
+  assert.equal(b.loaders.length, 2, 'should retry once on initial error');
+  assert.equal(b.el('preview-status').textContent, 'Memuat preview…');
+
+  // Retry succeeds
+  b.loaders[1].savedOnload();
+  assert.match(b.el('fullImage').src, /w=800/);
+  assert.equal(b.el('preview-status').textContent, '');
+
+  // Next image fails twice -> no infinite loop, clean failure state
+  b.run('nextImage()');
+  const idx = b.loaders.length - 1;
+  b.loaders[idx].savedOnerror();
+  assert.equal(b.loaders.length, idx + 2);
+  b.loaders[idx + 1].savedOnerror();
+  assert.equal(b.loaders.length, idx + 2, 'must not retry more than once');
+  assert.match(b.el('preview-status').textContent, /gagal dimuat/);
+  assert.equal(b.timers.size, 0);
 });
