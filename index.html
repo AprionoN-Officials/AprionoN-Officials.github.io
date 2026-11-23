@@ -5,11 +5,207 @@
 <meta name="description" content="Jelajahi koleksi render PNG anime dan game oleh Apriono. Cari karakter, lihat preview, dan akses PNG original.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-:root{--blue:#0284c7;--dark:#075985;--text:#0f172a;--muted:#64748b;--glass:rgba(255,255,255,.56)}*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,sans-serif}body{min-height:100vh;color:var(--text);background:linear-gradient(135deg,#e1f4fe,#c4e9fd);background-attachment:fixed}.top-banner{background:linear-gradient(90deg,#0284c7,#0369a1);color:#fff;text-align:center;padding:9px 15px;font-size:.88rem;font-weight:700}.top-banner i{color:#fde047;margin:0 5px}header{width:90%;max-width:1000px;margin:22px auto 0;padding:15px 30px;display:flex;justify-content:space-between;align-items:center;background:var(--glass);backdrop-filter:blur(15px);border:1px solid rgba(255,255,255,.7);border-radius:20px;box-shadow:0 4px 15px rgba(0,0,0,.05)}.logo{color:#0369a1;font-weight:700;font-size:1.1rem;text-decoration:none}.nav-buttons{display:flex;gap:10px;align-items:center}.nav-btn{color:#0c4a6e;text-decoration:none;font-weight:600;font-size:.85rem;padding:8px 14px;border-radius:12px;border:0;background:transparent;cursor:pointer}.nav-btn:hover{background:rgba(255,255,255,.65);color:var(--blue)}.dropdown{position:relative}.dropdown:after{content:"";position:absolute;top:100%;left:0;width:100%;height:14px}.dropdown-content{visibility:hidden;opacity:0;pointer-events:none;position:absolute;top:calc(100% + 10px);left:0;min-width:190px;background:rgba(255,255,255,.97);border:1px solid rgba(255,255,255,.8);border-radius:12px;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,.1);z-index:20;transition:.16s}.dropdown:hover .dropdown-content,.dropdown:focus-within .dropdown-content{visibility:visible;opacity:1;pointer-events:auto}.dropdown-content a{display:flex;gap:10px;padding:12px 15px;color:#0c4a6e;text-decoration:none;font-size:.85rem}.dropdown-content a:hover{background:rgba(2,132,199,.08);color:var(--blue)}main{width:90%;max-width:1100px;margin:0 auto;padding:42px 0 70px}.hero-text{text-align:center;margin-bottom:38px}.hero-text h1{color:var(--dark);font-size:clamp(1.9rem,4vw,2.35rem)}.section-title{display:flex;align-items:center;gap:8px;color:#0369a1;font-size:1.3rem;margin:32px 0 18px}.section-title .bar{color:var(--blue);font-weight:900}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px}.card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.04);cursor:pointer;transition:.25s}.card:hover{transform:translateY(-6px);box-shadow:0 12px 25px rgba(0,0,0,.08)}.img-box{height:230px;display:flex;align-items:center;justify-content:center;padding:10px}.img-box img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}.card-info{padding:14px;text-align:center}.card-info h3{font-size:.95rem;color:#0369a1;margin-bottom:5px}.card-info p{font-size:.75rem;color:var(--muted);font-weight:600}.folder-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}.folder-card{background:var(--glass);border:1px solid rgba(255,255,255,.82);border-radius:12px;overflow:hidden;cursor:pointer;transition:.25s;box-shadow:0 4px 10px rgba(0,0,0,.02)}.folder-card:hover{background:rgba(255,255,255,.84);transform:translateY(-3px)}.folder-cover{height:145px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.16)}.folder-cover img{width:100%;height:100%;object-fit:contain}.folder-body{padding:12px 14px}.folder-row{display:flex;gap:8px;align-items:center}.folder-name{flex:1;min-width:0;color:#0369a1;font-size:.88rem;font-weight:700}.folder-count{display:block;margin-top:6px;color:var(--muted);font-size:.72rem;font-weight:600}.badge{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:.66rem;font-weight:800;line-height:1;text-transform:uppercase}.badge.new{color:#b45309;background:#fef3c7}.badge.update{color:#047857;background:#d1fae5}.browse-wrap{text-align:center;margin:18px 0}.browse-btn,.back-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border:1px solid rgba(255,255,255,.82);border-radius:11px;background:rgba(255,255,255,.62);color:#0369a1;font-weight:700;cursor:pointer}.browse-btn:hover,.back-btn:hover{background:rgba(255,255,255,.88)}#folder-view{display:none}#folder-view.active{display:block}#home-view.hidden{display:none}.toolbar{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:8px}.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.search{width:min(330px,100%);display:flex;gap:8px;align-items:center;padding:9px 12px;background:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.82);border-radius:10px}.search i{color:var(--blue)}.search input{border:0;outline:0;background:transparent;width:100%;font-size:.82rem;font-weight:600}.sort{display:flex;gap:7px;align-items:center;color:#0c4a6e;font-size:.8rem;font-weight:700}.sort select{padding:9px 11px;border:1px solid rgba(255,255,255,.85);border-radius:10px;background:rgba(255,255,255,.72);color:#0c4a6e;font-weight:700}.empty{grid-column:1/-1;padding:30px;border-radius:16px;text-align:center;background:rgba(255,255,255,.5);color:var(--muted)}footer{text-align:center;padding:10px 5% 30px}footer p{font-size:.9rem;font-weight:600}.social{margin-top:14px;display:flex;justify-content:center;gap:20px;flex-wrap:wrap}.social a{color:#0369a1;text-decoration:none;font-size:.9rem;font-weight:700}.modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.86);align-items:center;justify-content:center;flex-direction:column;padding:30px}.modal.show{display:flex}.modal img{max-width:92%;max-height:78vh;object-fit:contain;border-radius:12px}.close{position:absolute;right:30px;top:15px;color:#fff;font-size:40px;cursor:pointer}.nav-img{position:fixed;top:50%;transform:translateY(-50%);width:48px;height:48px;border:0;border-radius:50%;background:rgba(255,255,255,.15);color:#fff;cursor:pointer}.nav-img:disabled{opacity:.25}.prev{left:20px}.next{right:20px}.caption{color:#fff;margin-top:14px;font-weight:600}@media(max-width:768px){header{flex-direction:column;gap:10px;padding:15px}.toolbar{align-items:stretch;flex-direction:column}.tools{justify-content:stretch;flex-direction:column;align-items:stretch}.search,.sort,.sort select{width:100%}.img-box{height:200px}.nav-img{width:42px;height:42px}.prev{left:10px}.next{right:10px}}
-button.close{background:transparent;border:0}.hd-btn{margin-top:10px;padding:7px 14px;border:1px solid rgba(255,255,255,.45);border-radius:999px;background:rgba(255,255,255,.14);color:#fff;font-size:.82rem;font-weight:700;cursor:pointer}.hd-btn:hover{background:rgba(255,255,255,.26)}.hd-btn[aria-pressed="true"]{background:#0284c7;border-color:#38bdf8}article[role="button"]:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid #075985;outline-offset:4px}.modal button:focus-visible,.modal a:focus-visible{outline-color:white}</style></head><body>
-<div class="top-banner"><i class="fas fa-star"></i> Render 2.0 By Apriono. <i class="fas fa-star"></i></div><header><a class="logo" href="#" onclick="showHome();return false;">Render 2.0 By Apriono.</a><div class="nav-buttons"><a class="nav-btn" href="#" onclick="showHome();return false;">Beranda</a><a class="nav-btn" href="https://www.deviantart.com/apriononurhakim" target="_blank" rel="noopener">Render</a><div class="dropdown"><button class="nav-btn">Download <i class="fas fa-caret-down"></i></button><div class="dropdown-content"><a href="https://drive.google.com/drive/folders/17-8gXFzkiU0lEEDD1NJTURTjbz58oiP1?usp=drive_link" target="_blank" rel="noopener"><i class="fab fa-google-drive"></i> Via Google Drive</a><a href="https://u.pc.cd/XsnctalK" target="_blank" rel="noopener"><i class="fas fa-cloud"></i> Via pCloud</a></div></div><a class="nav-btn" href="https://ko-fi.com/apriononurhakim" target="_blank" rel="noopener">Support</a></div></header>
-<main><div class="hero-text"><h1>Selamat Datang Di Render 2.0</h1></div><section id="home-view" tabindex="-1"><h2 class="section-title"><span class="bar">|</span><i class="far fa-image"></i> Render Terbaru</h2><div id="recent-images" class="grid"></div><h2 class="section-title"><span class="bar">|</span><i class="far fa-folder-open"></i> 5 Folder Terbaru</h2><div id="recent-folders" class="folder-grid"></div><div class="browse-wrap"><button class="browse-btn" onclick="browseAllFolders()"><i class="fas fa-folder-tree"></i> Browse Semua Folder <i class="fas fa-arrow-right"></i></button></div></section><section id="folder-view" tabindex="-1"><div class="toolbar"><button class="back-btn" onclick="goBack()"><i class="fas fa-arrow-left"></i> Kembali</button><div class="tools"><div class="search"><i class="fas fa-search"></i><input id="browser-search" aria-label="Cari folder atau render" type="search" placeholder="Cari folder atau render..."></div><label class="sort"><span>Urutkan</span><select id="browser-sort"><option value="newest">Terbaru</option><option value="oldest">Terlama</option><option value="az">Nama A–Z</option><option value="za">Nama Z–A</option></select></label></div></div><h2 id="folder-title" class="section-title"></h2><div id="folder-content" class="grid"></div></section></main>
-<div id="modal" class="modal" role="dialog" aria-modal="true" aria-label="Preview render" tabindex="-1" onclick="closeModal(event)"><button type="button" class="close" aria-label="Tutup preview" onclick="closeModal()">×</button><button id="prev" aria-label="Gambar sebelumnya" class="nav-img prev" onclick="event.stopPropagation();previousImage()"><i class="fas fa-chevron-left"></i></button><img id="fullImage" alt="Preview" fetchpriority="high" decoding="async"><button id="next" aria-label="Gambar berikutnya" class="nav-img next" onclick="event.stopPropagation();nextImage()"><i class="fas fa-chevron-right"></i></button><div id="caption" class="caption"></div><p id="preview-status" class="caption" role="status"></p><button type="button" id="hd-toggle" class="hd-btn" aria-pressed="false" onclick="event.stopPropagation();toggleModalHD()">Muat HD (1600px)</button><a id="download-original" class="caption" target="_blank" rel="noopener">Download PNG Original</a></div><footer><p>© 2026 Apriono Nurhakim. All Rights Reserved.</p><div class="social"><a href="https://www.instagram.com/apriononurhakim_" target="_blank">Instagram</a><a href="https://www.facebook.com/ApriononurhakimOfficial" target="_blank">Facebook</a><a href="https://www.deviantart.com/apriononurhakim" target="_blank">DeviantArt</a><a href="https://www.youtube.com/apriononurhakim" target="_blank">YouTube</a></div></footer>
+:root{--bg-canvas:#e1f4fe;--bg-canvas-end:#c4e9fd;--surface:#fff;--surface-subtle:#fbfdff;--surface-stage:#eff8fd;--border:#e8eef3;--border-strong:#dbe7ef;--blue:#0284c7;--dark:#0369a1;--accent-soft:#eaf7fe;--text:#0f172a;--text-secondary:#334155;--muted:#475569;--yellow:#fde047;--shadow-shell:0 24px 60px rgba(3,105,161,.12),0 4px 16px rgba(15,23,42,.05);--shadow-card:0 4px 12px rgba(15,23,42,.035);--shadow-card-hover:0 12px 24px rgba(3,105,161,.1)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,-apple-system,sans-serif}
+body{min-height:100vh;color:var(--text);background:linear-gradient(145deg,var(--bg-canvas) 0%,var(--bg-canvas-end) 100%);padding:20px}
+.app-shell{max-width:1360px;margin:0 auto;background:var(--surface);border:1px solid rgba(255,255,255,.92);border-radius:22px;box-shadow:var(--shadow-shell);overflow:clip}
+.app-header{height:68px;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--border);background:var(--surface)}
+.header-left{display:flex;align-items:center;gap:12px;min-width:0}
+button,a,select{touch-action:manipulation}
+.menu-toggle{display:none;width:44px;height:44px;border:1px solid var(--border);border-radius:11px;background:var(--surface-subtle);color:var(--text-secondary);align-items:center;justify-content:center;font-size:1.05rem;cursor:pointer;transition:background-color .14s ease,color .14s ease}
+.logo{display:inline-flex;align-items:center;gap:10px;color:var(--text);font-weight:700;font-size:1.08rem;letter-spacing:-.02em;text-decoration:none}
+.logo b{color:var(--dark)}
+.brand-mark{width:26px;height:26px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2.5px;transform:rotate(-8deg);flex:none}
+.brand-mark i{display:block;border-radius:4px;background:var(--blue)}
+.brand-mark i:nth-child(2){background:#38bdf8;border-radius:4px 7px 4px 4px}
+.brand-mark i:nth-child(3){background:var(--dark);border-radius:4px 4px 4px 7px}
+.brand-mark i:nth-child(4){background:var(--yellow)}
+.nav-buttons{display:flex;gap:6px;align-items:center}
+.nav-btn{color:var(--muted);text-decoration:none;font-weight:600;font-size:.84rem;padding:8px 13px;border-radius:10px;border:0;background:transparent;cursor:pointer;transition:background-color .14s ease,color .14s ease}
+.dropdown{position:relative}
+.dropdown:after{content:"";position:absolute;top:100%;left:0;width:100%;height:12px}
+.dropdown-content{visibility:hidden;opacity:0;pointer-events:none;position:absolute;right:0;top:calc(100% + 8px);min-width:196px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:6px;box-shadow:0 18px 40px rgba(15,23,42,.12);z-index:30;transition:opacity .16s ease}
+.dropdown:hover .dropdown-content,.dropdown:focus-within .dropdown-content{visibility:visible;opacity:1;pointer-events:auto}
+.dropdown-content a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;color:var(--text-secondary);text-decoration:none;font-size:.83rem;font-weight:500}
+.app-body{display:flex;min-height:640px;position:relative}
+.sidebar{width:232px;flex:none;padding:24px 16px 20px;border-right:1px solid var(--border);background:var(--surface-subtle);display:flex;flex-direction:column}
+.drawer-head{display:none;align-items:center;justify-content:space-between;gap:10px;padding:0 4px 16px;margin-bottom:14px;border-bottom:1px solid var(--border)}
+.drawer-brand{display:inline-flex;align-items:center;gap:9px;color:var(--text);font-weight:700;font-size:1rem;letter-spacing:-.02em}
+.drawer-brand b{color:var(--dark)}
+.drawer-close{width:44px;height:44px;flex:none;border:1px solid var(--border);border-radius:11px;background:var(--surface);color:var(--muted);font-size:1.35rem;line-height:1;display:grid;place-items:center;cursor:pointer;transition:background-color .14s ease,color .14s ease,transform .14s ease}
+.side-label{font-size:.68rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);padding:0 12px 10px}
+.side-label+.side-link{margin-top:0}
+.side-spacer{height:20px}
+.side-link{width:100%;min-height:44px;border:0;border-radius:11px;background:transparent;display:flex;align-items:center;gap:11px;padding:0 12px;color:var(--muted);font-size:.86rem;font-weight:500;text-decoration:none;cursor:pointer;margin-bottom:4px;text-align:left;transition:background-color .14s ease,color .14s ease}
+.side-link i{width:18px;text-align:center;font-size:.92rem}
+.side-link.active{background:var(--accent-soft);color:var(--dark);font-weight:600}
+.side-bottom{margin-top:auto;border-top:1px solid var(--border);padding:16px 10px 0;display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.76rem;font-weight:500}
+.side-badge{padding:4px 7px;border-radius:7px;background:var(--accent-soft);color:var(--dark);font-size:.68rem;font-weight:800;letter-spacing:.04em}
+.sidebar-backdrop{position:fixed;inset:0;z-index:890;background:rgba(15,23,42,.32);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s ease-out}
+main.main-content{flex:1;min-width:0;padding:28px 34px 42px}
+.title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.hero-text h1{color:var(--text);font-size:clamp(1.55rem,2.5vw,1.95rem);font-weight:700;letter-spacing:-.03em;line-height:1.15}
+.subline{margin-top:6px;font-size:.84rem;color:var(--muted);font-weight:500}
+.metric-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--border-strong);border-radius:999px;background:#f8fcff;color:#475569;font-size:.78rem;font-weight:600}
+.metric-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 4px rgba(2,132,199,.1)}
+.section-title{display:flex;align-items:center;gap:9px;color:var(--text);font-size:1.05rem;font-weight:700;letter-spacing:-.015em;margin:26px 0 14px}
+.section-title .bar{width:4px;height:16px;border-radius:999px;background:var(--blue);display:inline-block;flex:none;font-size:0}
+.section-title i,.section-title svg{color:var(--blue);flex:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:16px}
+.folder-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:16px}
+.card,.folder-card{width:100%;text-align:left;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:9px;box-shadow:var(--shadow-card);cursor:pointer;display:flex;flex-direction:column;transition:transform .16s ease-out,box-shadow .16s ease-out,border-color .16s ease-out}
+.card:active,.folder-card:active{transform:scale(.985)}
+.img-box,.folder-cover{width:100%;height:200px;border-radius:11px;background:radial-gradient(circle at 50% 42%,#fff 0%,#e5f5fe 56%,#cdebfb 100%);display:flex;align-items:center;justify-content:center;padding:10px;overflow:hidden}
+.folder-cover{height:148px;padding:8px}
+.img-box img,.folder-cover img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
+.card-info,.folder-body{width:100%;min-width:0;padding:11px 6px 4px;display:flex;flex-direction:column;gap:4px}
+.card-title{font-size:.9rem;font-weight:600;color:var(--text);line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card-sub,.folder-count{min-width:0;font-size:.74rem;color:var(--muted);font-weight:500;display:flex;align-items:center;gap:6px;overflow:hidden}
+.card-sub-text{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.folder-row{display:flex;gap:8px;align-items:center;width:100%}
+.folder-name{flex:1;min-width:0;color:var(--text);font-size:.88rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.badge{display:inline-flex;padding:3px 8px;border-radius:999px;font-size:.64rem;font-weight:700;line-height:1.1;text-transform:uppercase;flex:none}
+.badge.new{color:#b45309;background:#fef3c7}.badge.update{color:#047857;background:#d1fae5}
+.browse-wrap{text-align:center;margin:24px 0 4px}
+.browse-btn,.back-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 16px;border:1px solid var(--border-strong);border-radius:11px;background:var(--surface);color:var(--dark);font-size:.84rem;font-weight:600;cursor:pointer;box-shadow:0 2px 6px rgba(15,23,42,.03);transition:background-color .14s ease,border-color .14s ease,transform .14s ease}
+.browse-btn:active,.back-btn:active,.hd-btn:active,.download-cta:active,button.close:active,.drawer-close:active{transform:scale(.98)}
+#folder-view{display:none}#folder-view.active{display:block}#home-view.hidden{display:none}
+.toolbar{display:flex;justify-content:space-between;gap:14px;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.tools{display:flex;gap:10px;align-items:center;flex-wrap:nowrap;justify-content:flex-end;margin-left:auto}
+.search{width:260px;max-width:100%;min-height:42px;display:flex;gap:8px;align-items:center;padding:0 12px;background:var(--surface-subtle);border:1px solid var(--border-strong);border-radius:11px}
+.search:focus-within{border-color:var(--blue);background:var(--surface)}
+.search i,.search svg{color:var(--muted);flex:none}
+.search input{border:0;outline:0;background:transparent;width:100%;font-size:.83rem;font-weight:500;color:var(--text)}
+.sort{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:.8rem;font-weight:600;white-space:nowrap}
+.sort select{appearance:none;-webkit-appearance:none;min-height:42px;padding:0 34px 0 12px;border:1px solid var(--border-strong);border-radius:11px;background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 11px center;color:var(--text);font-size:.82rem;font-weight:600;cursor:pointer;box-shadow:0 2px 5px rgba(15,23,42,.025)}
+.empty{grid-column:1/-1;padding:32px;border-radius:16px;border:1px dashed var(--border-strong);text-align:center;background:var(--surface-subtle);color:var(--muted);font-size:.88rem}
+footer{text-align:center;padding:22px 24px max(22px,env(safe-area-inset-bottom));border-top:1px solid var(--border);background:var(--surface-subtle)}
+footer p{font-size:.82rem;font-weight:500;color:var(--muted)}
+.social{margin-top:10px;display:flex;justify-content:center;gap:18px;flex-wrap:wrap}
+.social a{color:var(--dark);text-decoration:none;font-size:.82rem;font-weight:600}
+@keyframes modalFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes modalPanelIn{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
+.modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(15,23,42,.44);align-items:center;justify-content:center;padding:24px}
+.modal.show{display:flex;animation:modalFadeIn .16s ease-out both}
+.modal.show .modal-panel{animation:modalPanelIn .2s cubic-bezier(.22,1,.36,1) both}
+.modal-panel{width:min(960px,100%);height:min(620px,90dvh);max-height:min(620px,90dvh);background:var(--surface);border:1px solid rgba(255,255,255,.92);border-radius:24px;box-shadow:0 32px 80px rgba(15,23,42,.24),0 4px 18px rgba(15,23,42,.08);padding:16px;display:grid;grid-template-columns:1.15fr .85fr;grid-template-rows:minmax(0,1fr);gap:0;overflow:hidden}
+.modal-stage{position:relative;min-height:0;border-radius:16px;background:radial-gradient(circle at 50% 45%,#fff 0%,#dff2fd 54%,#bae6fd 100%);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.modal-stage img{max-width:100%;max-height:100%;width:auto;height:auto;padding:42px 56px 18px;object-fit:contain;display:block}
+#fullImage[src=""],#fullImage:not([src]){display:none}
+.modal-stage-badge{position:absolute;left:14px;top:14px;z-index:2;padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.95);color:var(--dark);font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.nav-img{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:40px;height:40px;border:1px solid var(--border);border-radius:50%;background:rgba(255,255,255,.92);color:var(--text);display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 12px rgba(15,23,42,.12);transition:background-color .14s ease,transform .14s ease}
+.nav-img:active:not(:disabled){transform:translateY(-50%) scale(.94)}
+.nav-img:disabled{opacity:.35;cursor:not-allowed}
+.prev{left:12px}.next{right:12px}
+.modal-details{padding:16px 18px 18px 26px;display:flex;flex-direction:column;min-width:0;min-height:0;overflow-y:auto}
+.modal-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.modal-kicker{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dark);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+button.close{width:38px;height:38px;flex:none;border:1px solid var(--border);border-radius:10px;background:var(--surface-subtle);color:var(--muted);font-size:1.35rem;line-height:1;display:grid;place-items:center;cursor:pointer;transition:background-color .14s ease,color .14s ease,transform .14s ease}
+.modal-title{margin-top:14px;font-size:1.4rem;font-weight:700;letter-spacing:-.025em;line-height:1.2;color:var(--text);overflow-wrap:anywhere}
+.modal-meta{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+.meta-tag{padding:6px 10px;border:1px solid var(--border-strong);border-radius:9px;background:var(--surface-subtle);color:var(--text-secondary);font-size:.74rem;font-weight:600}
+.modal-status{margin-top:12px;padding:8px 11px;border-radius:10px;background:var(--accent-soft);font-size:.82rem;font-weight:600;color:var(--dark);line-height:1.4}
+.modal-status:empty{margin-top:0;padding:0;min-height:0;background:transparent}
+.modal-actions{margin-top:auto;padding-top:18px;display:flex;flex-direction:column;gap:10px}
+.hd-btn{width:100%;min-height:44px;padding:0 14px;border:1px solid var(--border-strong);border-radius:12px;background:var(--surface-subtle);color:var(--dark);font-size:.84rem;font-weight:600;cursor:pointer;transition:background-color .14s ease,border-color .14s ease,transform .14s ease}
+.hd-btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--blue);color:var(--dark)}
+.download-cta{width:100%;min-height:46px;padding:0 16px;border-radius:12px;background:var(--dark);color:#fff;font-size:.86rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 18px rgba(3,105,161,.22);transition:background-color .14s ease,transform .14s ease}
+button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #075985;outline-offset:3px}
+@media(hover:hover) and (pointer:fine){.menu-toggle:hover,.nav-btn:hover,.dropdown-content a:hover,.side-link:hover,.browse-btn:hover,.back-btn:hover,button.close:hover,.drawer-close:hover,.hd-btn:hover{background:var(--accent-soft);color:var(--dark)}.browse-btn:hover,.back-btn:hover,.hd-btn:hover{border-color:#bae6fd}.card:hover,.folder-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-card-hover);border-color:#cfe4f2}.nav-img:hover:not(:disabled){background:var(--surface);color:var(--blue)}.download-cta:hover{background:#075985}.social a:hover{color:var(--blue)}}
+@media(max-width:960px){body{padding:12px}.app-shell{border-radius:18px}.menu-toggle{display:inline-flex}.drawer-head{display:flex}.sidebar{position:fixed;left:0;top:0;bottom:0;width:min(276px,84vw);z-index:900;padding:18px 16px max(20px,env(safe-area-inset-bottom));transform:translateX(-100%);visibility:hidden;pointer-events:none;transition:transform .2s cubic-bezier(.22,1,.36,1);box-shadow:0 20px 45px rgba(15,23,42,.18)}.sidebar.open{transform:translateX(0);visibility:visible;pointer-events:auto}.sidebar-backdrop.open{opacity:1;visibility:visible;pointer-events:auto}main.main-content{padding:22px 20px 32px}.grid,.folder-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.img-box{height:180px}.folder-cover{height:136px}.modal-panel{width:min(680px,100%);height:auto;grid-template-columns:1fr;grid-template-rows:auto;max-height:90dvh;overflow-y:auto}.modal-stage{min-height:280px;max-height:48dvh}.modal-stage img{padding:36px 52px 14px;max-height:46dvh}.modal-details{padding:18px 10px 8px;overflow-y:visible}button.close,.nav-img{min-width:44px;min-height:44px}}
+@media(max-width:640px){body{padding:0;background:var(--surface)}.app-shell{border-radius:0;border:0;box-shadow:none}.app-header{padding:0 14px;height:60px}.nav-buttons .nav-btn:not(.keep-mobile){display:none}.dropdown{display:none}main.main-content{padding:18px 14px 28px}.grid,.folder-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.img-box{height:155px}.folder-cover{height:120px}.toolbar{align-items:stretch;flex-direction:column}.tools{justify-content:stretch;flex-direction:column;align-items:stretch;flex-wrap:wrap;width:100%;margin-left:0}.search,.sort,.sort select,.back-btn{width:100%}.modal{padding:12px 12px max(12px,env(safe-area-inset-bottom))}.modal-panel{max-height:92dvh;border-radius:20px;padding:12px}.modal-stage{min-height:240px;max-height:46dvh}.modal-stage img{padding:36px 50px 14px;max-height:44dvh}.modal-details{padding:16px 6px 6px}.prev{left:8px}.next{right:8px}}
+@media(max-width:380px){main.main-content{padding:16px 12px 24px}.grid,.folder-grid{gap:10px}.img-box{height:144px}.folder-cover{height:112px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+</style></head><body>
+<div class="app-shell">
+<header class="app-header">
+  <div class="header-left">
+    <button type="button" id="menu-toggle" class="menu-toggle" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="app-sidebar" onclick="toggleMobileNav()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <a class="logo" href="#" onclick="showHome();return false;"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Render <b>2.0</b></span></a>
+  </div>
+  <nav class="nav-buttons" aria-label="Tautan header">
+    <a class="nav-btn" href="#" onclick="showHome();return false;">Beranda</a>
+    <a class="nav-btn" href="https://www.deviantart.com/apriononurhakim" target="_blank" rel="noopener">Render</a>
+    <div class="dropdown">
+      <button type="button" class="nav-btn">Download <i class="fas fa-caret-down" aria-hidden="true"></i></button>
+      <div class="dropdown-content">
+        <a href="https://drive.google.com/drive/folders/17-8gXFzkiU0lEEDD1NJTURTjbz58oiP1?usp=drive_link" target="_blank" rel="noopener"><i class="fab fa-google-drive" aria-hidden="true"></i> Via Google Drive</a>
+        <a href="https://u.pc.cd/XsnctalK" target="_blank" rel="noopener"><i class="fas fa-cloud" aria-hidden="true"></i> Via pCloud</a>
+      </div>
+    </div>
+    <a class="nav-btn keep-mobile" href="https://ko-fi.com/apriononurhakim" target="_blank" rel="noopener">Support</a>
+  </nav>
+</header>
+<div class="app-body">
+  <div id="sidebar-backdrop" class="sidebar-backdrop" onclick="closeMobileNav()"></div>
+  <div id="app-sidebar" class="sidebar" role="navigation" aria-label="Navigasi galeri" tabindex="-1">
+    <div class="drawer-head">
+      <span class="drawer-brand"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Render <b>2.0</b></span></span>
+      <button type="button" id="drawer-close" class="drawer-close" aria-label="Tutup menu navigasi" onclick="closeMobileNav()">×</button>
+    </div>
+    <div class="side-label">Library</div>
+    <button type="button" id="nav-home" class="side-link active" onclick="showHome();closeMobileNav({ restoreFocus: false });"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg><span>Beranda</span></button>
+    <button type="button" id="nav-browse" class="side-link" onclick="browseAllFolders();closeMobileNav({ restoreFocus: false });"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3.5 7.5h7l2 2h8v9.2a1.8 1.8 0 0 1-1.8 1.8H5.3a1.8 1.8 0 0 1-1.8-1.8z"/><path d="M3.5 7.5V5.3a1.8 1.8 0 0 1 1.8-1.8h4.1l2 2h7.3"/></svg><span>Semua Folder</span></button>
+    <div class="side-spacer"></div>
+    <div class="side-label">Tautan</div>
+    <a class="side-link" href="https://drive.google.com/drive/folders/17-8gXFzkiU0lEEDD1NJTURTjbz58oiP1?usp=drive_link" target="_blank" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span>Google Drive</span></a>
+    <a class="side-link" href="https://u.pc.cd/XsnctalK" target="_blank" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19H7a4 4 0 0 1-.4-8A5.5 5.5 0 0 1 17.3 9.5 3.5 3.5 0 0 1 17.5 19Z"/></svg><span>pCloud</span></a>
+    <a class="side-link" href="https://www.deviantart.com/apriononurhakim" target="_blank" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg><span>DeviantArt</span></a>
+    <div class="side-bottom"><span class="side-badge">PNG</span><span>Original files</span></div>
+  </div>
+  <main class="main-content">
+    <section id="home-view" tabindex="-1">
+      <div class="title-row">
+        <div class="hero-text"><h1>Koleksi Render 2.0</h1><p class="subline">Arsip render PNG transparan oleh Apriono</p></div>
+        <div id="catalog-stats" class="metric-pill"><span class="metric-dot" aria-hidden="true"></span><span>Memuat katalog…</span></div>
+      </div>
+      <h2 class="section-title"><span class="bar" aria-hidden="true"></span><i class="far fa-image" aria-hidden="true"></i> Render Terbaru</h2>
+      <div id="recent-images" class="grid"></div>
+      <h2 class="section-title"><span class="bar" aria-hidden="true"></span><i class="far fa-folder-open" aria-hidden="true"></i> 5 Folder Terbaru</h2>
+      <div id="recent-folders" class="folder-grid"></div>
+      <div class="browse-wrap"><button type="button" class="browse-btn" onclick="browseAllFolders()"><i class="fas fa-folder-tree" aria-hidden="true"></i> Browse Semua Folder <i class="fas fa-arrow-right" aria-hidden="true"></i></button></div>
+    </section>
+    <section id="folder-view" tabindex="-1">
+      <div class="toolbar">
+        <button type="button" class="back-btn" onclick="goBack()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5m0 0 6-6m-6 6 6 6"/></svg> Kembali</button>
+        <div class="tools">
+          <div class="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="browser-search" aria-label="Cari folder atau render" type="search" placeholder="Cari folder atau render..."></div>
+          <label class="sort"><span>Urutkan</span><select id="browser-sort"><option value="newest">Terbaru</option><option value="oldest">Terlama</option><option value="az">Nama A–Z</option><option value="za">Nama Z–A</option></select></label>
+        </div>
+      </div>
+      <h1 id="folder-title" class="section-title"></h1>
+      <div id="folder-content" class="grid"></div>
+    </section>
+  </main>
+</div>
+<footer><p>© 2026 Apriono Nurhakim. All Rights Reserved.</p><div class="social"><a href="https://www.instagram.com/apriononurhakim_" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/ApriononurhakimOfficial" target="_blank" rel="noopener">Facebook</a><a href="https://www.deviantart.com/apriononurhakim" target="_blank" rel="noopener">DeviantArt</a><a href="https://www.youtube.com/apriononurhakim" target="_blank" rel="noopener">YouTube</a></div></footer>
+</div>
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-label="Preview render" tabindex="-1" onclick="closeModal(event)">
+  <div class="modal-panel">
+    <div class="modal-stage">
+      <span id="modal-res-badge" class="modal-stage-badge">Preview 800px</span>
+      <button type="button" id="prev" aria-label="Gambar sebelumnya" class="nav-img prev" onclick="event.stopPropagation();previousImage()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+      <img id="fullImage" alt="Preview" fetchpriority="high" decoding="async">
+      <button type="button" id="next" aria-label="Gambar berikutnya" class="nav-img next" onclick="event.stopPropagation();nextImage()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+    </div>
+    <div class="modal-details">
+      <div class="modal-top">
+        <span id="modal-kicker" class="modal-kicker">Render 2.0</span>
+        <button type="button" class="close" aria-label="Tutup preview" onclick="closeModal()">×</button>
+      </div>
+      <h2 id="caption" class="modal-title"></h2>
+      <div class="modal-meta">
+        <span id="modal-counter" class="meta-tag">1 / 1</span>
+        <span id="modal-size-tag" class="meta-tag">PNG Original</span>
+      </div>
+      <p id="preview-status" class="modal-status" role="status"></p>
+      <div class="modal-actions">
+        <button type="button" id="hd-toggle" class="hd-btn" aria-pressed="false" onclick="event.stopPropagation();toggleModalHD()">Muat HD (1600px)</button>
+        <a id="download-original" class="download-cta" target="_blank" rel="noopener">Download PNG Original</a>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
 const state = {
   data: null,
@@ -26,6 +222,10 @@ const state = {
   gi: 0,
   previousFocus: null,
   _inertSnapshot: null,
+  _drawerInertSnapshot: null,
+  _drawerPrevFocus: null,
+  _bodyOverflowBeforeLock: null,
+  _scrollLocks: { modal: false, drawer: false },
   _galleryLoadSeq: 0,
   _activeGalleryLoader: null,
   _activeGalleryTimer: null,
@@ -325,7 +525,7 @@ function onCoverError(img) {
 }
 
 function handleCardClick(e) {
-  const card = e?.target?.closest?.('article[data-action]');
+  const card = e?.target?.closest?.('[data-action]');
   if (!card) return;
   const action = card.dataset?.action;
   if (action === "open-folder" && card.dataset.path) {
@@ -340,17 +540,17 @@ function handleCardClick(e) {
 
 function renderFolderCard({ name, path, cover, imageCount, badgeHtml }) {
   return `
-    <article role="button" tabindex="0" class="folder-card" data-action="open-folder" data-path="${esc(path)}">
-      <div class="folder-cover">
-        ${cover ? `<img src="${thumb(cover, 420, 72)}" loading="lazy" decoding="async" alt="${esc(name)}">` : '<i class="fas fa-folder" style="font-size:2rem;color:#0284c7"></i>'}
-      </div>
-      <div class="folder-body">
-        <div class="folder-row">
+    <button type="button" class="folder-card" data-action="open-folder" data-path="${esc(path)}">
+      <span class="folder-cover">
+        ${cover ? `<img src="${thumb(cover, 420, 72)}" loading="lazy" decoding="async" alt="${esc(name)}">` : '<i class="fas fa-folder" style="font-size:2rem;color:#0284c7" aria-hidden="true"></i>'}
+      </span>
+      <span class="folder-body">
+        <span class="folder-row">
           <span class="folder-name">${esc(name)}</span>${badgeHtml || ""}
-        </div>
-        <span class="folder-count"><i class="far fa-images"></i> ${imageCount} Render</span>
-      </div>
-    </article>
+        </span>
+        <span class="folder-count"><i class="far fa-images" aria-hidden="true"></i> ${imageCount} Render</span>
+      </span>
+    </button>
   `;
 }
 
@@ -359,27 +559,122 @@ function renderImageCard({ name, path, subtitleHtml, action, index }) {
     ? `data-action="open-recent" data-index="${Number(index)}"`
     : `data-action="open-image" data-path="${esc(path)}"`;
   return `
-    <article role="button" tabindex="0" class="card" ${dataAttr}>
-      <div class="img-box">
+    <button type="button" class="card" ${dataAttr}>
+      <span class="img-box">
         <img src="${thumb(path, 420, 72)}" loading="lazy" decoding="async" alt="${esc(name)}">
-      </div>
-      <div class="card-info">
-        <h3>${esc(name)}</h3>
-        <p>${subtitleHtml}</p>
-      </div>
-    </article>
+      </span>
+      <span class="card-info">
+        <span class="card-title">${esc(name)}</span>
+        <span class="card-sub">${subtitleHtml}</span>
+      </span>
+    </button>
   `;
+}
+
+function syncSidebarActive(view = state.view) {
+  const navHome = document.getElementById("nav-home");
+  const navBrowse = document.getElementById("nav-browse");
+  navHome?.classList?.toggle?.("active", view === "home");
+  navBrowse?.classList?.toggle?.("active", view === "folder");
+}
+
+function updateBodyScrollLock(owner, locked) {
+  if (!state._scrollLocks) state._scrollLocks = { modal: false, drawer: false };
+  const wasLocked = Boolean(state._scrollLocks.modal || state._scrollLocks.drawer);
+  state._scrollLocks[owner] = Boolean(locked);
+  const isLocked = Boolean(state._scrollLocks.modal || state._scrollLocks.drawer);
+  if (!wasLocked && isLocked) {
+    state._bodyOverflowBeforeLock = document.body?.style?.overflow || "";
+    if (document.body?.style) document.body.style.overflow = "hidden";
+  } else if (wasLocked && !isLocked) {
+    if (document.body?.style) document.body.style.overflow = state._bodyOverflowBeforeLock ?? "";
+    state._bodyOverflowBeforeLock = null;
+  }
+}
+
+function isDrawerOpen() {
+  return Boolean(document.getElementById("app-sidebar")?.classList?.contains("open"));
+}
+
+function setDrawerInert() {
+  if (state._drawerInertSnapshot) return;
+  const targets = [
+    document.querySelector(".app-header"),
+    document.querySelector("main.main-content"),
+    document.querySelector("footer")
+  ].filter(Boolean);
+  const snapshot = [];
+  for (const el of targets) {
+    snapshot.push({ el, inert: Boolean(el.inert) });
+    el.inert = true;
+  }
+  state._drawerInertSnapshot = snapshot;
+}
+
+function restoreDrawerInert() {
+  if (!state._drawerInertSnapshot) return;
+  for (const { el, inert } of state._drawerInertSnapshot) {
+    el.inert = inert;
+  }
+  state._drawerInertSnapshot = null;
+}
+
+function toggleMobileNav(forceOpen, options = {}) {
+  const sidebar = document.getElementById("app-sidebar");
+  const backdrop = document.getElementById("sidebar-backdrop");
+  const btn = document.getElementById("menu-toggle");
+  if (!sidebar) return;
+  const wasOpen = sidebar.classList.contains("open");
+  const next = typeof forceOpen === "boolean" ? forceOpen : !wasOpen;
+  if (next === wasOpen) return;
+
+  sidebar.classList.toggle("open", next);
+  backdrop?.classList?.toggle?.("open", next);
+  btn?.setAttribute?.("aria-expanded", next ? "true" : "false");
+
+  if (next) {
+    state._drawerPrevFocus = document.activeElement || btn || null;
+    sidebar.setAttribute?.("role", "dialog");
+    sidebar.setAttribute?.("aria-modal", "true");
+    setDrawerInert();
+    updateBodyScrollLock("drawer", true);
+    const closeBtn = document.getElementById("drawer-close");
+    if (!tryFocus(closeBtn)) {
+      const firstFocusable = getModalFocusableElements(sidebar)[0] || sidebar;
+      tryFocus(firstFocusable) || firstFocusable?.focus?.();
+    }
+  } else {
+    sidebar.setAttribute?.("role", "navigation");
+    sidebar.removeAttribute?.("aria-modal");
+    restoreDrawerInert();
+    updateBodyScrollLock("drawer", false);
+    const prev = state._drawerPrevFocus;
+    state._drawerPrevFocus = null;
+    if (options.restoreFocus !== false) {
+      if (!tryFocus(prev)) tryFocus(btn);
+    }
+  }
+}
+
+function closeMobileNav(options = {}) {
+  toggleMobileNav(false, options);
 }
 
 // ----------------------------------------------------
 // RENDER BERANDA
 // ----------------------------------------------------
 function renderRecent() {
+  const stats = document.getElementById("catalog-stats");
+  if (stats && state.data) {
+    const fileCount = Array.isArray(state.data.files) ? state.data.files.length : 0;
+    const folderCount = state.root?.children?.filter?.(x => x.type === "folder").length || 0;
+    stats.innerHTML = `<span class="metric-dot" aria-hidden="true"></span><span><b>${fileCount}</b> PNGs <span style="color:#cbd5e1">/</span> <b>${folderCount}</b> koleksi</span>`;
+  }
   const rs = state.data.recentRenders;
   document.getElementById("recent-images").innerHTML = rs.map((x, i) => renderImageCard({
     name: x.name,
     path: x.path,
-    subtitleHtml: `<i class="fas fa-gamepad"></i> ${esc(x.game)}`,
+    subtitleHtml: `<i class="fas fa-gamepad" aria-hidden="true"></i><span class="card-sub-text">${esc(x.game)}</span>`,
     action: "open-recent",
     index: i
   })).join("");
@@ -396,6 +691,7 @@ function renderRecent() {
       badgeHtml: badge(f)
     });
   }).join("");
+  syncSidebarActive("home");
 }
 
 function childItems(folder) {
@@ -423,6 +719,7 @@ function childItems(folder) {
 }
 
 function renderItems(items, title) {
+  syncSidebarActive("folder");
   state.visibleItems = items;
   state.current = title;
   document.getElementById("folder-title").innerHTML = `<span class="bar">|</span><i class="far fa-folder-open"></i> ${esc(title)}`;
@@ -768,6 +1065,7 @@ function showHome(options = {}) {
 
   document.getElementById("folder-view").classList.remove("active");
   document.getElementById("home-view").classList.remove("hidden");
+  syncSidebarActive("home");
 
   state.view = "home";
   state.currentPath = null;
@@ -1103,10 +1401,13 @@ function findCachedThumbSrc(thumbUrl) {
 
 function syncHdToggleButton() {
   const btn = document.getElementById("hd-toggle");
-  if (!btn) return;
+  const badgeEl = document.getElementById("modal-res-badge");
   const active = Boolean(state.modalHd);
-  btn.setAttribute?.("aria-pressed", active ? "true" : "false");
-  btn.textContent = active ? "Mode Standar (800px)" : "Muat HD (1600px)";
+  if (btn) {
+    btn.setAttribute?.("aria-pressed", active ? "true" : "false");
+    btn.textContent = active ? "Mode Standar (800px)" : "Muat HD (1600px)";
+  }
+  if (badgeEl) badgeEl.textContent = active ? "Preview 1600px HD" : "Preview 800px";
 }
 
 function toggleModalHD() {
@@ -1124,11 +1425,14 @@ function showGallery(g, i, source = "visible", options = {}) {
   state.gi = Number.isInteger(i) ? i : 0;
   state.gi = ((state.gi % g.length) + g.length) % g.length;
   state.modalHd = false;
-  if (!isAlreadyOpen) state.previousFocus = document.activeElement;
+  if (!isAlreadyOpen) {
+    if (isDrawerOpen()) closeMobileNav({ restoreFocus: false });
+    state.previousFocus = document.activeElement;
+  }
   const modal = document.getElementById("modal");
   modal.classList.add("show");
   setBackgroundInert(modal);
-  document.body.style.overflow = "hidden";
+  updateBodyScrollLock("modal", true);
   document.querySelector(".close").focus();
   updateGallery();
 
@@ -1197,8 +1501,18 @@ function updateGallery() {
   const download = document.getElementById("download-original");
   download.href = raw(x.path);
   const bytes = state.data.metadata?.[x.path]?.size;
-  download.textContent = "Download PNG Original" + (bytes ? ` (${(bytes / 1000000).toFixed(1)} MB)` : "");
-  document.getElementById("caption").textContent = `${x.name} • ${state.gi + 1} / ${state.gallery.length}`;
+  const sizeLabel = bytes ? `${(bytes / 1000000).toFixed(1)} MB` : "PNG Original";
+  download.textContent = "Download PNG Original" + (bytes ? ` (${sizeLabel})` : "");
+  document.getElementById("caption").textContent = x.name;
+  const counterEl = document.getElementById("modal-counter");
+  if (counterEl) counterEl.textContent = `${state.gi + 1} / ${state.gallery.length}`;
+  const sizeEl = document.getElementById("modal-size-tag");
+  if (sizeEl) sizeEl.textContent = bytes ? `PNG ${sizeLabel}` : "PNG Original";
+  const kickerEl = document.getElementById("modal-kicker");
+  if (kickerEl) {
+    const parts = String(x.path || "").split("/").slice(1, -1);
+    kickerEl.textContent = parts.length ? parts.join(" / ") : "Render 2.0";
+  }
 
   const isSingle = state.gallery.length <= 1;
   document.getElementById("prev").disabled = isSingle;
@@ -1273,7 +1587,7 @@ function closeModalUI() {
   image.src = "";
   document.getElementById("preview-status").textContent = "";
   modal.classList.remove("show");
-  document.body.style.overflow = "";
+  updateBodyScrollLock("modal", false);
   restoreBackgroundInert();
   restoreModalFocus();
   return true;
@@ -1310,38 +1624,48 @@ if (typeof window.addEventListener === "function") {
 document.getElementById("home-view")?.addEventListener?.("click", handleCardClick);
 document.getElementById("folder-view")?.addEventListener?.("click", handleCardClick);
 document.addEventListener("error", handleCardImageError, true);
-document.addEventListener("keydown", e => {
-  const card = e.target.closest?.('article[role="button"]');
-  if (card && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); card.click(); }
-});
 document.getElementById("browser-search").addEventListener("input", () => applyControls({ syncHistory: true }));
 document.getElementById("browser-sort").addEventListener("change", () => applyControls({ syncHistory: true }));
 
-document.addEventListener("keydown", e => {
-  if (!isModalOpen()) return;
-  if (e.key === "Tab") {
-    const modal = document.getElementById("modal");
-    const controls = getModalFocusableElements(modal);
-    if (!controls.length) {
-      e.preventDefault();
-      modal.focus();
-      return;
-    }
-    const first = controls[0], last = controls[controls.length - 1];
-    const active = document.activeElement;
-    const insideModal = Boolean(active && typeof modal.contains === "function" && modal.contains(active));
-    if (!insideModal || active === modal) {
-      e.preventDefault();
-      (e.shiftKey ? last : first).focus();
-      return;
-    }
-    if (e.shiftKey && active === first) { e.preventDefault(); last.focus(); }
-    else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
+function trapContainerTab(e, container) {
+  const controls = getModalFocusableElements(container);
+  if (!controls.length) {
+    e.preventDefault();
+    container.focus();
+    return;
   }
-  if (e.key === "Escape") closeModal();
-  if (e.key === "ArrowRight") nextImage();
-  if (e.key === "ArrowLeft") previousImage();
+  const first = controls[0], last = controls[controls.length - 1];
+  const active = document.activeElement;
+  const inside = Boolean(active && typeof container.contains === "function" && container.contains(active));
+  if (!inside || active === container) {
+    e.preventDefault();
+    (e.shiftKey ? last : first).focus();
+    return;
+  }
+  if (e.shiftKey && active === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
+}
+
+document.addEventListener("keydown", e => {
+  if (isModalOpen()) {
+    if (e.key === "Tab") trapContainerTab(e, document.getElementById("modal"));
+    if (e.key === "Escape") closeModal();
+    if (e.key === "ArrowRight") nextImage();
+    if (e.key === "ArrowLeft") previousImage();
+    return;
+  }
+  if (isDrawerOpen()) {
+    if (e.key === "Tab") trapContainerTab(e, document.getElementById("app-sidebar"));
+    if (e.key === "Escape") { e.preventDefault(); closeMobileNav({ restoreFocus: true }); }
+  }
 });
+
+if (typeof window.matchMedia === "function") {
+  const desktopMq = window.matchMedia("(min-width: 961px)");
+  const onDesktopBreakpoint = e => { if (e.matches && isDrawerOpen()) closeMobileNav({ restoreFocus: false }); };
+  if (typeof desktopMq.addEventListener === "function") desktopMq.addEventListener("change", onDesktopBreakpoint);
+  else if (typeof desktopMq.addListener === "function") desktopMq.addListener(onDesktopBreakpoint);
+}
 
 // Initial history entry: stamp Home with replaceState (no extra entry). If the
 // page was reloaded onto one of our entries, remember it and restore after data loads.
