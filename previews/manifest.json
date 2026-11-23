@@ -1,0 +1,635 @@
+{
+  "version": 1,
+  "sourceBaselineCommit": "82503d873d466ccb7c1db1e8406626a93a2b4256",
+  "generatedFromBatchCommit": "a49951e40f2edc103b086c9504b03b842a4a6760",
+  "vipsVersion": "vips-8.18.0",
+  "colorFlags": "--output-profile srgb --intent perceptual",
+  "totalSources": 24,
+  "totalWebpOutputs": 72,
+  "entries": {
+    "Render 2.0/Attack On Titan/Mikasa Ackerman/2.png": {
+      "420": {
+        "path": "previews/420/mikasa-ackerman-2-6d1bf987.webp",
+        "bytes": 27602,
+        "width": 420,
+        "height": 594
+      },
+      "800": {
+        "path": "previews/800/mikasa-ackerman-2-6d1bf987.webp",
+        "bytes": 62202,
+        "width": 800,
+        "height": 1132
+      },
+      "1600": {
+        "path": "previews/1600/mikasa-ackerman-2-6d1bf987.webp",
+        "bytes": 192374,
+        "width": 1600,
+        "height": 2263
+      },
+      "slug": "mikasa-ackerman-2-6d1bf987",
+      "sourceBlob": "6d1bf987f3e738c759245da34c67abbf06cda52a",
+      "sourceWidth": 8039,
+      "sourceHeight": 11369,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Dandadan/Ayase Momo/1.png": {
+      "420": {
+        "path": "previews/420/ayase-momo-1-48cab6f1.webp",
+        "bytes": 18528,
+        "width": 420,
+        "height": 594
+      },
+      "800": {
+        "path": "previews/800/ayase-momo-1-48cab6f1.webp",
+        "bytes": 42346,
+        "width": 800,
+        "height": 1132
+      },
+      "1600": {
+        "path": "previews/1600/ayase-momo-1-48cab6f1.webp",
+        "bytes": 118548,
+        "width": 1600,
+        "height": 2263
+      },
+      "slug": "ayase-momo-1-48cab6f1",
+      "sourceBlob": "48cab6f11e58555b7f9fad61b42097127d8795fd",
+      "sourceWidth": 9920,
+      "sourceHeight": 14032,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Fate Series/Rider (Medusa)/1.png": {
+      "420": {
+        "path": "previews/420/rider-medusa-1-88d28cf8.webp",
+        "bytes": 37394,
+        "width": 420,
+        "height": 471
+      },
+      "800": {
+        "path": "previews/800/rider-medusa-1-88d28cf8.webp",
+        "bytes": 87778,
+        "width": 800,
+        "height": 898
+      },
+      "1600": {
+        "path": "previews/1600/rider-medusa-1-88d28cf8.webp",
+        "bytes": 234780,
+        "width": 1600,
+        "height": 1795
+      },
+      "slug": "rider-medusa-1-88d28cf8",
+      "sourceBlob": "88d28cf84542c147f4bd30e1dc9a45407f696669",
+      "sourceWidth": 8124,
+      "sourceHeight": 9112,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Genshin Impact/Arlecchino/1.png": {
+      "420": {
+        "path": "previews/420/arlecchino-1-98215910.webp",
+        "bytes": 24438,
+        "width": 420,
+        "height": 369
+      },
+      "800": {
+        "path": "previews/800/arlecchino-1-98215910.webp",
+        "bytes": 59874,
+        "width": 800,
+        "height": 702
+      },
+      "1600": {
+        "path": "previews/1600/arlecchino-1-98215910.webp",
+        "bytes": 152398,
+        "width": 1600,
+        "height": 1404
+      },
+      "slug": "arlecchino-1-98215910",
+      "sourceBlob": "982159107a48564702ab8ebfdffeb1d83f87adde",
+      "sourceWidth": 10290,
+      "sourceHeight": 9030,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Genshin Impact/Arlecchino/3.png": {
+      "420": {
+        "path": "previews/420/arlecchino-3-88b0d0a6.webp",
+        "bytes": 30320,
+        "width": 420,
+        "height": 593
+      },
+      "800": {
+        "path": "previews/800/arlecchino-3-88b0d0a6.webp",
+        "bytes": 72634,
+        "width": 800,
+        "height": 1130
+      },
+      "1600": {
+        "path": "previews/1600/arlecchino-3-88b0d0a6.webp",
+        "bytes": 206982,
+        "width": 1600,
+        "height": 2259
+      },
+      "slug": "arlecchino-3-88b0d0a6",
+      "sourceBlob": "88b0d0a6d131499e7fd84dc91903c9089cf3c4a5",
+      "sourceWidth": 8600,
+      "sourceHeight": 12140,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Genshin Impact/Chlorinde/1.png": {
+      "420": {
+        "path": "previews/420/chlorinde-1-ee710bfa.webp",
+        "bytes": 37886,
+        "width": 420,
+        "height": 600
+      },
+      "800": {
+        "path": "previews/800/chlorinde-1-ee710bfa.webp",
+        "bytes": 89550,
+        "width": 800,
+        "height": 1142
+      },
+      "1600": {
+        "path": "previews/1600/chlorinde-1-ee710bfa.webp",
+        "bytes": 241372,
+        "width": 1600,
+        "height": 2284
+      },
+      "slug": "chlorinde-1-ee710bfa",
+      "sourceBlob": "ee710bfaa4baf221d97c8a0941b8a02befc2278b",
+      "sourceWidth": 12612,
+      "sourceHeight": 18000,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Genshin Impact/Eula Lawrence/1.png": {
+      "420": {
+        "path": "previews/420/eula-lawrence-1-f56de1a3.webp",
+        "bytes": 64960,
+        "width": 420,
+        "height": 840
+      },
+      "800": {
+        "path": "previews/800/eula-lawrence-1-f56de1a3.webp",
+        "bytes": 158530,
+        "width": 800,
+        "height": 1600
+      },
+      "1600": {
+        "path": "previews/1600/eula-lawrence-1-f56de1a3.webp",
+        "bytes": 431914,
+        "width": 1600,
+        "height": 3200
+      },
+      "slug": "eula-lawrence-1-f56de1a3",
+      "sourceBlob": "f56de1a3638427a019c9dcac91baf95ffa6a5876",
+      "sourceWidth": 8533,
+      "sourceHeight": 17067,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Genshin Impact/Furina/1.png": {
+      "420": {
+        "path": "previews/420/furina-1-f0425bbc.webp",
+        "bytes": 21924,
+        "width": 420,
+        "height": 231
+      },
+      "800": {
+        "path": "previews/800/furina-1-f0425bbc.webp",
+        "bytes": 50814,
+        "width": 800,
+        "height": 440
+      },
+      "1600": {
+        "path": "previews/1600/furina-1-f0425bbc.webp",
+        "bytes": 134198,
+        "width": 1600,
+        "height": 880
+      },
+      "slug": "furina-1-f0425bbc",
+      "sourceBlob": "f0425bbce276362322ae56a1fcdd92f8a432f026",
+      "sourceWidth": 16000,
+      "sourceHeight": 8800,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Genshin Impact/Traveler/1,2.png": {
+      "420": {
+        "path": "previews/420/traveler-1-2-de48796d.webp",
+        "bytes": 17356,
+        "width": 420,
+        "height": 213
+      },
+      "800": {
+        "path": "previews/800/traveler-1-2-de48796d.webp",
+        "bytes": 41676,
+        "width": 800,
+        "height": 406
+      },
+      "1600": {
+        "path": "previews/1600/traveler-1-2-de48796d.webp",
+        "bytes": 112544,
+        "width": 1600,
+        "height": 812
+      },
+      "slug": "traveler-1-2-de48796d",
+      "sourceBlob": "de48796d38b338c35934c40caf004370afdb181a",
+      "sourceWidth": 13696,
+      "sourceHeight": 6948,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Genshin Impact/Traveler/1.png": {
+      "420": {
+        "path": "previews/420/traveler-1-44f6bd19.webp",
+        "bytes": 36530,
+        "width": 420,
+        "height": 633
+      },
+      "800": {
+        "path": "previews/800/traveler-1-44f6bd19.webp",
+        "bytes": 89012,
+        "width": 800,
+        "height": 1206
+      },
+      "1600": {
+        "path": "previews/1600/traveler-1-44f6bd19.webp",
+        "bytes": 243852,
+        "width": 1600,
+        "height": 2412
+      },
+      "slug": "traveler-1-44f6bd19",
+      "sourceBlob": "44f6bd19a444e552eff4216d65b1f86071d6c8c7",
+      "sourceWidth": 9328,
+      "sourceHeight": 14064,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Honkai Star Rail/FireFly/1.png": {
+      "420": {
+        "path": "previews/420/firefly-1-bacff0e6.webp",
+        "bytes": 34080,
+        "width": 420,
+        "height": 545
+      },
+      "800": {
+        "path": "previews/800/firefly-1-bacff0e6.webp",
+        "bytes": 84230,
+        "width": 800,
+        "height": 1039
+      },
+      "1600": {
+        "path": "previews/1600/firefly-1-bacff0e6.webp",
+        "bytes": 238086,
+        "width": 1600,
+        "height": 2078
+      },
+      "slug": "firefly-1-bacff0e6",
+      "sourceBlob": "bacff0e66f3470542b69e017985142152e995cd0",
+      "sourceWidth": 10800,
+      "sourceHeight": 14028,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Honkai Star Rail/Kafka/1.1(1).png": {
+      "420": {
+        "path": "previews/420/kafka-1-1-1-23ac67bc.webp",
+        "bytes": 37138,
+        "width": 420,
+        "height": 632
+      },
+      "800": {
+        "path": "previews/800/kafka-1-1-1-23ac67bc.webp",
+        "bytes": 85598,
+        "width": 800,
+        "height": 1204
+      },
+      "1600": {
+        "path": "previews/1600/kafka-1-1-1-23ac67bc.webp",
+        "bytes": 239022,
+        "width": 1600,
+        "height": 2408
+      },
+      "slug": "kafka-1-1-1-23ac67bc",
+      "sourceBlob": "23ac67bcd4a341ffc11ea81a25e4b9baa69f6dc5",
+      "sourceWidth": 10878,
+      "sourceHeight": 16372,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Honkai Star Rail/Robin/1.png": {
+      "420": {
+        "path": "previews/420/robin-1-6a724430.webp",
+        "bytes": 47150,
+        "width": 420,
+        "height": 967
+      },
+      "800": {
+        "path": "previews/800/robin-1-6a724430.webp",
+        "bytes": 116264,
+        "width": 800,
+        "height": 1842
+      },
+      "1600": {
+        "path": "previews/1600/robin-1-6a724430.webp",
+        "bytes": 333492,
+        "width": 1600,
+        "height": 3684
+      },
+      "slug": "robin-1-6a724430",
+      "sourceBlob": "6a72443012eb9be5958ce82d21602104320960c5",
+      "sourceWidth": 6000,
+      "sourceHeight": 13816,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Honkai Star Rail/Stelle/1.png": {
+      "420": {
+        "path": "previews/420/stelle-1-3681a852.webp",
+        "bytes": 26110,
+        "width": 420,
+        "height": 594
+      },
+      "800": {
+        "path": "previews/800/stelle-1-3681a852.webp",
+        "bytes": 59868,
+        "width": 800,
+        "height": 1132
+      },
+      "1600": {
+        "path": "previews/1600/stelle-1-3681a852.webp",
+        "bytes": 158646,
+        "width": 1600,
+        "height": 2263
+      },
+      "slug": "stelle-1-3681a852",
+      "sourceBlob": "3681a852eeccbd8325db8f8f7ebb7c957ea31ff0",
+      "sourceWidth": 9920,
+      "sourceHeight": 14032,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Mahou Shoujo ni Akogarete/Hiiragi Utena/1.png": {
+      "420": {
+        "path": "previews/420/hiiragi-utena-1-5164157a.webp",
+        "bytes": 16702,
+        "width": 420,
+        "height": 420
+      },
+      "800": {
+        "path": "previews/800/hiiragi-utena-1-5164157a.webp",
+        "bytes": 40040,
+        "width": 800,
+        "height": 800
+      },
+      "1600": {
+        "path": "previews/1600/hiiragi-utena-1-5164157a.webp",
+        "bytes": 110142,
+        "width": 1600,
+        "height": 1600
+      },
+      "slug": "hiiragi-utena-1-5164157a",
+      "sourceBlob": "5164157ae4383bfc4128042f926cfb3d4dc124fc",
+      "sourceWidth": 11200,
+      "sourceHeight": 11200,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Nier Automata/Yorha No.2 Type B (2B)/5.png": {
+      "420": {
+        "path": "previews/420/yorha-no-2-type-b-2b-5-4c8c7268.webp",
+        "bytes": 25958,
+        "width": 420,
+        "height": 611
+      },
+      "800": {
+        "path": "previews/800/yorha-no-2-type-b-2b-5-4c8c7268.webp",
+        "bytes": 54570,
+        "width": 800,
+        "height": 1164
+      },
+      "1600": {
+        "path": "previews/1600/yorha-no-2-type-b-2b-5-4c8c7268.webp",
+        "bytes": 139452,
+        "width": 1600,
+        "height": 2327
+      },
+      "slug": "yorha-no-2-type-b-2b-5-4c8c7268",
+      "sourceBlob": "4c8c7268730de55a61784e92d7aaf4144c1c2961",
+      "sourceWidth": 9167,
+      "sourceHeight": 13333,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Nier Automata/Yorha No.2 Type B (2B)/6.png": {
+      "420": {
+        "path": "previews/420/yorha-no-2-type-b-2b-6-91823206.webp",
+        "bytes": 49504,
+        "width": 420,
+        "height": 630
+      },
+      "800": {
+        "path": "previews/800/yorha-no-2-type-b-2b-6-91823206.webp",
+        "bytes": 108072,
+        "width": 800,
+        "height": 1200
+      },
+      "1600": {
+        "path": "previews/1600/yorha-no-2-type-b-2b-6-91823206.webp",
+        "bytes": 265174,
+        "width": 1600,
+        "height": 2400
+      },
+      "slug": "yorha-no-2-type-b-2b-6-91823206",
+      "sourceBlob": "9182320669d523ddb126182e52b0bbbc55418cfe",
+      "sourceWidth": 7467,
+      "sourceHeight": 11200,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/NIKKE Goddess Of Victory/Snow White/2.png": {
+      "420": {
+        "path": "previews/420/snow-white-2-0a068128.webp",
+        "bytes": 24048,
+        "width": 420,
+        "height": 630
+      },
+      "800": {
+        "path": "previews/800/snow-white-2-0a068128.webp",
+        "bytes": 54444,
+        "width": 800,
+        "height": 1200
+      },
+      "1600": {
+        "path": "previews/1600/snow-white-2-0a068128.webp",
+        "bytes": 153488,
+        "width": 1600,
+        "height": 2400
+      },
+      "slug": "snow-white-2-0a068128",
+      "sourceBlob": "0a068128453211b5646e91345a216304b1c2551b",
+      "sourceWidth": 8192,
+      "sourceHeight": 12288,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Oshi No Ko!/Ruby Hoshino/1.png": {
+      "420": {
+        "path": "previews/420/ruby-hoshino-1-84126d5f.webp",
+        "bytes": 34872,
+        "width": 420,
+        "height": 605
+      },
+      "800": {
+        "path": "previews/800/ruby-hoshino-1-84126d5f.webp",
+        "bytes": 79814,
+        "width": 800,
+        "height": 1153
+      },
+      "1600": {
+        "path": "previews/1600/ruby-hoshino-1-84126d5f.webp",
+        "bytes": 210160,
+        "width": 1600,
+        "height": 2306
+      },
+      "slug": "ruby-hoshino-1-84126d5f",
+      "sourceBlob": "84126d5f2420502257ce00ef35c2da52fe8da4fc",
+      "sourceWidth": 15819,
+      "sourceHeight": 22799,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Sousou No Frieren/Fern/1.png": {
+      "420": {
+        "path": "previews/420/fern-1-6e5994aa.webp",
+        "bytes": 31976,
+        "width": 420,
+        "height": 594
+      },
+      "800": {
+        "path": "previews/800/fern-1-6e5994aa.webp",
+        "bytes": 78324,
+        "width": 800,
+        "height": 1132
+      },
+      "1600": {
+        "path": "previews/1600/fern-1-6e5994aa.webp",
+        "bytes": 239760,
+        "width": 1600,
+        "height": 2263
+      },
+      "slug": "fern-1-6e5994aa",
+      "sourceBlob": "6e5994aa8cd612ec7e73056ab5a7b224a81ba927",
+      "sourceWidth": 11576,
+      "sourceHeight": 16372,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Zenless Zone Zero/Ellen Joe/1.png": {
+      "420": {
+        "path": "previews/420/ellen-joe-1-538f5300.webp",
+        "bytes": 23594,
+        "width": 420,
+        "height": 236
+      },
+      "800": {
+        "path": "previews/800/ellen-joe-1-538f5300.webp",
+        "bytes": 52484,
+        "width": 800,
+        "height": 450
+      },
+      "1600": {
+        "path": "previews/1600/ellen-joe-1-538f5300.webp",
+        "bytes": 135096,
+        "width": 1600,
+        "height": 900
+      },
+      "slug": "ellen-joe-1-538f5300",
+      "sourceBlob": "538f5300e1b54f62191a1ab0d7e618542a66fd3b",
+      "sourceWidth": 16116,
+      "sourceHeight": 9068,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Zenless Zone Zero/Koleda Belobog/1.png": {
+      "420": {
+        "path": "previews/420/koleda-belobog-1-d328b122.webp",
+        "bytes": 31788,
+        "width": 420,
+        "height": 252
+      },
+      "800": {
+        "path": "previews/800/koleda-belobog-1-d328b122.webp",
+        "bytes": 76446,
+        "width": 800,
+        "height": 480
+      },
+      "1600": {
+        "path": "previews/1600/koleda-belobog-1-d328b122.webp",
+        "bytes": 209162,
+        "width": 1600,
+        "height": 960
+      },
+      "slug": "koleda-belobog-1-d328b122",
+      "sourceBlob": "d328b12244aaf090458e107af03fd326cf034a57",
+      "sourceWidth": 17368,
+      "sourceHeight": 10416,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Zenless Zone Zero/Miyabi Hoshimi/1.png": {
+      "420": {
+        "path": "previews/420/miyabi-hoshimi-1-b03f16ed.webp",
+        "bytes": 25810,
+        "width": 420,
+        "height": 529
+      },
+      "800": {
+        "path": "previews/800/miyabi-hoshimi-1-b03f16ed.webp",
+        "bytes": 59866,
+        "width": 800,
+        "height": 1009
+      },
+      "1600": {
+        "path": "previews/1600/miyabi-hoshimi-1-b03f16ed.webp",
+        "bytes": 156306,
+        "width": 1600,
+        "height": 2017
+      },
+      "slug": "miyabi-hoshimi-1-b03f16ed",
+      "sourceBlob": "b03f16ed2559491e108d292bf9ff615e6f5263ba",
+      "sourceWidth": 14276,
+      "sourceHeight": 18000,
+      "status": "ok",
+      "notes": []
+    },
+    "Render 2.0/Zenless Zone Zero/Nico Demara/1.png": {
+      "420": {
+        "path": "previews/420/nico-demara-1-8e59ec0c.webp",
+        "bytes": 46466,
+        "width": 420,
+        "height": 685
+      },
+      "800": {
+        "path": "previews/800/nico-demara-1-8e59ec0c.webp",
+        "bytes": 114956,
+        "width": 800,
+        "height": 1304
+      },
+      "1600": {
+        "path": "previews/1600/nico-demara-1-8e59ec0c.webp",
+        "bytes": 317288,
+        "width": 1600,
+        "height": 2608
+      },
+      "slug": "nico-demara-1-8e59ec0c",
+      "sourceBlob": "8e59ec0cba7bc2bc4926310e13c1da3f9c88b387",
+      "sourceWidth": 8268,
+      "sourceHeight": 13476,
+      "status": "ok",
+      "notes": []
+    }
+  }
+}

@@ -11,6 +11,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           sparse-checkout: |
+            previews
             scripts
             tests
           sparse-checkout-cone-mode: true
