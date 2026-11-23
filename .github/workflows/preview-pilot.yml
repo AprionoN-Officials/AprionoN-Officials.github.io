@@ -1,9 +1,9 @@
-name: Render 2.0 — Oversized PNG Preview Pilot
+name: Render 2.0 — Oversized PNG Preview Batch
 
 on:
   push:
     branches:
-      - dev/phase-6-1b-pilot
+      - dev/phase-6-1c-batch
     paths:
       - .github/workflows/preview-pilot.yml
       - scripts/preview-pilot.sh
@@ -12,14 +12,14 @@ permissions:
   contents: read
 
 concurrency:
-  group: preview-pilot-${{ github.ref }}
+  group: preview-batch-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  pilot:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/dev/phase-6-1b-pilot'
+  batch:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/dev/phase-6-1c-batch'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - name: Minimal sparse partial checkout (no PNG blobs)
         uses: actions/checkout@v4
@@ -32,22 +32,22 @@ jobs:
           sparse-checkout-cone-mode: true
           persist-credentials: false
 
-      - name: Install ephemeral image tools (libvips-tools and GNU time)
+      - name: Install ephemeral runner tools (libvips-tools and GNU time)
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends libvips-tools time
 
-      - name: Run sequential two-image pilot with resource guardrails
+      - name: Run sequential 24-image batch with resource guardrails
         env:
           VIPS_CONCURRENCY: "1"
           VIPS_DISC_THRESHOLD: "100m"
         run: bash scripts/preview-pilot.sh
 
-      - name: Upload temporary pilot artifact (NOT public GitHub Pages)
+      - name: Upload temporary batch artifact (NOT public GitHub Pages)
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: phase6-1b-pilot-outputs
-          path: pilot-out/
+          name: phase6-1c-batch-outputs
+          path: batch-out/
           retention-days: 7
           if-no-files-found: warn
