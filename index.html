@@ -83,12 +83,35 @@ footer p{font-size:.82rem;font-weight:500;color:var(--muted)}
 .social{margin-top:10px;display:flex;justify-content:center;gap:18px;flex-wrap:wrap}
 .social a{color:var(--dark);text-decoration:none;font-size:.82rem;font-weight:600}
 .social a:hover{color:var(--blue)}
-.modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.86);align-items:center;justify-content:center;flex-direction:column;padding:30px}.modal.show{display:flex}.modal img{max-width:92%;max-height:78vh;object-fit:contain;border-radius:12px}.close{position:absolute;right:30px;top:15px;color:#fff;font-size:40px;cursor:pointer}.nav-img{position:fixed;top:50%;transform:translateY(-50%);width:48px;height:48px;border:0;border-radius:50%;background:rgba(255,255,255,.15);color:#fff;cursor:pointer}.nav-img:disabled{opacity:.25}.prev{left:20px}.next{right:20px}.caption{color:#fff;margin-top:14px;font-weight:600}
-button.close{background:transparent;border:0}.hd-btn{margin-top:10px;padding:7px 14px;border:1px solid rgba(255,255,255,.45);border-radius:999px;background:rgba(255,255,255,.14);color:#fff;font-size:.82rem;font-weight:700;cursor:pointer}.hd-btn:hover{background:rgba(255,255,255,.26)}.hd-btn[aria-pressed="true"]{background:#0284c7;border-color:#38bdf8}
+.modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(15,23,42,.44);align-items:center;justify-content:center;padding:24px}
+.modal.show{display:flex}
+.modal-panel{width:min(960px,100%);max-height:min(620px,90dvh);background:var(--surface);border:1px solid rgba(255,255,255,.92);border-radius:24px;box-shadow:0 32px 80px rgba(15,23,42,.24),0 4px 18px rgba(15,23,42,.08);padding:16px;display:grid;grid-template-columns:1.15fr .85fr;gap:0;overflow:hidden}
+.modal-stage{position:relative;min-height:380px;border-radius:16px;background:radial-gradient(circle at 50% 45%,#fff 0%,#dff2fd 54%,#bae6fd 100%);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.modal-stage img{max-width:100%;max-height:100%;width:auto;height:auto;padding:42px 56px 18px;object-fit:contain;display:block}
+#fullImage[src=""],#fullImage:not([src]){display:none}
+.modal-stage-badge{position:absolute;left:14px;top:14px;z-index:2;padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.88);border:1px solid rgba(255,255,255,.95);color:var(--dark);font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.nav-img{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:40px;height:40px;border:1px solid var(--border);border-radius:50%;background:rgba(255,255,255,.92);color:var(--text);display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 12px rgba(15,23,42,.12);transition:background-color .16s ease,transform .16s ease}
+.nav-img:hover:not(:disabled){background:var(--surface);color:var(--blue)}
+.nav-img:disabled{opacity:.35;cursor:not-allowed}
+.prev{left:12px}.next{right:12px}
+.modal-details{padding:16px 18px 18px 26px;display:flex;flex-direction:column;min-width:0;overflow-y:auto}
+.modal-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.modal-kicker{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dark);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+button.close{width:38px;height:38px;flex:none;border:1px solid var(--border);border-radius:10px;background:var(--surface-subtle);color:var(--muted);font-size:1.35rem;line-height:1;display:grid;place-items:center;cursor:pointer;transition:background-color .16s ease,color .16s ease}
+button.close:hover{background:var(--accent-soft);color:var(--dark)}
+.modal-title{margin-top:14px;font-size:1.4rem;font-weight:700;letter-spacing:-.025em;line-height:1.2;color:var(--text);overflow-wrap:anywhere}
+.modal-meta{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+.meta-tag{padding:6px 10px;border:1px solid var(--border-strong);border-radius:9px;background:var(--surface-subtle);color:var(--text-secondary);font-size:.74rem;font-weight:600}
+.modal-status{margin-top:14px;min-height:1.3em;font-size:.82rem;font-weight:600;color:var(--dark)}
+.modal-actions{margin-top:auto;padding-top:18px;display:flex;flex-direction:column;gap:10px}
+.hd-btn{width:100%;min-height:44px;padding:0 14px;border:1px solid var(--border-strong);border-radius:12px;background:var(--surface-subtle);color:var(--dark);font-size:.84rem;font-weight:600;cursor:pointer;transition:background-color .16s ease,border-color .16s ease}
+.hd-btn:hover{background:var(--accent-soft);border-color:#bae6fd}
+.hd-btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--blue);color:var(--dark)}
+.download-cta{width:100%;min-height:46px;padding:0 16px;border-radius:12px;background:var(--dark);color:#fff;font-size:.86rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 18px rgba(3,105,161,.22);transition:background-color .16s ease}
+.download-cta:hover{background:#075985}
 button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #075985;outline-offset:3px}
-.modal button:focus-visible,.modal a:focus-visible{outline-color:white}
 @media(max-width:960px){body{padding:12px}.menu-toggle{display:inline-flex}.sidebar{position:fixed;left:0;top:0;bottom:0;z-index:900;transform:translateX(-100%);visibility:hidden;pointer-events:none;transition:transform .2s ease;box-shadow:0 20px 45px rgba(15,23,42,.18)}.sidebar.open{transform:translateX(0);visibility:visible;pointer-events:auto}.sidebar-backdrop.open{display:block;position:fixed;inset:0;z-index:890;background:rgba(15,23,42,.28)}}
-@media(max-width:768px){body{padding:0;background:var(--surface)}.app-shell{border-radius:0;border:0;box-shadow:none}.app-header{padding:0 14px;height:60px}.nav-buttons .nav-btn:not(.keep-mobile){display:none}.dropdown{display:none}main.main-content{padding:18px 14px 28px}.grid,.folder-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.img-box{height:155px}.folder-cover{height:120px}.toolbar{align-items:stretch;flex-direction:column}.tools{justify-content:stretch;flex-direction:column;align-items:stretch;flex-wrap:wrap;width:100%;margin-left:0}.search,.sort,.sort select,.back-btn{width:100%}.nav-img{width:42px;height:42px}.prev{left:10px}.next{right:10px}}
+@media(max-width:768px){body{padding:0;background:var(--surface)}.app-shell{border-radius:0;border:0;box-shadow:none}.app-header{padding:0 14px;height:60px}.nav-buttons .nav-btn:not(.keep-mobile){display:none}.dropdown{display:none}main.main-content{padding:18px 14px 28px}.grid,.folder-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.img-box{height:155px}.folder-cover{height:120px}.toolbar{align-items:stretch;flex-direction:column}.tools{justify-content:stretch;flex-direction:column;align-items:stretch;flex-wrap:wrap;width:100%;margin-left:0}.search,.sort,.sort select,.back-btn{width:100%}.modal{padding:12px}.modal-panel{grid-template-columns:1fr;max-height:92dvh;overflow-y:auto;border-radius:20px;padding:12px}.modal-stage{min-height:240px;max-height:46dvh}.modal-stage img{padding:36px 50px 14px;max-height:44dvh}.modal-details{padding:16px 6px 6px;overflow-y:visible}button.close,.nav-img{min-width:44px;min-height:44px}.prev{left:8px}.next{right:8px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
 </style></head><body>
 <div class="app-shell">
@@ -150,7 +173,32 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 </div>
 <footer><p>© 2026 Apriono Nurhakim. All Rights Reserved.</p><div class="social"><a href="https://www.instagram.com/apriononurhakim_" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/ApriononurhakimOfficial" target="_blank" rel="noopener">Facebook</a><a href="https://www.deviantart.com/apriononurhakim" target="_blank" rel="noopener">DeviantArt</a><a href="https://www.youtube.com/apriononurhakim" target="_blank" rel="noopener">YouTube</a></div></footer>
 </div>
-<div id="modal" class="modal" role="dialog" aria-modal="true" aria-label="Preview render" tabindex="-1" onclick="closeModal(event)"><button type="button" class="close" aria-label="Tutup preview" onclick="closeModal()">×</button><button id="prev" aria-label="Gambar sebelumnya" class="nav-img prev" onclick="event.stopPropagation();previousImage()"><i class="fas fa-chevron-left"></i></button><img id="fullImage" alt="Preview" fetchpriority="high" decoding="async"><button id="next" aria-label="Gambar berikutnya" class="nav-img next" onclick="event.stopPropagation();nextImage()"><i class="fas fa-chevron-right"></i></button><div id="caption" class="caption"></div><p id="preview-status" class="caption" role="status"></p><button type="button" id="hd-toggle" class="hd-btn" aria-pressed="false" onclick="event.stopPropagation();toggleModalHD()">Muat HD (1600px)</button><a id="download-original" class="caption" target="_blank" rel="noopener">Download PNG Original</a></div>
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-label="Preview render" tabindex="-1" onclick="closeModal(event)">
+  <div class="modal-panel">
+    <div class="modal-stage">
+      <span id="modal-res-badge" class="modal-stage-badge">Preview 800px</span>
+      <button type="button" id="prev" aria-label="Gambar sebelumnya" class="nav-img prev" onclick="event.stopPropagation();previousImage()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+      <img id="fullImage" alt="Preview" fetchpriority="high" decoding="async">
+      <button type="button" id="next" aria-label="Gambar berikutnya" class="nav-img next" onclick="event.stopPropagation();nextImage()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+    </div>
+    <div class="modal-details">
+      <div class="modal-top">
+        <span id="modal-kicker" class="modal-kicker">Render 2.0</span>
+        <button type="button" class="close" aria-label="Tutup preview" onclick="closeModal()">×</button>
+      </div>
+      <h2 id="caption" class="modal-title"></h2>
+      <div class="modal-meta">
+        <span id="modal-counter" class="meta-tag">1 / 1</span>
+        <span id="modal-size-tag" class="meta-tag">PNG Original</span>
+      </div>
+      <p id="preview-status" class="modal-status" role="status"></p>
+      <div class="modal-actions">
+        <button type="button" id="hd-toggle" class="hd-btn" aria-pressed="false" onclick="event.stopPropagation();toggleModalHD()">Muat HD (1600px)</button>
+        <a id="download-original" class="download-cta" target="_blank" rel="noopener">Download PNG Original</a>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
 const state = {
   data: null,
@@ -1275,10 +1323,13 @@ function findCachedThumbSrc(thumbUrl) {
 
 function syncHdToggleButton() {
   const btn = document.getElementById("hd-toggle");
-  if (!btn) return;
+  const badgeEl = document.getElementById("modal-res-badge");
   const active = Boolean(state.modalHd);
-  btn.setAttribute?.("aria-pressed", active ? "true" : "false");
-  btn.textContent = active ? "Mode Standar (800px)" : "Muat HD (1600px)";
+  if (btn) {
+    btn.setAttribute?.("aria-pressed", active ? "true" : "false");
+    btn.textContent = active ? "Mode Standar (800px)" : "Muat HD (1600px)";
+  }
+  if (badgeEl) badgeEl.textContent = active ? "Preview 1600px HD" : "Preview 800px";
 }
 
 function toggleModalHD() {
@@ -1369,8 +1420,18 @@ function updateGallery() {
   const download = document.getElementById("download-original");
   download.href = raw(x.path);
   const bytes = state.data.metadata?.[x.path]?.size;
-  download.textContent = "Download PNG Original" + (bytes ? ` (${(bytes / 1000000).toFixed(1)} MB)` : "");
-  document.getElementById("caption").textContent = `${x.name} • ${state.gi + 1} / ${state.gallery.length}`;
+  const sizeLabel = bytes ? `${(bytes / 1000000).toFixed(1)} MB` : "PNG Original";
+  download.textContent = "Download PNG Original" + (bytes ? ` (${sizeLabel})` : "");
+  document.getElementById("caption").textContent = x.name;
+  const counterEl = document.getElementById("modal-counter");
+  if (counterEl) counterEl.textContent = `${state.gi + 1} / ${state.gallery.length}`;
+  const sizeEl = document.getElementById("modal-size-tag");
+  if (sizeEl) sizeEl.textContent = bytes ? `PNG ${sizeLabel}` : "PNG Original";
+  const kickerEl = document.getElementById("modal-kicker");
+  if (kickerEl) {
+    const parts = String(x.path || "").split("/").slice(1, -1);
+    kickerEl.textContent = parts.length ? parts.join(" / ") : "Render 2.0";
+  }
 
   const isSingle = state.gallery.length <= 1;
   document.getElementById("prev").disabled = isSingle;
