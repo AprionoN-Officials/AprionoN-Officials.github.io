@@ -1,0 +1,53 @@
+name: Render 2.0 — Oversized PNG Preview Pilot
+
+on:
+  push:
+    branches:
+      - dev/phase-6-1b-pilot
+    paths:
+      - .github/workflows/preview-pilot.yml
+      - scripts/preview-pilot.sh
+
+permissions:
+  contents: read
+
+concurrency:
+  group: preview-pilot-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  pilot:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/dev/phase-6-1b-pilot'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Minimal sparse partial checkout (no PNG blobs)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          filter: blob:none
+          sparse-checkout: |
+            .github/workflows
+            scripts
+          sparse-checkout-cone-mode: true
+          persist-credentials: false
+
+      - name: Install ephemeral image tools (libvips-tools and GNU time)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libvips-tools time
+
+      - name: Run sequential two-image pilot with resource guardrails
+        env:
+          VIPS_CONCURRENCY: "1"
+          VIPS_DISC_THRESHOLD: "100m"
+        run: bash scripts/preview-pilot.sh
+
+      - name: Upload temporary pilot artifact (NOT public GitHub Pages)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase6-1b-pilot-outputs
+          path: pilot-out/
+          retention-days: 7
+          if-no-files-found: warn
