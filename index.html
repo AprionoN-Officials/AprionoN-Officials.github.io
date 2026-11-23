@@ -130,7 +130,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
       <button type="button" class="nav-btn">Download <i class="fas fa-caret-down" aria-hidden="true"></i></button>
       <div class="dropdown-content">
         <a href="https://drive.google.com/drive/folders/17-8gXFzkiU0lEEDD1NJTURTjbz58oiP1?usp=drive_link" target="_blank" rel="noopener"><i class="fab fa-google-drive" aria-hidden="true"></i> Via Google Drive</a>
-        <a href="https://u.pc.cd/XsnctalK" target="_blank" rel="noopener"><i class="fas fa-cloud" aria-hidden="true"></i> Via pCloud</a>
+        <a href="http://u.pc.cd/XsnctalK" target="_blank" rel="noopener"><i class="fas fa-cloud" aria-hidden="true"></i> Via pCloud</a>
       </div>
     </div>
     <a class="nav-btn keep-mobile" href="https://ko-fi.com/apriononurhakim" target="_blank" rel="noopener">Support</a>
@@ -149,7 +149,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
     <div class="side-spacer"></div>
     <div class="side-label">Tautan</div>
     <a class="side-link" href="https://drive.google.com/drive/folders/17-8gXFzkiU0lEEDD1NJTURTjbz58oiP1?usp=drive_link" target="_blank" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span>Google Drive</span></a>
-    <a class="side-link" href="https://u.pc.cd/XsnctalK" target="_blank" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19H7a4 4 0 0 1-.4-8A5.5 5.5 0 0 1 17.3 9.5 3.5 3.5 0 0 1 17.5 19Z"/></svg><span>pCloud</span></a>
+    <a class="side-link" href="http://u.pc.cd/XsnctalK" target="_blank" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.5 19H7a4 4 0 0 1-.4-8A5.5 5.5 0 0 1 17.3 9.5 3.5 3.5 0 0 1 17.5 19Z"/></svg><span>pCloud</span></a>
     <a class="side-link" href="https://www.deviantart.com/apriononurhakim" target="_blank" rel="noopener"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg><span>DeviantArt</span></a>
     <div class="side-bottom"><span class="side-badge">PNG</span><span>Original files</span></div>
   </div>
@@ -263,7 +263,18 @@ const IMAGE_TIERS = {
   hd: { width: 1600, q: 85 }
 };
 
+function resolveStaticPreview(path, width) {
+  const map = state.data?.metadata?.[path]?.previews;
+  if (!map || typeof map !== "object") return "";
+  const rel = map[String(width)];
+  if (typeof rel !== "string") return "";
+  if (!/^previews\/(420|800|1600)\/[a-z0-9._-]+\.webp$/i.test(rel)) return "";
+  return "./" + rel;
+}
+
 function thumb(path, width = IMAGE_TIERS.card.width, q = IMAGE_TIERS.card.q) {
+  const localPreview = resolveStaticPreview(path, width);
+  if (localPreview) return localPreview;
   return "https://wsrv.nl/?url=" + encodeURIComponent(raw(path)) + "&w=" + width + "&q=" + q + "&output=webp";
 }
 
@@ -506,17 +517,49 @@ function getCover(folder) {
   return coverPath(folder);
 }
 
+const MAX_COVER_FALLBACK_TRIES = 4;
+
+function getFolderCoverCandidates(folder) {
+  if (!folder) return [];
+  const out = [];
+  const seen = new Set();
+  const add = p => {
+    if (typeof p === "string" && p && !seen.has(p)) {
+      seen.add(p);
+      out.push(p);
+    }
+  };
+  add(getCover(folder));
+  walk(folder, c => {
+    if (c.type === "image") add(c.path);
+  });
+  return out;
+}
+
 function handleCardImageError(e) {
   const img = e?.target;
   if (!img || img.tagName !== "IMG") return;
   const coverBox = img.closest?.(".folder-cover");
   if (coverBox) {
-    coverBox.innerHTML = '<i class="fas fa-folder" style="font-size:2rem;color:#0284c7"></i>';
+    const card = img.closest?.(".folder-card[data-path]");
+    const folderPath = card?.dataset?.path;
+    if (folderPath) {
+      const folder = find(folderPath);
+      const candidates = getFolderCoverCandidates(folder);
+      const prevTry = Number(img.dataset?.coverTry || 0);
+      const nextTry = prevTry + 1;
+      if (nextTry < candidates.length && nextTry <= MAX_COVER_FALLBACK_TRIES) {
+        if (img.dataset) img.dataset.coverTry = String(nextTry);
+        img.src = thumb(candidates[nextTry], IMAGE_TIERS.card.width, IMAGE_TIERS.card.q);
+        return;
+      }
+    }
+    coverBox.innerHTML = '<i class="fas fa-folder" style="font-size:2rem;color:#0284c7" aria-hidden="true"></i>';
     return;
   }
   const imgBox = img.closest?.(".img-box");
   if (imgBox) {
-    imgBox.innerHTML = '<i class="fas fa-image" style="font-size:2rem;color:#0284c7"></i>';
+    imgBox.innerHTML = '<i class="fas fa-image" style="font-size:2rem;color:#0284c7" aria-hidden="true"></i>';
   }
 }
 

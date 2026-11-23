@@ -5,7 +5,7 @@ const vm = require('node:vm');
 const os = require('node:os');
 const path = require('node:path');
 const { execFileSync } = require('node:child_process');
-const { buildCatalog } = require('../scripts/build-catalog.cjs');
+const { buildCatalog, validateAndResolvePreviews } = require('../scripts/build-catalog.cjs');
 
 function browser(options = {}) {
   const elements = new Map();
@@ -2640,4 +2640,330 @@ test('phase 6D: mobile drawer manages inert background, Tab trap, Escape dismiss
   assert.equal(body.style.overflow, 'hidden', 'modal must keep scroll locked');
   vm.runInContext('closeModalUI()', context);
   assert.equal(body.style.overflow, 'auto', 'modal close must restore original pre-lock overflow');
+});
+
+// ---------------------------------------------------------------------------
+// Phase 6.1: Recent Ordering, Multi-Image Cover Fallback & pCloud Protocol
+// ---------------------------------------------------------------------------
+test('phase 6.1: buildCatalog() honors curated recentRenderPriority with deduplication and timestamp backfill', () => {
+  const entries = [
+    { path: 'Render 2.0/S/A/1.png', size: 10 },
+    { path: 'Render 2.0/S/B/1.png', size: 20 },
+    { path: 'Render 2.0/S/C/1.png', size: 30 },
+    { path: 'Render 2.0/S/D/1.png', size: 40 },
+    { path: 'Render 2.0/S/E/1.png', size: 50 },
+    { path: 'Render 2.0/S/F/1.png', size: 60 }
+  ];
+  const dates = {
+    'Render 2.0/S/A/1.png': '2026-08-01T00:00:00.000Z',
+    'Render 2.0/S/B/1.png': '2026-08-02T00:00:00.000Z',
+    'Render 2.0/S/C/1.png': '2026-08-03T00:00:00.000Z',
+    'Render 2.0/S/D/1.png': '2026-08-04T00:00:00.000Z',
+    'Render 2.0/S/E/1.png': '2026-08-05T00:00:00.000Z',
+    'Render 2.0/S/F/1.png': '2026-08-06T00:00:00.000Z'
+  };
+  const data = buildCatalog({
+    files: [],
+    covers: {},
+    recentFolders: [],
+    recentRenderPriority: [
+      'Render 2.0/S/B/1.png',
+      'Render 2.0/S/Missing/1.png',
+      'Render 2.0/S/B/1.png',
+      'Render 2.0/S/A/1.png'
+    ]
+  }, entries, f => dates[f]);
+
+  assert.deepEqual(
+    data.recentRenders.map(x => x.path),
+    [
+      'Render 2.0/S/B/1.png',
+      'Render 2.0/S/A/1.png',
+      'Render 2.0/S/F/1.png',
+      'Render 2.0/S/E/1.png',
+      'Render 2.0/S/D/1.png'
+    ]
+  );
+});
+
+test('phase 6.1: committed index.json recentRenders matches exact 5-image priority order', () => {
+  const catalog = JSON.parse(fs.readFileSync('index.json', 'utf8'));
+  const files = new Set(catalog.files);
+  const expected = [
+    { name: 'Sunbringer', game: 'Zenless Zone Zero', path: 'Render 2.0/Zenless Zone Zero/Sunbringer/Sunbringer1.png' },
+    { name: 'Yvone', game: 'Arknights EndField', path: 'Render 2.0/Arknights EndField/Yvone/Yvone.png' },
+    { name: 'Fluorite', game: 'Arknights EndField', path: 'Render 2.0/Arknights EndField/Fluorite/1.png' },
+    { name: 'Lupa', game: 'Wuthering Waves', path: 'Render 2.0/Wuthering Waves/Lupa/1.png' },
+    { name: 'Ellen Joe', game: 'Zenless Zone Zero', path: 'Render 2.0/Zenless Zone Zero/Ellen Joe/3.png' }
+  ];
+  assert.deepEqual(catalog.recentRenders, expected);
+  assert.equal(new Set(catalog.recentRenders.map(x => x.path)).size, 5, 'no duplicate homepage cards');
+  for (const item of catalog.recentRenders) {
+    assert.ok(files.has(item.path), `missing recent render path in files: ${item.path}`);
+  }
+});
+
+test('phase 6.1: handleCardImageError() tries deterministic same-folder cover candidates via thumb() before icon fallback', () => {
+  const b = browser();
+  b.run(`
+    state.data = {
+      repository: { rawBase: 'https://example.com/' },
+      covers: {},
+      recentFolders: [],
+      recentRenders: [],
+      files: [
+        'Render 2.0/SeriesA/CharMulti/1.png',
+        'Render 2.0/SeriesA/CharMulti/2.png',
+        'Render 2.0/SeriesA/CharMulti/3.png'
+      ],
+      metadata: {}
+    };
+    state.root = buildTree(state.data.files);
+  `);
+
+  const candidates = JSON.parse(b.run('JSON.stringify(getFolderCoverCandidates(find("Render 2.0/SeriesA/CharMulti")))'));
+  assert.deepEqual(candidates, [
+    'Render 2.0/SeriesA/CharMulti/1.png',
+    'Render 2.0/SeriesA/CharMulti/2.png',
+    'Render 2.0/SeriesA/CharMulti/3.png'
+  ]);
+
+  const result = JSON.parse(b.run(`(() => {
+    const box = { innerHTML: '<img>' };
+    const card = { dataset: { path: 'Render 2.0/SeriesA/CharMulti' } };
+    const img = {
+      tagName: 'IMG',
+      src: thumb('Render 2.0/SeriesA/CharMulti/1.png', 420, 72),
+      dataset: {},
+      closest: sel => sel === '.folder-cover' ? box : (sel === '.folder-card[data-path]' ? card : null)
+    };
+    const srcs = [];
+    handleCardImageError({ target: img });
+    srcs.push(img.src);
+    handleCardImageError({ target: img });
+    srcs.push(img.src);
+    handleCardImageError({ target: img });
+    return JSON.stringify({ srcs, finalHtml: box.innerHTML, tries: img.dataset.coverTry });
+  })()`));
+
+  assert.match(result.srcs[0], /wsrv\.nl.*2\.png.*w=420/);
+  assert.match(result.srcs[1], /wsrv\.nl.*3\.png.*w=420/);
+  assert.ok(!result.srcs.some(s => s.startsWith('https://example.com/')), 'fallback must never request raw original PNG');
+  assert.match(result.finalHtml, /fa-folder/, 'falls back to folder icon after exhausting candidates');
+});
+
+test('phase 6.1: pCloud links use http://u.pc.cd/XsnctalK while unrelated external links remain https://', () => {
+  const html = fs.readFileSync('index.html', 'utf8');
+  const httpPcloud = html.match(/href="http:\/\/u\.pc\.cd\/XsnctalK"/g) || [];
+  const httpsPcloud = html.match(/href="https:\/\/u\.pc\.cd\/XsnctalK"/g) || [];
+  assert.equal(httpPcloud.length, 2, 'both header and sidebar pCloud links must use http://u.pc.cd/XsnctalK');
+  assert.equal(httpsPcloud.length, 0, 'no https://u.pc.cd/XsnctalK links should remain');
+  assert.match(html, /href="https:\/\/drive\.google\.com\//);
+  assert.match(html, /href="https:\/\/www\.deviantart\.com\/apriononurhakim"/);
+  assert.match(html, /href="https:\/\/ko-fi\.com\/apriononurhakim"/);
+});
+
+// ---------------------------------------------------------------------------
+// Phase 6.1D: Static WebP Preview Integration, Validation & Publishing
+// ---------------------------------------------------------------------------
+test('phase 6.1D: previews/manifest.json and committed index.json contain 24 valid source mappings and 72 verified WebPs', () => {
+  const manifest = JSON.parse(fs.readFileSync('previews/manifest.json', 'utf8'));
+  const catalog = JSON.parse(fs.readFileSync('index.json', 'utf8'));
+  const files = new Set(catalog.files);
+  const entries = Object.entries(manifest.entries || {});
+
+  assert.equal(manifest.totalSources, 24);
+  assert.equal(manifest.totalWebpOutputs, 72);
+  assert.equal(entries.length, 24, 'manifest must map exactly 24 unique oversized PNGs');
+
+  const seenWebps = new Set();
+  const catalogPreviewCount = Object.values(catalog.metadata).filter(m => m && m.previews).length;
+  assert.equal(catalogPreviewCount, 24, 'index.json metadata must attach previews to exactly 24 entries');
+
+  for (const [srcPath, item] of entries) {
+    assert.ok(files.has(srcPath), `source path missing from index.json files: ${srcPath}`);
+    assert.equal(item.status, 'ok');
+    const metaPrev = catalog.metadata[srcPath]?.previews;
+    assert.ok(metaPrev, `missing metadata.previews for ${srcPath}`);
+
+    for (const tier of ['420', '800', '1600']) {
+      const t = item[tier];
+      assert.ok(t && typeof t.path === 'string', `missing tier ${tier} for ${srcPath}`);
+      assert.match(t.path, new RegExp(`^previews/${tier}/[a-z0-9._-]+\\.webp$`));
+      assert.equal(metaPrev[tier], t.path, `index.json mismatch for ${srcPath} [${tier}]`);
+      assert.ok(!seenWebps.has(t.path), `duplicate preview path: ${t.path}`);
+      seenWebps.add(t.path);
+      assert.ok(fs.existsSync(t.path), `missing preview file on disk: ${t.path}`);
+      const stat = fs.statSync(t.path);
+      assert.equal(stat.size, t.bytes, `size mismatch on disk for ${t.path}`);
+      const hdr = Buffer.alloc(12);
+      const fd = fs.openSync(t.path, 'r');
+      fs.readSync(fd, hdr, 0, 12, 0);
+      fs.closeSync(fd);
+      assert.equal(hdr.slice(0, 4).toString('ascii'), 'RIFF');
+      assert.equal(hdr.slice(8, 12).toString('ascii'), 'WEBP');
+    }
+  }
+  assert.equal(seenWebps.size, 72);
+});
+
+test('phase 6.1D: validateAndResolvePreviews() rejects traversal, external URLs, unknown sources, duplicates, bad tiers, and OID mismatches', () => {
+  const entries = [
+    { path: 'Render 2.0/S/A/1.png', oid: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', size: 100 },
+    { path: 'Render 2.0/S/B/1.png', oid: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', size: 200 },
+    { path: 'previews/420/a.webp', size: 10 },
+    { path: 'previews/800/a.webp', size: 20 },
+    { path: 'previews/1600/a.webp', size: 30 }
+  ];
+
+  // Valid case
+  const ok = validateAndResolvePreviews({
+    entries: {
+      'Render 2.0/S/A/1.png': {
+        sourceBlob: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        '420': { path: 'previews/420/a.webp' },
+        '800': { path: 'previews/800/a.webp' },
+        '1600': { path: 'previews/1600/a.webp' }
+      }
+    }
+  }, entries);
+  assert.equal(ok.get('Render 2.0/S/A/1.png')['800'], 'previews/800/a.webp');
+
+  // Unknown source path
+  assert.throws(() => validateAndResolvePreviews({
+    entries: { 'Render 2.0/S/Nope/1.png': { '420': 'previews/420/a.webp', '800': 'previews/800/a.webp', '1600': 'previews/1600/a.webp' } }
+  }, entries), /Unknown preview manifest source path/);
+
+  // Path traversal
+  assert.throws(() => validateAndResolvePreviews({
+    entries: { 'Render 2.0/S/A/1.png': { '420': 'previews/420/../secret.webp', '800': 'previews/800/a.webp', '1600': 'previews/1600/a.webp' } }
+  }, entries), /Invalid preview path/);
+
+  // External URL
+  assert.throws(() => validateAndResolvePreviews({
+    entries: { 'Render 2.0/S/A/1.png': { '420': 'https://evil.example/a.webp', '800': 'previews/800/a.webp', '1600': 'previews/1600/a.webp' } }
+  }, entries), /Invalid preview path/);
+
+  // Missing file
+  assert.throws(() => validateAndResolvePreviews({
+    entries: { 'Render 2.0/S/A/1.png': { '420': 'previews/420/missing.webp', '800': 'previews/800/a.webp', '1600': 'previews/1600/a.webp' } }
+  }, entries), /Missing static preview file/);
+
+  // Duplicate output across two entries
+  assert.throws(() => validateAndResolvePreviews({
+    entries: {
+      'Render 2.0/S/A/1.png': { '420': 'previews/420/a.webp', '800': 'previews/800/a.webp', '1600': 'previews/1600/a.webp' },
+      'Render 2.0/S/B/1.png': { '420': 'previews/420/a.webp', '800': 'previews/800/a.webp', '1600': 'previews/1600/a.webp' }
+    }
+  }, entries), /Duplicate preview output path/);
+
+  // Blob OID mismatch
+  assert.throws(() => validateAndResolvePreviews({
+    entries: { 'Render 2.0/S/A/1.png': { sourceBlob: 'cccccccccccccccccccccccccccccccccccccccc', '420': 'previews/420/a.webp', '800': 'previews/800/a.webp', '1600': 'previews/1600/a.webp' } }
+  }, entries), /blob OID mismatch/i);
+
+  // Invalid tier key
+  assert.throws(() => validateAndResolvePreviews({
+    entries: { 'Render 2.0/S/A/1.png': { '420': 'previews/420/a.webp', '800': 'previews/800/a.webp', '1600': 'previews/1600/a.webp', '999': 'previews/420/a.webp' } }
+  }, entries), /Invalid preview tier/);
+});
+
+test('phase 6.1D: thumb() resolves static previews for oversized PNGs, preserves wsrv.nl for healthy PNGs, and leaves raw() unchanged', () => {
+  const b = browser();
+  const catalog = JSON.parse(fs.readFileSync('index.json', 'utf8'));
+  b.run('state.data = ' + JSON.stringify(catalog));
+  b.run('state.root = buildTree(state.data.files)');
+
+  // Oversized PNG -> local static WebP across all 3 tiers
+  const ff = 'Render 2.0/Honkai Star Rail/FireFly/1.png';
+  assert.match(b.run(`thumb(${JSON.stringify(ff)}, 420, 72)`), /^\.\/previews\/420\/firefly-1-[a-f0-9]{8}\.webp$/);
+  assert.match(b.run(`thumb(${JSON.stringify(ff)}, 800, 78)`), /^\.\/previews\/800\/firefly-1-[a-f0-9]{8}\.webp$/);
+  assert.match(b.run(`thumb(${JSON.stringify(ff)}, 1600, 85)`), /^\.\/previews\/1600\/firefly-1-[a-f0-9]{8}\.webp$/);
+  // Original download URL remains untouched GitHub raw
+  assert.match(b.run(`raw(${JSON.stringify(ff)})`), /^https:\/\/raw\.githubusercontent\.com\/.*FireFly\/1\.png$/);
+
+  // Healthy PNG -> unchanged wsrv.nl
+  const sun = 'Render 2.0/Zenless Zone Zero/Sunbringer/Sunbringer1.png';
+  assert.match(b.run(`thumb(${JSON.stringify(sun)}, 420, 72)`), /^https:\/\/wsrv\.nl\/.*w=420/);
+  assert.match(b.run(`thumb(${JSON.stringify(sun)}, 800, 78)`), /^https:\/\/wsrv\.nl\/.*w=800/);
+  assert.match(b.run(`thumb(${JSON.stringify(sun)}, 1600, 85)`), /^https:\/\/wsrv\.nl\/.*w=1600/);
+
+  // Unsafe preview value in metadata falls back cleanly to wsrv.nl (never injects external/traversal path)
+  b.run(`state.data.metadata[${JSON.stringify(sun)}].previews = { '420': 'https://evil.example/x.webp' }`);
+  assert.match(b.run(`thumb(${JSON.stringify(sun)}, 420, 72)`), /^https:\/\/wsrv\.nl\//);
+
+  // All 11 previously unresolved character folders now resolve to local ./previews/420/*.webp
+  const elevenFolders = [
+    'Render 2.0/Dandadan/Ayase Momo',
+    'Render 2.0/Fate Series/Rider (Medusa)',
+    'Render 2.0/Genshin Impact/Chlorinde',
+    'Render 2.0/Genshin Impact/Furina',
+    'Render 2.0/Genshin Impact/Traveler',
+    'Render 2.0/Honkai Star Rail/FireFly',
+    'Render 2.0/Honkai Star Rail/Robin',
+    'Render 2.0/Honkai Star Rail/Stelle',
+    'Render 2.0/Mahou Shoujo ni Akogarete/Hiiragi Utena',
+    'Render 2.0/Sousou No Frieren/Fern',
+    'Render 2.0/Zenless Zone Zero/Koleda Belobog'
+  ];
+  for (const fp of elevenFolders) {
+    const coverUrl = b.run(`thumb(getCover(find(${JSON.stringify(fp)})), 420, 72)`);
+    assert.match(coverUrl, /^\.\/previews\/420\/[a-z0-9._-]+\.webp$/, `unresolved cover for ${fp}: ${coverUrl}`);
+  }
+
+  // Six Phase 6.1A alternate cover overrides remain preserved
+  const sixOverrides = {
+    'Render 2.0/Genshin Impact/Arlecchino': 'Render 2.0/Genshin Impact/Arlecchino/2.png',
+    'Render 2.0/Genshin Impact/Eula Lawrence': 'Render 2.0/Genshin Impact/Eula Lawrence/2.png',
+    'Render 2.0/Honkai Star Rail/Kafka': 'Render 2.0/Honkai Star Rail/Kafka/3.png',
+    'Render 2.0/Oshi No Ko!/Ruby Hoshino': 'Render 2.0/Oshi No Ko!/Ruby Hoshino/2.png',
+    'Render 2.0/Zenless Zone Zero/Ellen Joe': 'Render 2.0/Zenless Zone Zero/Ellen Joe/2.png',
+    'Render 2.0/Zenless Zone Zero/Miyabi Hoshimi': 'Render 2.0/Zenless Zone Zero/Miyabi Hoshimi/2.png'
+  };
+  for (const [fp, expectedCover] of Object.entries(sixOverrides)) {
+    assert.equal(b.run(`getCover(find(${JSON.stringify(fp)}))`), expectedCover);
+  }
+});
+
+test('phase 6.1D: buildCatalog() preserves Phase 6.1A priority, covers, and static previews across rebuilds', () => {
+  const data = {
+    files: [],
+    covers: { 'S/Multi': 'Render 2.0/S/Multi/2.png' },
+    recentFolders: [],
+    recentRenderPriority: ['Render 2.0/S/Multi/2.png', 'Render 2.0/S/Big/1.png']
+  };
+  const entries = [
+    { path: 'Render 2.0/S/Big/1.png', oid: '1111111111111111111111111111111111111111', size: 50000000 },
+    { path: 'Render 2.0/S/Multi/1.png', oid: '2222222222222222222222222222222222222222', size: 1000000 },
+    { path: 'Render 2.0/S/Multi/2.png', oid: '3333333333333333333333333333333333333333', size: 2000000 },
+    { path: 'previews/420/big-1.webp', size: 20000 },
+    { path: 'previews/800/big-1.webp', size: 60000 },
+    { path: 'previews/1600/big-1.webp', size: 180000 }
+  ];
+  const manifest = {
+    entries: {
+      'Render 2.0/S/Big/1.png': {
+        sourceBlob: '1111111111111111111111111111111111111111',
+        '420': { path: 'previews/420/big-1.webp' },
+        '800': { path: 'previews/800/big-1.webp' },
+        '1600': { path: 'previews/1600/big-1.webp' }
+      }
+    }
+  };
+  const out = buildCatalog(data, entries, () => '2026-09-01T00:00:00.000Z', { previewManifest: manifest });
+  assert.deepEqual(out.metadata['Render 2.0/S/Big/1.png'].previews, {
+    '420': 'previews/420/big-1.webp',
+    '800': 'previews/800/big-1.webp',
+    '1600': 'previews/1600/big-1.webp'
+  });
+  assert.equal(out.metadata['Render 2.0/S/Multi/2.png'].previews, undefined);
+  assert.deepEqual(out.recentRenders.slice(0, 2).map(x => x.path), ['Render 2.0/S/Multi/2.png', 'Render 2.0/S/Big/1.png']);
+  assert.equal(out.covers['S/Multi'], 'Render 2.0/S/Multi/2.png');
+});
+
+test('phase 6.1D: GitHub Pages and CI workflows stage and check out previews/', () => {
+  const deployYml = fs.readFileSync('.github/workflows/jekyll-docker.yml', 'utf8');
+  const checksYml = fs.readFileSync('.github/workflows/checks.yml', 'utf8');
+  assert.match(deployYml, /cp -r previews _site\//, 'jekyll-docker.yml must copy previews/ into _site/');
+  assert.match(checksYml, /sparse-checkout:[\s\S]*previews/, 'checks.yml sparse-checkout must include previews');
 });

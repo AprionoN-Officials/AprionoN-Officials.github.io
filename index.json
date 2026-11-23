@@ -6,6 +6,13 @@
     "branch": "root",
     "rawBase": "https://raw.githubusercontent.com/AprionoN-Officials/AprionoN-Officials.github.io/root/"
   },
+  "recentRenderPriority": [
+    "Render 2.0/Zenless Zone Zero/Sunbringer/Sunbringer1.png",
+    "Render 2.0/Arknights EndField/Yvone/Yvone.png",
+    "Render 2.0/Arknights EndField/Fluorite/1.png",
+    "Render 2.0/Wuthering Waves/Lupa/1.png",
+    "Render 2.0/Zenless Zone Zero/Ellen Joe/3.png"
+  ],
   "recentRenders": [
     {
       "name": "Sunbringer",
@@ -13,24 +20,24 @@
       "path": "Render 2.0/Zenless Zone Zero/Sunbringer/Sunbringer1.png"
     },
     {
-      "name": "Archeron",
-      "game": "Honkai Star Rail",
-      "path": "Render 2.0/Honkai Star Rail/Archeron/2.png"
+      "name": "Yvone",
+      "game": "Arknights EndField",
+      "path": "Render 2.0/Arknights EndField/Yvone/Yvone.png"
     },
     {
-      "name": "Asta",
-      "game": "Honkai Star Rail",
-      "path": "Render 2.0/Honkai Star Rail/Asta/1.png"
+      "name": "Fluorite",
+      "game": "Arknights EndField",
+      "path": "Render 2.0/Arknights EndField/Fluorite/1.png"
     },
     {
-      "name": "Clara",
-      "game": "Honkai Star Rail",
-      "path": "Render 2.0/Honkai Star Rail/Clara/1.png"
+      "name": "Lupa",
+      "game": "Wuthering Waves",
+      "path": "Render 2.0/Wuthering Waves/Lupa/1.png"
     },
     {
-      "name": "FireFly",
-      "game": "Honkai Star Rail",
-      "path": "Render 2.0/Honkai Star Rail/FireFly/1.png"
+      "name": "Ellen Joe",
+      "game": "Zenless Zone Zero",
+      "path": "Render 2.0/Zenless Zone Zero/Ellen Joe/3.png"
     }
   ],
   "recentFolders": [
@@ -98,7 +105,13 @@
     "Virtual Youtuber (Vtuber)": "cover/Vtuber.jpg",
     "Vocaloid": "cover/Vocaloid.jpg",
     "Wuthering Waves": "cover/Wuthering Waves.jpg",
-    "Zenless Zone Zero": "cover/Zenless Zone Zero.jpg"
+    "Zenless Zone Zero": "cover/Zenless Zone Zero.jpg",
+    "Genshin Impact/Arlecchino": "Render 2.0/Genshin Impact/Arlecchino/2.png",
+    "Genshin Impact/Eula Lawrence": "Render 2.0/Genshin Impact/Eula Lawrence/2.png",
+    "Honkai Star Rail/Kafka": "Render 2.0/Honkai Star Rail/Kafka/3.png",
+    "Oshi No Ko!/Ruby Hoshino": "Render 2.0/Oshi No Ko!/Ruby Hoshino/2.png",
+    "Zenless Zone Zero/Ellen Joe": "Render 2.0/Zenless Zone Zero/Ellen Joe/2.png",
+    "Zenless Zone Zero/Miyabi Hoshimi": "Render 2.0/Zenless Zone Zero/Miyabi Hoshimi/2.png"
   },
   "files": [
     "Render 2.0/Arknights EndField/Fluorite/1.png",
@@ -271,7 +284,12 @@
     },
     "Render 2.0/Attack On Titan/Mikasa Ackerman/2.png": {
       "size": 27399998,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/mikasa-ackerman-2-6d1bf987.webp",
+        "800": "previews/800/mikasa-ackerman-2-6d1bf987.webp",
+        "1600": "previews/1600/mikasa-ackerman-2-6d1bf987.webp"
+      }
     },
     "Render 2.0/Blue Archive/Karin Kakudate/1.png": {
       "size": 1556459,
@@ -319,7 +337,12 @@
     },
     "Render 2.0/Dandadan/Ayase Momo/1.png": {
       "size": 35773168,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/ayase-momo-1-48cab6f1.webp",
+        "800": "previews/800/ayase-momo-1-48cab6f1.webp",
+        "1600": "previews/1600/ayase-momo-1-48cab6f1.webp"
+      }
     },
     "Render 2.0/Dandadan/Ayase Seiko/1.png": {
       "size": 2457304,
@@ -359,11 +382,21 @@
     },
     "Render 2.0/Fate Series/Rider (Medusa)/1.png": {
       "size": 21365321,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/rider-medusa-1-88d28cf8.webp",
+        "800": "previews/800/rider-medusa-1-88d28cf8.webp",
+        "1600": "previews/1600/rider-medusa-1-88d28cf8.webp"
+      }
     },
     "Render 2.0/Genshin Impact/Arlecchino/1.png": {
       "size": 42759351,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/arlecchino-1-98215910.webp",
+        "800": "previews/800/arlecchino-1-98215910.webp",
+        "1600": "previews/1600/arlecchino-1-98215910.webp"
+      }
     },
     "Render 2.0/Genshin Impact/Arlecchino/2.png": {
       "size": 25980461,
@@ -371,15 +404,30 @@
     },
     "Render 2.0/Genshin Impact/Arlecchino/3.png": {
       "size": 31170915,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/arlecchino-3-88b0d0a6.webp",
+        "800": "previews/800/arlecchino-3-88b0d0a6.webp",
+        "1600": "previews/1600/arlecchino-3-88b0d0a6.webp"
+      }
     },
     "Render 2.0/Genshin Impact/Chlorinde/1.png": {
       "size": 67153312,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/chlorinde-1-ee710bfa.webp",
+        "800": "previews/800/chlorinde-1-ee710bfa.webp",
+        "1600": "previews/1600/chlorinde-1-ee710bfa.webp"
+      }
     },
     "Render 2.0/Genshin Impact/Eula Lawrence/1.png": {
       "size": 45558742,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/eula-lawrence-1-f56de1a3.webp",
+        "800": "previews/800/eula-lawrence-1-f56de1a3.webp",
+        "1600": "previews/1600/eula-lawrence-1-f56de1a3.webp"
+      }
     },
     "Render 2.0/Genshin Impact/Eula Lawrence/2.png": {
       "size": 17355623,
@@ -391,7 +439,12 @@
     },
     "Render 2.0/Genshin Impact/Furina/1.png": {
       "size": 49446478,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/furina-1-f0425bbc.webp",
+        "800": "previews/800/furina-1-f0425bbc.webp",
+        "1600": "previews/1600/furina-1-f0425bbc.webp"
+      }
     },
     "Render 2.0/Genshin Impact/Kirara/1.png": {
       "size": 2258384,
@@ -407,11 +460,21 @@
     },
     "Render 2.0/Genshin Impact/Traveler/1,2.png": {
       "size": 42302726,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/traveler-1-2-de48796d.webp",
+        "800": "previews/800/traveler-1-2-de48796d.webp",
+        "1600": "previews/1600/traveler-1-2-de48796d.webp"
+      }
     },
     "Render 2.0/Genshin Impact/Traveler/1.png": {
       "size": 56454180,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/traveler-1-44f6bd19.webp",
+        "800": "previews/800/traveler-1-44f6bd19.webp",
+        "1600": "previews/1600/traveler-1-44f6bd19.webp"
+      }
     },
     "Render 2.0/Genshin Impact/Yae Miko/1.png": {
       "size": 1474811,
@@ -463,7 +526,12 @@
     },
     "Render 2.0/Honkai Star Rail/FireFly/1.png": {
       "size": 42909962,
-      "updatedAt": "2026-08-30T11:57:09.000Z"
+      "updatedAt": "2026-08-30T11:57:09.000Z",
+      "previews": {
+        "420": "previews/420/firefly-1-bacff0e6.webp",
+        "800": "previews/800/firefly-1-bacff0e6.webp",
+        "1600": "previews/1600/firefly-1-bacff0e6.webp"
+      }
     },
     "Render 2.0/Honkai Star Rail/Herta/1.png": {
       "size": 2403356,
@@ -471,7 +539,12 @@
     },
     "Render 2.0/Honkai Star Rail/Kafka/1.1(1).png": {
       "size": 50058130,
-      "updatedAt": "2026-08-30T11:57:09.000Z"
+      "updatedAt": "2026-08-30T11:57:09.000Z",
+      "previews": {
+        "420": "previews/420/kafka-1-1-1-23ac67bc.webp",
+        "800": "previews/800/kafka-1-1-1-23ac67bc.webp",
+        "1600": "previews/1600/kafka-1-1-1-23ac67bc.webp"
+      }
     },
     "Render 2.0/Honkai Star Rail/Kafka/3.png": {
       "size": 3309611,
@@ -495,7 +568,12 @@
     },
     "Render 2.0/Honkai Star Rail/Robin/1.png": {
       "size": 30970695,
-      "updatedAt": "2026-08-30T11:57:09.000Z"
+      "updatedAt": "2026-08-30T11:57:09.000Z",
+      "previews": {
+        "420": "previews/420/robin-1-6a724430.webp",
+        "800": "previews/800/robin-1-6a724430.webp",
+        "1600": "previews/1600/robin-1-6a724430.webp"
+      }
     },
     "Render 2.0/Honkai Star Rail/Silver Wolf/1.png": {
       "size": 18264606,
@@ -503,7 +581,12 @@
     },
     "Render 2.0/Honkai Star Rail/Stelle/1.png": {
       "size": 28485440,
-      "updatedAt": "2026-08-30T11:57:09.000Z"
+      "updatedAt": "2026-08-30T11:57:09.000Z",
+      "previews": {
+        "420": "previews/420/stelle-1-3681a852.webp",
+        "800": "previews/800/stelle-1-3681a852.webp",
+        "1600": "previews/1600/stelle-1-3681a852.webp"
+      }
     },
     "Render 2.0/Honkai Star Rail/Sushang/1.png": {
       "size": 2311611,
@@ -547,7 +630,12 @@
     },
     "Render 2.0/Mahou Shoujo ni Akogarete/Hiiragi Utena/1.png": {
       "size": 26040971,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/hiiragi-utena-1-5164157a.webp",
+        "800": "previews/800/hiiragi-utena-1-5164157a.webp",
+        "1600": "previews/1600/hiiragi-utena-1-5164157a.webp"
+      }
     },
     "Render 2.0/NIKKE Goddess Of Victory/Alice/1.png": {
       "size": 5996358,
@@ -567,7 +655,12 @@
     },
     "Render 2.0/NIKKE Goddess Of Victory/Snow White/2.png": {
       "size": 33088430,
-      "updatedAt": "2026-08-30T11:57:09.000Z"
+      "updatedAt": "2026-08-30T11:57:09.000Z",
+      "previews": {
+        "420": "previews/420/snow-white-2-0a068128.webp",
+        "800": "previews/800/snow-white-2-0a068128.webp",
+        "1600": "previews/1600/snow-white-2-0a068128.webp"
+      }
     },
     "Render 2.0/Nazo No Kanojo X/Urabe Mikoto/1.png": {
       "size": 1887101,
@@ -591,11 +684,21 @@
     },
     "Render 2.0/Nier Automata/Yorha No.2 Type B (2B)/5.png": {
       "size": 21950921,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/yorha-no-2-type-b-2b-5-4c8c7268.webp",
+        "800": "previews/800/yorha-no-2-type-b-2b-5-4c8c7268.webp",
+        "1600": "previews/1600/yorha-no-2-type-b-2b-5-4c8c7268.webp"
+      }
     },
     "Render 2.0/Nier Automata/Yorha No.2 Type B (2B)/6.png": {
       "size": 17667808,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/yorha-no-2-type-b-2b-6-91823206.webp",
+        "800": "previews/800/yorha-no-2-type-b-2b-6-91823206.webp",
+        "1600": "previews/1600/yorha-no-2-type-b-2b-6-91823206.webp"
+      }
     },
     "Render 2.0/Nier Automata/Yorha No.2 Type B (2B)/7.png": {
       "size": 2983389,
@@ -623,7 +726,12 @@
     },
     "Render 2.0/Oshi No Ko!/Ruby Hoshino/1.png": {
       "size": 46617407,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/ruby-hoshino-1-84126d5f.webp",
+        "800": "previews/800/ruby-hoshino-1-84126d5f.webp",
+        "1600": "previews/1600/ruby-hoshino-1-84126d5f.webp"
+      }
     },
     "Render 2.0/Oshi No Ko!/Ruby Hoshino/2.png": {
       "size": 729378,
@@ -651,7 +759,12 @@
     },
     "Render 2.0/Sousou No Frieren/Fern/1.png": {
       "size": 61663729,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/fern-1-6e5994aa.webp",
+        "800": "previews/800/fern-1-6e5994aa.webp",
+        "1600": "previews/1600/fern-1-6e5994aa.webp"
+      }
     },
     "Render 2.0/Sousou No Frieren/Frieren/1.png": {
       "size": 19557226,
@@ -763,7 +876,12 @@
     },
     "Render 2.0/Zenless Zone Zero/Ellen Joe/1.png": {
       "size": 37888696,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/ellen-joe-1-538f5300.webp",
+        "800": "previews/800/ellen-joe-1-538f5300.webp",
+        "1600": "previews/1600/ellen-joe-1-538f5300.webp"
+      }
     },
     "Render 2.0/Zenless Zone Zero/Ellen Joe/2.png": {
       "size": 7694425,
@@ -787,11 +905,21 @@
     },
     "Render 2.0/Zenless Zone Zero/Koleda Belobog/1.png": {
       "size": 63385845,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/koleda-belobog-1-d328b122.webp",
+        "800": "previews/800/koleda-belobog-1-d328b122.webp",
+        "1600": "previews/1600/koleda-belobog-1-d328b122.webp"
+      }
     },
     "Render 2.0/Zenless Zone Zero/Miyabi Hoshimi/1.png": {
       "size": 44323475,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/miyabi-hoshimi-1-b03f16ed.webp",
+        "800": "previews/800/miyabi-hoshimi-1-b03f16ed.webp",
+        "1600": "previews/1600/miyabi-hoshimi-1-b03f16ed.webp"
+      }
     },
     "Render 2.0/Zenless Zone Zero/Miyabi Hoshimi/2.png": {
       "size": 15390193,
@@ -803,7 +931,12 @@
     },
     "Render 2.0/Zenless Zone Zero/Nico Demara/1.png": {
       "size": 58841605,
-      "updatedAt": "2026-08-28T06:21:44.000Z"
+      "updatedAt": "2026-08-28T06:21:44.000Z",
+      "previews": {
+        "420": "previews/420/nico-demara-1-8e59ec0c.webp",
+        "800": "previews/800/nico-demara-1-8e59ec0c.webp",
+        "1600": "previews/1600/nico-demara-1-8e59ec0c.webp"
+      }
     },
     "Render 2.0/Zenless Zone Zero/Pulchra Fellini/1.png": {
       "size": 8543435,

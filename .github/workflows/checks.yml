@@ -11,6 +11,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           sparse-checkout: |
+            .github/workflows
+            previews
             scripts
             tests
           sparse-checkout-cone-mode: true
