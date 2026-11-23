@@ -2475,3 +2475,169 @@ test('phase 5D: bounded retry runs at most once and respects Phase 5C sequence c
   assert.match(b.el('preview-status').textContent, /gagal dimuat/);
   assert.equal(b.timers.size, 0);
 });
+
+// ---------------------------------------------------------------------------
+// Phase 6D: Accessible Mobile Drawer, Focus Containment & Scroll Lock Safety
+// ---------------------------------------------------------------------------
+test('phase 6D: mobile drawer manages inert background, Tab trap, Escape dismissal, and focus restoration', () => {
+  const docListeners = new Map();
+  const makeEl = (id, opts = {}) => {
+    const classSet = new Set(opts.classes || []);
+    const attrs = new Map(Object.entries(opts.attrs || {}));
+    const el = {
+      id,
+      tagName: opts.tagName || 'DIV',
+      value: '',
+      innerHTML: '',
+      textContent: '',
+      src: '',
+      href: opts.href || '',
+      inert: Boolean(opts.inert),
+      disabled: false,
+      hidden: false,
+      isConnected: true,
+      parentElement: null,
+      style: { display: 'block', visibility: 'visible' },
+      classList: {
+        add(c) { classSet.add(c); },
+        remove(c) { classSet.delete(c); },
+        toggle(c, force) { const next = typeof force === 'boolean' ? force : !classSet.has(c); next ? classSet.add(c) : classSet.delete(c); return next; },
+        contains(c) { return classSet.has(c); }
+      },
+      getAttribute(k) { return attrs.has(k) ? attrs.get(k) : null; },
+      setAttribute(k, v) { attrs.set(k, String(v)); },
+      removeAttribute(k) { attrs.delete(k); },
+      hasAttribute(k) { return attrs.has(k); },
+      closest(sel) {
+        for (let cur = el; cur; cur = cur.parentElement) {
+          if (sel === '[inert]' && cur.inert) return cur;
+          if (sel === '[hidden]' && cur.hidden) return cur;
+        }
+        return null;
+      },
+      contains(target) {
+        for (let cur = target; cur; cur = cur.parentElement) {
+          if (cur === el) return true;
+        }
+        return false;
+      },
+      getClientRects() { return [{ width: 20, height: 20 }]; },
+      querySelectorAll(sel) {
+        if (el === sidebar && sel.includes('a[href]')) return [drawerClose, navHome, navBrowse];
+        return [];
+      },
+      addEventListener() {},
+      focus() {
+        for (let cur = el; cur; cur = cur.parentElement) { if (cur.inert) return; }
+        doc.activeElement = el;
+      }
+    };
+    return el;
+  };
+
+  const header = makeEl('app-header');
+  const menuToggle = makeEl('menu-toggle', { tagName: 'BUTTON', attrs: { 'aria-expanded': 'false' } });
+  menuToggle.parentElement = header;
+  const main = makeEl('main-content');
+  const footer = makeEl('footer');
+  const backdrop = makeEl('sidebar-backdrop');
+  const sidebar = makeEl('app-sidebar', { tagName: 'ASIDE', attrs: { tabindex: '-1' } });
+  const drawerClose = makeEl('drawer-close', { tagName: 'BUTTON' });
+  const navHome = makeEl('nav-home', { tagName: 'BUTTON' });
+  const navBrowse = makeEl('nav-browse', { tagName: 'BUTTON' });
+  for (const c of [drawerClose, navHome, navBrowse]) c.parentElement = sidebar;
+
+  const modal = makeEl('modal', { attrs: { tabindex: '-1' } });
+  const closeBtn = makeEl('modal-close', { tagName: 'BUTTON' });
+  const body = { style: { overflow: 'auto' }, children: [header, main, footer, modal] };
+
+  const byId = new Map([
+    ['app-sidebar', sidebar], ['sidebar-backdrop', backdrop], ['menu-toggle', menuToggle],
+    ['drawer-close', drawerClose], ['nav-home', navHome], ['nav-browse', navBrowse],
+    ['modal', modal], ['fullImage', makeEl('fullImage')], ['preview-status', makeEl('preview-status')],
+    ['caption', makeEl('caption')], ['download-original', makeEl('download-original')],
+    ['prev', makeEl('prev')], ['next', makeEl('next')], ['browser-search', makeEl('browser-search')],
+    ['browser-sort', makeEl('browser-sort')], ['home-view', makeEl('home-view')], ['folder-view', makeEl('folder-view')]
+  ]);
+
+  const doc = {
+    body,
+    activeElement: menuToggle,
+    getElementById: id => byId.get(id) || makeEl(id),
+    querySelector: sel => {
+      if (sel === '.app-header') return header;
+      if (sel === 'main.main-content') return main;
+      if (sel === 'footer') return footer;
+      if (sel === '.close') return closeBtn;
+      return null;
+    },
+    querySelectorAll: () => [],
+    addEventListener(evt, fn) {
+      if (!docListeners.has(evt)) docListeners.set(evt, []);
+      docListeners.get(evt).push(fn);
+    },
+    contains: () => true
+  };
+  const win = {
+    history: { state: null, replaceState(s) { win.history.state = s; }, pushState(s) { win.history.state = s; }, back() {} },
+    scrollTo() {},
+    scrollY: 0,
+    location: { href: 'http://localhost/' },
+    setTimeout,
+    clearTimeout,
+    getComputedStyle: el => el.style,
+    addEventListener() {}
+  };
+
+  const context = vm.createContext({ document: doc, window: win, fetch: () => new Promise(() => {}) });
+  const html = fs.readFileSync('index.html', 'utf8');
+  vm.runInContext(html.match(/<script>([\s\S]*?)<\/script>/)[1], context);
+  vm.runInContext(`state.data = { repository: { rawBase: 'https://example.com/' }, metadata: {} };`, context);
+
+  const keydown = (key, shiftKey = false) => {
+    let prevented = false;
+    const evt = { key, shiftKey, target: doc.activeElement, preventDefault() { prevented = true; } };
+    for (const fn of (docListeners.get('keydown') || [])) fn(evt);
+    return prevented;
+  };
+
+  // 1. Open drawer: inert background, dialog role, focus moves to #drawer-close, scroll locked
+  vm.runInContext('toggleMobileNav(true)', context);
+  assert.equal(sidebar.classList.contains('open'), true);
+  assert.equal(backdrop.classList.contains('open'), true);
+  assert.equal(menuToggle.getAttribute('aria-expanded'), 'true');
+  assert.equal(sidebar.getAttribute('role'), 'dialog');
+  assert.equal(sidebar.getAttribute('aria-modal'), 'true');
+  assert.equal(header.inert, true);
+  assert.equal(main.inert, true);
+  assert.equal(footer.inert, true);
+  assert.equal(body.style.overflow, 'hidden');
+  assert.equal(doc.activeElement, drawerClose);
+
+  // 2. Tab / Shift+Tab wraps inside drawer
+  doc.activeElement = navBrowse;
+  assert.equal(keydown('Tab', false), true);
+  assert.equal(doc.activeElement, drawerClose);
+  assert.equal(keydown('Tab', true), true);
+  assert.equal(doc.activeElement, navBrowse);
+
+  // 3. Escape closes drawer, restores inert, restores previous overflow ('auto'), and returns focus to #menu-toggle
+  assert.equal(keydown('Escape'), true);
+  assert.equal(sidebar.classList.contains('open'), false);
+  assert.equal(menuToggle.getAttribute('aria-expanded'), 'false');
+  assert.equal(sidebar.getAttribute('role'), 'navigation');
+  assert.equal(header.inert, false);
+  assert.equal(main.inert, false);
+  assert.equal(footer.inert, false);
+  assert.equal(body.style.overflow, 'auto', 'must restore prior body overflow instead of hard-clearing');
+  assert.equal(doc.activeElement, menuToggle);
+
+  // 4. Opening gallery modal while drawer is active cleanly closes drawer and keeps scroll locked until modal closes
+  vm.runInContext('toggleMobileNav(true)', context);
+  assert.equal(sidebar.classList.contains('open'), true);
+  vm.runInContext('showGallery([{name:"1.png",path:"a/1.png",image:"1.png"}], 0)', context);
+  assert.equal(sidebar.classList.contains('open'), false, 'drawer must close when modal opens');
+  assert.equal(body.style.overflow, 'hidden', 'modal must keep scroll locked');
+  vm.runInContext('closeModalUI()', context);
+  assert.equal(body.style.overflow, 'auto', 'modal close must restore original pre-lock overflow');
+});
